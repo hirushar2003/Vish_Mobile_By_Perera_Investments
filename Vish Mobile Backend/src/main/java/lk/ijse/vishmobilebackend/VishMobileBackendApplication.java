@@ -9,5 +9,4 @@ public class VishMobileBackendApplication {
     public static void main(String[] args)   {
         SpringApplication.run(VishMobileBackendApplication.class, args);
     }
-
 }
