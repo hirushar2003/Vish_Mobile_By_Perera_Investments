@@ -17,9 +17,10 @@ h1 , h2 , h3 , h4 , h5 , h6  {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
   background-color: #333;
   color: white;
+  height: 10vh;
+  width: 100%;
 }
 .header-logo{
   display: flex;
@@ -219,3 +220,139 @@ h1 , h2 , h3 , h4 , h5 , h6  {
 }
 
 /*BUY*/
+
+.buy{
+  height: 90vh;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+}
+h1 , h2 , h3 , h4 , h5 , h6 ,p {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+.page-topic{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 10vh;
+}
+
+.page-topic-name-slogan{
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  color: #FFF6E0;
+}
+.page-topic-search{
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.search-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 1rem;
+}
+.search-box-input-box{
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.search-box-input-box input{
+  width: 100%;
+  height: 60%;
+  border: none;
+  outline: none;
+  background-color: #FFF6E0;
+  border-radius: 15px;
+  padding: 5px 10px 5px 10px;
+}
+.search-box-icon{
+  height: 100%;
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.phone-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+  gap: 20px;
+  max-height: 500px; /* Set max height */
+  overflow-y: auto; /* Enable scrolling */
+  padding: 10px;
+  scrollbar-width: thin; /* Firefox: makes scrollbar thinner */
+  scrollbar-color: #888888 transparent; /* Only the bar, no track */
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar for Webkit Browsers (Chrome, Edge, Safari) */
+.phone-container::-webkit-scrollbar {
+  width: 8px; /* Width of scrollbar */
+  background: transparent; /* Removes the outer bar */
+}
+
+.phone-container::-webkit-scrollbar-thumb {
+  background-color: #fff; /* Color of the scrolling thumb */
+  border-radius: 10px; /* Fully rounded */
+  border: none; /* Removes any outer border */
+}
+
+.phone-container::-webkit-scrollbar-thumb:hover {
+  background-color: #555555; /* Darker color on hover */
+}
+
+.phone-container::-webkit-scrollbar-track {
+  background: transparent; /* Removes the track (outer bar) */
+}
+
+.phone-item {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.phone-item:hover {
+  transform: scale(1.05);
+}
+
+.phone-item img {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.phone-item h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.phone-item p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff6600;
+}
+

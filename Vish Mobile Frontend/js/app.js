@@ -1,3 +1,24 @@
+let header = $(".header");
+let home = $(".home");
+let buy = $(".buy");
+
+header.css("display", "block");
+home.css("display", "block");
+buy.css("display", "none");
+
+$(".homeJs").on("click", function (event) {
+  header.css("display", "block");
+  home.css("display", "block");
+  buy.css("display", "none");
+});
+
+$(".buyJs").click(function () {
+  header.css("display", "block");
+  home.css("display", "none");
+  buy.css("display", "block");
+});
+
+
 $(document).ready(function () {
   let $list = $(".list");
   let $items = $(".item");
@@ -46,3 +67,37 @@ $(document).ready(function () {
   updateCarousel(); // Initialize the first view
   startAutoSlide(); // Start auto sliding
 });
+
+
+function fetchPhones() {
+  $.ajax({
+    url: "http://localhost:8080/api/v1/sellingPhone/getAll", // Ensure this endpoint is correct
+    method: "GET",
+    success: function(response) {
+      let phones = response.data; // Ensure this matches API response structure
+      let phoneContainer = $(".phone-container");
+      phoneContainer.empty(); // Clear existing content
+
+      phones.forEach(phone => {
+        let phoneHtml = `
+          <div class="phone-item">
+              <img src="${phone.photoUrls && phone.photoUrls.length > 0 ? phone.photoUrls[0] : 'default.jpg'}"
+                   alt="${phone.model}" width="150">
+              <h3>${phone.model} - ${phone.capacity} - ${phone.color}</h3>
+              <p>Price: ${phone.sellingPrice}</p>
+          </div>
+        `;
+        phoneContainer.append(phoneHtml); // Append to the correct container
+      });
+    },
+    error: function(error) {
+      console.error("Error fetching phones:", error);
+    }
+  });
+}
+
+// Fetch immediately on page load
+$(document).ready(fetchPhones);
+
+
+

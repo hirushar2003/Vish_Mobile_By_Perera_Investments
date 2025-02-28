@@ -17,7 +17,5 @@ public class SellingPhonePhoto {
 
     @Column(name = "photo_url")
     private String photoUrl;
-
-    // Getters and Setters
 }
 

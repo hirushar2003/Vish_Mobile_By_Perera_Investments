@@ -2,13 +2,12 @@ package lk.ijse.vishmobilebackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "selling_phones")
 @Data
+@Table(name = "selling_phones")
 public class SellingPhone {
 
     @Id
@@ -20,14 +19,13 @@ public class SellingPhone {
     private String color;
     private BigDecimal boughtPrice;
     private BigDecimal sellingPrice;
+    private BigDecimal batteryHealth; // New column for battery health
 
     @Transient
     private BigDecimal profit;
 
-    @ElementCollection
-    @CollectionTable(name = "selling_phone_photos", joinColumns = @JoinColumn(name = "phone_id"))
-    @Column(name = "photo_url")
-    private List<String> photoUrls; // Directly store as a List<String> in MySQL
+    @OneToMany(mappedBy = "phoneId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SellingPhonePhoto> photos;
 
     public BigDecimal getProfit() {
         return sellingPrice.subtract(boughtPrice);

@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SellingPhoneRepo extends JpaRepository<SellingPhone, Integer> {
-    // You can add custom queries here if needed in the future
 }

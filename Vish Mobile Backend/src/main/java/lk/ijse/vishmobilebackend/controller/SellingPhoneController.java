@@ -4,13 +4,11 @@ import lk.ijse.vishmobilebackend.dto.SellingPhoneDTO;
 import lk.ijse.vishmobilebackend.service.impl.SellingPhoneServiceImpl;
 import lk.ijse.vishmobilebackend.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/sellingPhone")
+@CrossOrigin
 public class SellingPhoneController {
 
     @Autowired
