@@ -19,6 +19,7 @@ public class SellingPhoneDTO {
     private BigDecimal boughtPrice;
     private BigDecimal sellingPrice;
     private BigDecimal profit;
-    private BigDecimal batteryHealth; // New field
-    private List<String> photoUrls; // Keep this for API compatibility
+    private BigDecimal batteryHealth;
+    private long imei;
+    private List<String> photoUrls;
 }

@@ -19,7 +19,8 @@ public class SellingPhone {
     private String color;
     private BigDecimal boughtPrice;
     private BigDecimal sellingPrice;
-    private BigDecimal batteryHealth; // New column for battery health
+    private BigDecimal batteryHealth;
+    private long imei;
 
     @Transient
     private BigDecimal profit;

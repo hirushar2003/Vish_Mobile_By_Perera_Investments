@@ -7,7 +7,6 @@ import lk.ijse.vishmobilebackend.repo.SellingPhoneRepo;
 import lk.ijse.vishmobilebackend.repo.SellingPhonePhotoRepo;
 import lk.ijse.vishmobilebackend.service.SellingPhoneService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,7 +57,6 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
             SellingPhone sellingPhone = modelMapper.map(sellingPhoneDTO, SellingPhone.class);
             sellingPhoneRepo.save(sellingPhone);
 
-            // Delete old photos and insert new ones
             sellingPhonePhotoRepo.deleteByPhoneId(sellingPhone.getId());
             if (sellingPhoneDTO.getPhotoUrls() != null) {
                 List<SellingPhonePhoto> photos = sellingPhoneDTO.getPhotoUrls().stream()
@@ -78,7 +76,7 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
     @Override
     @Transactional
     public void deleteSellingPhone(int id) {
-        sellingPhonePhotoRepo.deleteByPhoneId(id); // Delete photos first
+        sellingPhonePhotoRepo.deleteByPhoneId(id);
         sellingPhoneRepo.deleteById(id);
     }
 
