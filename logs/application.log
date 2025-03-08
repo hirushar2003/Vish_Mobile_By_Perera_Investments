@@ -1,0 +1,52 @@
+2025-03-08T08:20:05.653+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] l.i.v.VishMobileBackendApplication       : Starting VishMobileBackendApplication using Java 17.0.14 with PID 12868 (C:\Users\hirus\IdeaProjects\Vish Mobile By Perera Investments\Vish Mobile Backend\target\classes started by hirus in C:\Users\hirus\IdeaProjects\Vish Mobile By Perera Investments)
+2025-03-08T08:20:05.657+05:30 DEBUG 12868 --- [Vish Mobile Backend] [restartedMain] l.i.v.VishMobileBackendApplication       : Running with Spring Boot v3.4.3, Spring v6.2.3
+2025-03-08T08:20:05.659+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] l.i.v.VishMobileBackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-03-08T08:20:05.772+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-03-08T08:20:05.773+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-03-08T08:20:07.206+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-03-08T08:20:07.315+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 91 ms. Found 2 JPA repository interfaces.
+2025-03-08T08:20:08.141+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-03-08T08:20:08.161+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-03-08T08:20:08.161+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-03-08T08:20:08.224+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-03-08T08:20:08.226+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2449 ms
+2025-03-08T08:20:08.499+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-03-08T08:20:08.622+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-03-08T08:20:08.676+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-03-08T08:20:09.164+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-03-08T08:20:09.215+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-03-08T08:20:10.039+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5e783a88
+2025-03-08T08:20:10.042+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-03-08T08:20:10.142+05:30  WARN 12868 --- [Vish Mobile Backend] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-03-08T08:20:10.176+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.41
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-03-08T08:20:11.675+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-03-08T08:20:11.831+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-03-08T08:20:12.524+05:30  WARN 12868 --- [Vish Mobile Backend] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-03-08T08:20:13.042+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-03-08T08:20:13.076+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-03-08T08:20:13.078+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@5c3b64b8]]
+2025-03-08T08:20:13.080+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-03-08T08:20:13.112+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-03-08T08:20:13.132+05:30  INFO 12868 --- [Vish Mobile Backend] [restartedMain] l.i.v.VishMobileBackendApplication       : Started VishMobileBackendApplication in 8.326 seconds (process running for 11.221)
+2025-03-08T08:20:26.803+05:30  INFO 12868 --- [Vish Mobile Backend] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-03-08T08:20:26.803+05:30  INFO 12868 --- [Vish Mobile Backend] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-03-08T08:20:26.807+05:30  INFO 12868 --- [Vish Mobile Backend] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2025-03-08T08:20:27.455+05:30 DEBUG 12868 --- [Vish Mobile Backend] [http-nio-8080-exec-2] l.i.v.controller.SellingPhoneController  : debug message
+2025-03-08T08:20:27.455+05:30  INFO 12868 --- [Vish Mobile Backend] [http-nio-8080-exec-2] l.i.v.controller.SellingPhoneController  : info message
+2025-03-08T08:20:27.455+05:30  WARN 12868 --- [Vish Mobile Backend] [http-nio-8080-exec-2] l.i.v.controller.SellingPhoneController  : warn message
+2025-03-08T08:20:27.456+05:30 ERROR 12868 --- [Vish Mobile Backend] [http-nio-8080-exec-2] l.i.v.controller.SellingPhoneController  : error message
+2025-03-08T08:20:47.086+05:30  INFO 12868 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-03-08T08:20:47.242+05:30  INFO 12868 --- [Vish Mobile Backend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-03-08T08:20:47.246+05:30  INFO 12868 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-03-08T08:20:47.247+05:30  INFO 12868 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@5c3b64b8]]
+2025-03-08T08:20:47.248+05:30  INFO 12868 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-03-08T08:20:47.251+05:30  INFO 12868 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-03-08T08:20:47.256+05:30  INFO 12868 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-03-08T08:20:47.285+05:30  INFO 12868 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
