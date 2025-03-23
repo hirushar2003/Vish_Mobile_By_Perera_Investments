@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/sellingPhone")
 @CrossOrigin
+@RequestMapping("api/v1/sellingPhone")
 public class SellingPhoneController {
     private static final Logger log = LoggerFactory.getLogger(SellingPhoneController.class);
 
@@ -20,11 +20,11 @@ public class SellingPhoneController {
     @PostMapping("save")
     public ResponseUtil savePhone(@RequestBody SellingPhoneDTO sellingPhoneDTO) {
         sellingPhoneService.addSellingPhone(sellingPhoneDTO);
-        log.trace("trace message");
-        log.debug("debug message");
-        log.info("info message");
-        log.warn("warn message");
-        log.error("error message");
+//        log.trace("trace message");
+//        log.debug("debug message");
+//        log.info("info message");
+//        log.warn("warn message");
+//        log.error("error message");
         return new ResponseUtil(201, "Phone Sa4 ved", null);
     }
 

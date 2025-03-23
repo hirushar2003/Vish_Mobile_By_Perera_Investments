@@ -1,688 +1,1172 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vish Mobile</title>
-  <link rel="stylesheet" href="css/style.css">
-  <meta name="description" content="">
+  <meta name="description" content="Premium pre-owned iPhones with warranty">
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="">
-  <meta property="og:image:alt" content="">
+  <meta property="og:title" content="Vish Mobile - Premium pre-owned iPhones">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vishmobile.com">
+  <meta property="og:image" content="img/social-preview.jpg">
+  <meta property="og:image:alt" content="Vish Mobile iPhone collection">
+
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </head>
 
 <body>
 <header class="header">
-  <div class="header-logo">
-    <div class="logo-img">
-      <img src="" alt="logoImage">
+  <div class="container header-container">
+    <div class="header-logo">
+      <div class="logo-img">
+        <img src="img/2025_03_22_10_11_IMG_0284.JPG" alt="Vish Mobile Logo">
+      </div>
+      <div class="logo-name">
+        <h1>Vish Mobile</h1>
+        <p>by Perera Investments</p>
+      </div>
     </div>
-    <div class="logo-name">
-      <h1>Vish Mobile</h1>
-      <p>by Perera Investments</p>
-    </div>
-  </div>
 
-  <div class="navigation">
-    <div class="nav-bar">
-      <a class="homeJs" href="#Home">Home</a>
-      <a class="buyJs" href="#Buy"> Buy</a>
-      <a href="#Trade"> Trade</a>
-      <a href="#Exchange">Exchange</a>
+    <nav class="navigation">
+      <div class="mobile-menu-toggle">
+        <i class="la la-bars"></i>
+      </div>
+      <div class="nav-bar">
+        <a class="nav-link active homeJs" href="#Home"><i class="la la-home"></i> Home</a>
+        <a class="nav-link buyJs" href="#Buy"><i class="la la-shopping-cart"></i> Buy</a>
+        <a class="nav-link" href="#Trade"><i class="la la-exchange-alt"></i> Trade</a>
+        <a class="nav-link" href="#Exchange"><i class="la la-sync"></i> Exchange</a>
+
+      </div>
+    </nav>
+
+    <div class="h-btns">
+      <button class="icon-btn cart-btn">
+        <i class="la la-shopping-bag"></i>
+        <span>Cart</span>
+      </button>
+
+      <!-- Profile Button -->
+      <button class="icon-btn profile-btn">
+        <i class="la la-user"></i>
+        <span>Profile</span>
+      </button>
     </div>
+
+
   </div>
 </header>
-<section class="home" id="Home">
-  <section class="carousel">
-    <div class="list">
-      <div class="item">
-        <div class="intro-img">
-          <img src="img/iPhone_7_series-removebg-preview.png" alt="iphone-7-image">
+
+
+
+<main>
+  <section class="page home active" id="Home">
+    <div class="hero">
+      <h1 class="hero-title">Premium Pre-Owned iPhones</h1>
+      <p class="hero-subtitle">Quality devices, excellent condition, affordable prices</p>
+      <a href="#Buy" class="btn primary-btn buyJs">Shop Now</a>
+    </div>
+
+    <div class="carousel-container">
+      <div class="carousel-controls">
+        <button class="carousel-arrow prev"><i class="la la-angle-left"></i></button>
+        <button class="carousel-arrow next"><i class="la la-angle-right"></i></button>
+      </div>
+
+      <div class="carousel">
+        <div class="list">
+          <!-- First Item -->
+          <div class="item">
+            <div class="intro-img">
+              <img src="img/iPhone_7_series-removebg-preview.png" alt="iPhone 7 Series">
+            </div>
+            <div class="intro">
+              <div class="intro-sub">
+                <div class="intro-title">
+                  <span class="badge">Pre-Owned</span>
+                  <h2>iPhone 7 Series</h2>
+                </div>
+                <div class="intro-detail-box">
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <i class="la la-battery-three-quarters"></i>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>85%+ battery health</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <i class="la la-shield-alt"></i>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>3 Months warranty</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <i class="la la-box"></i>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Box included</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <i class="la la-plug"></i>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Charger (Additional option)</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn i-discover">Discover</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Second Item -->
+          <div class="item">
+            <div class="intro-img">
+              <img src="img/iphone_8_series-removebg-preview.png" alt="iPhone 8 Series">
+            </div>
+            <div class="intro">
+              <div class="intro-sub">
+                <div class="intro-title">
+                  <span class="badge">Pre-Owned</span>
+                  <h2>iPhone 8 Series</h2>
+                </div>
+                <div class="intro-detail-box">
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <i class="la la-battery-three-quarters"></i>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>85%+ battery health</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <i class="la la-shield-alt"></i>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>3 Months warranty</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <i class="la la-box"></i>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Box included</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <i class="la la-plug"></i>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Charger (Additional option)</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn i-discover">Discover</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Third Item (New Item) -->
+          <div class="item">
+            <div class="intro-img">
+              <img src="img/iphone_x_series-removebg-preview.png" alt="iPhone X Series">
+            </div>
+            <div class="intro">
+              <div class="intro-sub">
+                <div class="intro-tittle">
+                  <h4>Pre Owned</h4>
+                </div>
+                <div class="intro-topic">
+                  <h1>iPhone X Series by Vish Mobile</h1>
+                </div>
+                <div class="intro-detail-box">
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>85% + battery health</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>3 Months Phone to phone warranty</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Box Included</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Charger (Additional Option)</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="i-discover">Discover</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fourth Item (New Item) -->
+          <div class="item">
+            <div class="intro-img">
+              <img src="img/iphone_11_s-removebg-preview.png" alt="iPhone 11 Series">
+            </div>
+            <div class="intro">
+              <div class="intro-sub">
+                <div class="intro-tittle">
+                  <h4>Pre Owned</h4>
+                </div>
+                <div class="intro-topic">
+                  <h1>iPhone 11 Series by Vish Mobile</h1>
+                </div>
+                <div class="intro-detail-box">
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>85% + battery health</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>3 Months Phone to phone warranty</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Box Included</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Charger (Additional Option)</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="i-discover">Discover</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Continue adding additional items following the same pattern -->
+          <!-- Item 5 -->
+          <div class="item">
+            <div class="intro-img">
+              <img src="img/iphone_12_series-removebg-preview.png" alt="iPhone 12 Series">
+            </div>
+            <div class="intro">
+              <div class="intro-sub">
+                <div class="intro-tittle">
+                  <h4>Pre Owned</h4>
+                </div>
+                <div class="intro-topic">
+                  <h1>iPhone 12 Series by Vish Mobile</h1>
+                </div>
+                <div class="intro-detail-box">
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>85% + battery health</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>3 Months Phone to phone warranty</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Box Included</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Charger (Additional Option)</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="i-discover">Discover</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="item">
+            <div class="intro-img">
+              <img src="img/iphone_13_series-removebg-preview.png" alt="iPhone 13 Series">
+            </div>
+            <div class="intro">
+              <div class="intro-sub">
+                <div class="intro-tittle">
+                  <h4>Pre Owned</h4>
+                </div>
+                <div class="intro-topic">
+                  <h1>iPhone 13 Series by Vish Mobile</h1>
+                </div>
+                <div class="intro-detail-box">
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>85% + battery health</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>3 Months Phone to phone warranty</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Box Included</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Charger (Additional Option)</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="i-discover">Discover</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 7 -->
+          <div class="item">
+            <div class="intro-img">
+              <img src="img/iphone_14_series-removebg-preview.png" alt="iPhone 14 Series">
+            </div>
+            <div class="intro">
+              <div class="intro-sub">
+                <div class="intro-tittle">
+                  <h4>Pre Owned</h4>
+                </div>
+                <div class="intro-topic">
+                  <h1>iPhone 14 Series by Vish Mobile</h1>
+                </div>
+                <div class="intro-detail-box">
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>85% + battery health</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>3 Months Phone to phone warranty</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Box Included</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Charger (Additional Option)</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="i-discover">Discover</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 8 -->
+          <div class="item">
+            <div class="intro-img">
+              <img src="img/iPhone_16_series-removebg-preview.png" alt="iPhone 15 Series">
+            </div>
+            <div class="intro">
+              <div class="intro-sub">
+                <div class="intro-tittle">
+                  <h4>Pre Owned</h4>
+                </div>
+                <div class="intro-topic">
+                  <h1>iPhone 15 Series by Vish Mobile</h1>
+                </div>
+                <div class="intro-detail-box">
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>85% + battery health</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>3 Months Phone to phone warranty</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Box Included</p>
+                    </div>
+                  </div>
+                  <div class="intro-detail">
+                    <div class="intro-detail-icon">
+                      <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
+                    </div>
+                    <div class="intro-detail-text">
+                      <p>Charger (Additional Option)</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="i-discover">Discover</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="intro">
-          <div class="intro-sub">
-            <div class="intro-tittle">
-              <h4>Pre Owned</h4>
-            </div>
-            <div class="intro-topic">
-              <h1>Iphone 7 Series by Vish Mobile</h1>
-            </div>
-            <div class="intro-detail-box">
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>85% + battery health</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>3 Months Phone to phone warranty</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Box Included</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Chager (Additional Option)</p>
-                </div>
-              </div>
-            </div>
-            <button class="i-discover">
-              Discover
+      </div>
+    </div>
+
+
+    <section class="branding">
+      <div class="branding-text">
+        <h2>Vish Mobile</h2>
+        <p>by Perera Investments</p>
+      </div>
+    </section>
+  </section>
+
+  <section class="page buy" id="Buy">
+    <div class="container">
+      <div class="page-header">
+        <div class="page-title">
+          <h2>Buy Your Next iPhone</h2>
+          <p>Premium quality, thoroughly tested</p>
+        </div>
+        <div class="search-container">
+          <div class="search-box">
+            <input type="text" class="search-input" placeholder="Search models, colors...">
+            <button class="search-button">
+              <i class="la la-search"></i>
             </button>
           </div>
         </div>
       </div>
 
-      <div class="item">
-        <div class="intro-img">
-          <img src="img/iphone_8_series-removebg-preview.png" alt="iphone-7-image">
+      <div class="filters">
+        <div class="filter-group">
+          <label for="modelFilter">Model</label>
+          <select id="modelFilter" class="filter-select">
+            <option value="">All Models</option>
+            <option value="iPhone 7">iPhone 7</option>
+            <option value="iPhone 8">iPhone 8</option>
+            <option value="iPhone X">iPhone X</option>
+            <option value="iPhone 11">iPhone 11</option>
+            <option value="iPhone 12">iPhone 12</option>
+            <option value="iPhone 13">iPhone 13</option>
+            <option value="iPhone 14">iPhone 14</option>
+            <option value="iPhone 15">iPhone 15</option>
+            <option value="iPhone 16">iPhone 16</option>
+          </select>
         </div>
-        <div class="intro">
-          <div class="intro-sub">
-            <div class="intro-tittle">
-              <h4>Pre Owned</h4>
-            </div>
-            <div class="intro-topic">
-              <h1>Iphone 8 Series by Vish Mobile</h1>
-            </div>
-            <div class="intro-detail-box">
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>85% + battery health</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>3 Months Phone to phone warranty</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Box Included</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Chager (Additional Option)</p>
-                </div>
-              </div>
-            </div>
-            <button class="i-discover">
-              Discover
-            </button>
-          </div>
+
+        <div class="filter-group">
+          <label for="priceFilter">Price Range</label>
+          <select id="priceFilter" class="filter-select">
+            <option value="">Any Price</option>
+            <option value="0-300">Under $300</option>
+            <option value="300-500">$300 - $500</option>
+            <option value="500-700">$500 - $700</option>
+            <option value="700+">$700+</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="colorFilter">Color</label>
+          <select id="colorFilter" class="filter-select">
+            <option value="">All Colors</option>
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Blue">Blue</option>
+          </select>
         </div>
       </div>
 
-      <div class="item">
-        <div class="intro-img">
-          <img src="img/iphone_x_series-removebg-preview.png" alt="iphone-7-image">
-        </div>
-        <div class="intro">
-          <div class="intro-sub">
-            <div class="intro-tittle">
-              <h4>Pre Owned</h4>
+      <div class="phone-container-wrapper">
+        <div class="phone-container">
+          <div class="sale-phone-card">
+            <div class="sale-phone-card-image">
+              <img src="img/ip7.webp" alt="iPhone 7">
             </div>
-            <div class="intro-topic">
-              <h1>Iphone X Series by Vish Mobile</h1>
-            </div>
-            <div class="intro-detail-box">
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
+            <div class="sale-phone-card-details">
+              <div class="sale-phone-card-detail-title">
+                <h3>iPhone 7</h3>
+              </div>
+              <div class="sale-phone-card-detail-specs">
+                <div class="sale-phone-card-detail-spec-row">
+                  <div class="sale-phone-card-detail-spec-icon">
+                    <i class="la la-battery-three-quarters"></i>
+                  </div>
+                  <div class="sale-phone-card-detail-spec-name">
+                    Battery health : 87%
+                  </div>
                 </div>
-                <div class="intro-detail-text">
-                  <p>85% + battery health</p>
+                <div class="sale-phone-card-detail-spec-row">
+                  <div class="sale-phone-card-detail-spec-icon">
+                    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/storage.png" alt="storage"/>
+                  </div>
+                  <div class="sale-phone-card-detail-spec-name">
+                    Storage : 128gb
+                  </div>
+                </div>
+                <div class="sale-phone-card-detail-spec-row">
+                  <div class="sale-phone-card-detail-spec-icon">
+                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/color-mode--v1.png" alt="color-mode--v1"/>
+                  </div>
+                  <div class="sale-phone-card-detail-spec-name">
+                    Colour : Blue
+                  </div>
                 </div>
               </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>3 Months Phone to phone warranty</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Box Included</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Chager (Additional Option)</p>
-                </div>
+              <div class="sale-phone-card-detail-footer">
+                <button id="sale-phone-card-view-phone-button">View phone</button>
+                <button class="sale-phone-card-add-wishlist-button">Add to wishlist</button>
               </div>
             </div>
-            <button class="i-discover">
-              Discover
-            </button>
           </div>
+
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination">
+          <button id="prevPage" disabled>Previous</button>
+          <span id="pageNumber">Page 1</span>
+          <button id="nextPage">Next</button>
         </div>
       </div>
 
-      <div class="item">
-        <div class="intro-img">
-          <img src="img/iphone_11_s-removebg-preview.png" alt="iphone-7-image">
-        </div>
-        <div class="intro">
-          <div class="intro-sub">
-            <div class="intro-tittle">
-              <h4>Pre Owned</h4>
-            </div>
-            <div class="intro-topic">
-              <h1>Iphone 11 Series by Vish Mobile</h1>
-            </div>
-            <div class="intro-detail-box">
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>85% + battery health</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>3 Months Phone to phone warranty</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Box Included</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Chager (Additional Option)</p>
-                </div>
-              </div>
-            </div>
-            <button class="i-discover">
-              Discover
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="item">
-        <div class="intro-img">
-          <img src="img/iphone_12_series-removebg-preview.png" alt="iphone-7-image">
-        </div>
-        <div class="intro">
-          <div class="intro-sub">
-            <div class="intro-tittle">
-              <h4>Pre Owned</h4>
-            </div>
-            <div class="intro-topic">
-              <h1>Iphone 12 Series by Vish Mobile</h1>
-            </div>
-            <div class="intro-detail-box">
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>85% + battery health</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>3 Months Phone to phone warranty</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Box Included</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Chager (Additional Option)</p>
-                </div>
-              </div>
-            </div>
-            <button class="i-discover">
-              Discover
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="item">
-        <div class="intro-img">
-          <img src="img/iphone_13_series-removebg-preview.png" alt="iphone-7-image">
-        </div>
-        <div class="intro">
-          <div class="intro-sub">
-            <div class="intro-tittle">
-              <h4>Pre Owned</h4>
-            </div>
-            <div class="intro-topic">
-              <h1>Iphone 13 Series by Vish Mobile</h1>
-            </div>
-            <div class="intro-detail-box">
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>85% + battery health</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>3 Months Phone to phone warranty</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Box Included</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Chager (Additional Option)</p>
-                </div>
-              </div>
-            </div>
-            <button class="i-discover">
-              Discover
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="item">
-        <div class="intro-img">
-          <img src="img/iphone_14_series-removebg-preview.png" alt="iphone-7-image">
-        </div>
-        <div class="intro">
-          <div class="intro-sub">
-            <div class="intro-tittle">
-              <h4>Pre Owned</h4>
-            </div>
-            <div class="intro-topic">
-              <h1>Iphone 14 Series by Vish Mobile</h1>
-            </div>
-            <div class="intro-detail-box">
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>90% + battery health</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>3 Months Phone to phone warranty</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Box Included</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Chager (Additional Option)</p>
-                </div>
-              </div>
-            </div>
-            <button class="i-discover">
-              Discover
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="item">
-        <div class="intro-img">
-          <img src="img/Apple-iPhone-15-release-date-price-and-features-removebg-preview.png" alt="iphone-7-image">
-        </div>
-        <div class="intro">
-          <div class="intro-sub">
-            <div class="intro-tittle">
-              <h4>Pre Owned</h4>
-            </div>
-            <div class="intro-topic">
-              <h1>Iphone 15 Series by Vish Mobile</h1>
-            </div>
-            <div class="intro-detail-box">
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>95% + battery health</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>3 Months Phone to phone warranty</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Box Included</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Chager (Additional Option)</p>
-                </div>
-              </div>
-            </div>
-            <button class="i-discover">
-              Discover
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="item">
-        <div class="intro-img">
-          <img src="img/iPhone_16_series-removebg-preview.png" alt="iphone-7-image">
-        </div>
-        <div class="intro">
-          <div class="intro-sub">
-            <div class="intro-tittle">
-              <h4>Pre Owned</h4>
-            </div>
-            <div class="intro-topic">
-              <h1>Iphone 16 Series by Vish Mobile</h1>
-            </div>
-            <div class="intro-detail-box">
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-filled/100/battery-.png" alt="battery-"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>99% + battery health</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="40" height="40" src="https://img.icons8.com/ios-glyphs/30/security-checked.png" alt="security-checked"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>3 Months Phone to phone warranty</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/open-parcel.png" alt="open-parcel"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Box Included</p>
-                </div>
-              </div>
-              <div class="intro-detail">
-                <div class="intro-detail-icon">
-                  <img width="30" height="30" src="https://img.icons8.com/ios-filled/100/plug.png" alt="plug"/>
-                </div>
-                <div class="intro-detail-text">
-                  <p>Chager (Additional Option)</p>
-                </div>
-              </div>
-            </div>
-            <button class="i-discover">
-              Discover
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
-  <section class="branding">
-    <div class="branding-text">
-      <h1>Vish Mobile</h1><p>by Perera Investments</p>
-    </div>
-  </section>
-</section>
 
-<section class="buy" id="Buy">
-  <div class="page-topic">
-    <div class="page-topic-name-slogan">
-      <h1>Vish Mobile</h1>
-      <p>best solution for your mobile need</p>
-      <p>Explore</p>
+</main>
+
+
+<section class="page my-profile-register" id="my-profile-register">
+  <!-- Login Section -->
+  <div id="login-section" class="auth-card-login">
+    <div class="auth-header">
+      <h1>Log In</h1>
+      <p>to Vish Mobile</p>
     </div>
-    <div class="page-topic-search">
-      <div class="search-box">
-        <div class="search-box-input-box">
-          <input type="text" class="search-box-input" placeholder="Search here...">
+    <div class="auth-body">
+      <div id="login-message" class="form-message"></div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" class="form-control" required>
         </div>
-        <div class="search-box-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0 0 30 30" fill="#FFF6E0">
-            <path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"></path>
-          </svg>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-control" required>
         </div>
-      </div>
+        <button type="submit" class="btn">Log In</button>
+        <button type="button" class="btn btn-social">
+          <img width="20" height="20" src="https://img.icons8.com/fluency/48/google-logo.png" alt="google-logo"/>
+          Log in with Google
+        </button>
+      </form>
+    </div>
+    <div class="auth-footer">
+      Don't have an account? <a href="#" id="show-signup">Sign up</a>
     </div>
   </div>
-  <div class="phone-container">
-    <div class="phone-item">
-      <img src="phone1.jpg" alt="Phone 1">
-      <h3>iPhone 13</h3>
-      <p>$699</p>
+
+  <!-- Signup Section -->
+  <div id="signup-section" class="auth-card-signup">
+    <div class="auth-header">
+      <h1>Sign Up</h1>
+      <p>to Vish Mobile</p>
     </div>
-    <div class="phone-item">
-      <img src="phone2.jpg" alt="Phone 2">
-      <h3>iPhone 12</h3>
-      <p>$599</p>
+    <div class="auth-body">
+      <div id="signup-message" class="form-message"></div>
+      <form id="signup-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="contact_number">Contact Number</label>
+          <input type="tel" id="contact_number" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" id="address" class="form-control" required>
+        </div>
+        <button type="submit" class="btn">Sign Up</button>
+        <button type="button" class="btn btn-social">
+          <img width="20" height="20" src="https://img.icons8.com/fluency/48/google-logo.png" alt="google-logo"/>
+          Sign up with Google
+        </button>
+      </form>
+
     </div>
-    <div class="phone-item">
-      <img src="phone3.jpg" alt="Phone 3">
-      <h3>iPhone 11</h3>
-      <p>$499</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone4.jpg" alt="Phone 4">
-      <h3>iPhone X</h3>
-      <p>$399</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone5.jpg" alt="Phone 5">
-      <h3>iPhone SE</h3>
-      <p>$299</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone1.jpg" alt="Phone 1">
-      <h3>iPhone 13</h3>
-      <p>$699</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone2.jpg" alt="Phone 2">
-      <h3>iPhone 12</h3>
-      <p>$599</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone3.jpg" alt="Phone 3">
-      <h3>iPhone 11</h3>
-      <p>$499</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone4.jpg" alt="Phone 4">
-      <h3>iPhone X</h3>
-      <p>$399</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone5.jpg" alt="Phone 5">
-      <h3>iPhone SE</h3>
-      <p>$299</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone1.jpg" alt="Phone 1">
-      <h3>iPhone 13</h3>
-      <p>$699</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone2.jpg" alt="Phone 2">
-      <h3>iPhone 12</h3>
-      <p>$599</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone3.jpg" alt="Phone 3">
-      <h3>iPhone 11</h3>
-      <p>$499</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone4.jpg" alt="Phone 4">
-      <h3>iPhone X</h3>
-      <p>$399</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone5.jpg" alt="Phone 5">
-      <h3>iPhone SE</h3>
-      <p>$299</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone1.jpg" alt="Phone 1">
-      <h3>iPhone 13</h3>
-      <p>$699</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone2.jpg" alt="Phone 2">
-      <h3>iPhone 12</h3>
-      <p>$599</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone3.jpg" alt="Phone 3">
-      <h3>iPhone 11</h3>
-      <p>$499</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone4.jpg" alt="Phone 4">
-      <h3>iPhone X</h3>
-      <p>$399</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone5.jpg" alt="Phone 5">
-      <h3>iPhone SE</h3>
-      <p>$299</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone1.jpg" alt="Phone 1">
-      <h3>iPhone 13</h3>
-      <p>$699</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone2.jpg" alt="Phone 2">
-      <h3>iPhone 12</h3>
-      <p>$599</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone3.jpg" alt="Phone 3">
-      <h3>iPhone 11</h3>
-      <p>$499</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone4.jpg" alt="Phone 4">
-      <h3>iPhone X</h3>
-      <p>$399</p>
-    </div>
-    <div class="phone-item">
-      <img src="phone5.jpg" alt="Phone 5">
-      <h3>iPhone SE</h3>
-      <p>$299</p>
+    <div class="auth-footer">
+      Already have an account? <a href="#" id="show-login">Log in</a>
     </div>
   </div>
 </section>
 
-  <script src="js/app.js"></script>
+<section class="page my-profile-inside" id="my-profile-inside">
+  <div class="vish-branding">
+    <h3>Vish Mobile</h3> by perera investments
+  </div>
+  <div class="user-profile-detail-container">
+    <div class="user-profile-image">
+      <img src="img/premiumprofileimage.jpeg" alt="user-profile-image">
+    </div>
+    <div class="user-profile-detail">
+      <div class="user-profile-basic">
+        <div class="user-profile-name">
+          <h3>Hirusha Vishmika</h3>
+        </div>
+        <div class="user-profile-email">
+          <h3>hirushaperera651@gmail.com</h3>
+        </div>
+      </div>
+      <div class="user-profile-manage">
+        <div class="user-settings">
+          Settings and Privacy
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="user-favorite-items">
+    <h3>My Favorites</h3>
+    <div class="user-item-container">
+      <div class="user-item-card">
+        <div class="user-item-image">
+          <img src="img/u15pm.jpg" alt="iPhone 15Pro max">
+        </div>
+        <div class="user-item-details">
+          <div class="user-item-title">
+            iPhone 15 Pro max
+          </div>
+          <div class="user-item-description">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda consequatur delectus laborum omnis quod soluta unde, vel? A ad alias aperiam dignissimos explicabo facere illum iusto neque, quo velit. Cupiditate?</p>
+          </div>
+          <div class="user-item-buttons">
+            <button class="user-item-buy">Buy</button>
+            <button class="user-item-remove">Remove from favorite</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-item-card">
+
+        <div class="user-item-image">
+          <img src="img/iPhone14__2_.jpg" alt="iPhone 15Pro max">
+        </div>
+        <div class="user-item-details">
+          <div class="user-item-title">
+            iPhone 14
+          </div>
+          <div class="user-item-description">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda consequatur delectus laborum omnis quod soluta unde, vel? A ad alias aperiam dignissimos explicabo facere illum iusto neque, quo velit. Cupiditate?</p>
+          </div>
+          <div class="user-item-buttons">
+            <button class="user-item-buy">Buy</button>
+            <button class="user-item-remove">Remove from favorite</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="user-item-cart">
+    <h3>My Cart</h3>
+    <div class="user-item-container">
+      <div class="user-item-card">
+        <div class="user-item-image">
+          <img src="img/u15pm.jpg" alt="iPhone 15Pro max">
+        </div>
+        <div class="user-item-details">
+          <div class="user-item-title">
+            iPhone 15 Pro max
+          </div>
+          <div class="user-item-description">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda consequatur delectus laborum omnis quod soluta unde, vel? A ad alias aperiam dignissimos explicabo facere illum iusto neque, quo velit. Cupiditate?</p>
+          </div>
+          <div class="user-item-buttons">
+            <button class="user-item-buy">Buy</button>
+            <button class="user-item-remove">Remove from cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-item-card">
+        <div class="user-item-image">
+          <img src="img/u15pm.jpg" alt="iPhone 15Pro max">
+        </div>
+        <div class="user-item-details">
+          <div class="user-item-title">
+            iPhone 15 Pro max
+          </div>
+          <div class="user-item-description">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda consequatur delectus laborum omnis quod soluta unde, vel? A ad alias aperiam dignissimos explicabo facere illum iusto neque, quo velit. Cupiditate?</p>
+          </div>
+          <div class="user-item-buttons">
+            <button class="user-item-buy">Buy</button>
+            <button class="user-item-remove">Remove from cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="page trade" id="Trade">
+  <div class="container">
+    <div class="trade-header">
+      <h3>Trade</h3>
+      <p>Fill the details and find your iPhone's buying price</p>
+    </div>
+    <div class="trade-form-and-trade-output">
+      <div class="trade-form">
+        <form action="your_backend_script_here" method="POST">
+          <!-- Photo Upload Section -->
+          <div class="photo-section">
+            <h3 style="margin-bottom: 15px;">Upload real images of your device</h3>
+            <div class="photo-preview-container" id="image-preview-container">
+              <div class="upload-placeholder" id="upload-placeholder" onclick="document.getElementById('phone-image').click();">
+                <i class="fas fa-plus" style="font-size: 24px;"></i>
+              </div>
+            </div>
+            <div class="upload-count">
+              <span>Upload upto 5 photos</span>
+              <span id="upload-count-text">0/5 uploaded</span>
+            </div>
+            <div class="photo-upload">
+              <input type="file" id="phone-image" accept="image/*" style="display: none;" >
+            </div>
+          </div>
+
+          <!-- Model -->
+          <div class="trade-form-group-inside">
+            <label for="model">Model</label>
+            <select id="model" name="model" required>
+              <option >Select model</option>
+              <option value="iPhone 7">iPhone 7</option>
+              <option value="iPhone 7 Plus">iPhone 7 Plus</option>
+              <option value="iPhone 8">iPhone 8</option>
+              <option value="iPhone 8 Plus">iPhone 8 Plus</option>
+              <option value="iPhone X">iPhone X</option>
+              <option value="iPhone XR">iPhone XR</option>
+              <option value="iPhone XS">iPhone XS</option>
+              <option value="iPhone XS Max">iPhone XS Max</option>
+              <option value="iPhone 11">iPhone 11</option>
+              <option value="iPhone 11 Pro">iPhone 11 Pro</option>
+              <option value="iPhone 11 Pro Max">iPhone 11 Pro Max</option>
+              <option value="iPhone SE (2nd generation)">iPhone SE (2nd generation)</option>
+              <option value="iPhone 12">iPhone 12</option>
+              <option value="iPhone 12 Mini">iPhone 12 Mini</option>
+              <option value="iPhone 12 Pro">iPhone 12 Pro</option>
+              <option value="iPhone 12 Pro Max">iPhone 12 Pro Max</option>
+              <option value="iPhone 13">iPhone 13</option>
+              <option value="iPhone 13 Mini">iPhone 13 Mini</option>
+              <option value="iPhone 13 Pro">iPhone 13 Pro</option>
+              <option value="iPhone 13 Pro Max">iPhone 13 Pro Max</option>
+              <option value="iPhone SE (3rd generation)">iPhone SE (3rd generation)</option>
+              <option value="iPhone 14">iPhone 14</option>
+              <option value="iPhone 14 Plus">iPhone 14 Plus</option>
+              <option value="iPhone 14 Pro">iPhone 14 Pro</option>
+              <option value="iPhone 14 Pro Max">iPhone 14 Pro Max</option>
+              <option value="iPhone 15">iPhone 15</option>
+              <option value="iPhone 15 Plus">iPhone 15 Plus</option>
+              <option value="iPhone 15 Pro">iPhone 15 Pro</option>
+              <option value="iPhone 15 Pro Max">iPhone 15 Pro Max</option>
+              <option value="iPhone 16">iPhone 16</option>
+              <option value="iPhone 16 Plus">iPhone 16 Plus</option>
+              <option value="iPhone 16 Pro">iPhone 16 Pro</option>
+              <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+
+            </select>
+          </div>
+
+          <!-- Storage -->
+          <div class="trade-form-group-inside">
+            <label for="storage">Storage</label>
+            <select id="storage" name="storage" required>
+              <option >Select phone capacity</option>
+              <option value="32GB">32GB</option>
+              <option value="64GB">64GB</option>
+              <option value="128GB">128GB</option>
+              <option value="256GB">256GB</option>
+              <option value="512GB">512GB</option>
+              <option value="1TB">1TB</option>
+            </select>
+          </div>
+
+          <!-- Battery Health -->
+          <div class="trade-form-group-inside">
+            <label for="battery_health">Battery Health</label>
+            <select id="battery_health" name="battery_health" required>
+              <option >Select battery percentage</option>
+              <option value="below_70%">Below 70%</option>
+              <option value="70_80%">70% - 80%</option>
+              <option value="80_85%">80% - 85%</option>
+              <option value="85_90%">85% - 90%</option>
+              <option value="90_95%">90% - 95%</option>
+              <option value="95_100%">95% - 100%</option>
+            </select>
+          </div>
+
+          <!-- Frame Condition -->
+          <div class="trade-form-group-inside">
+            <label for="frame_condition">Frame Condition</label>
+            <select id="frame_condition" name="frame_condition" required>
+              <option >Select condition percentage</option>
+              <option value="below_90%">Below 90%</option>
+              <option value="90_95%">90% - 95%</option>
+              <option value="brand_new">Brand New Condition</option>
+            </select>
+          </div>
+
+          <!-- Display Glass Crack -->
+          <div class="rb-trade-form-group">
+            <label>Display Glass Crack</label>
+            <div class="rb-trade-form-group-inside">
+              <input type="radio" id="display_glass_crack_yes" name="display_glass_crack" value="yes" required>
+              <label for="display_glass_crack_yes">Yes</label>
+            </div>
+            <div class="rb-trade-form-group-inside">
+              <input type="radio" id="display_glass_crack_no" name="display_glass_crack" value="no" required>
+              <label for="display_glass_crack_no">No</label>
+            </div>
+          </div>
+
+          <!-- Back Glass Crack -->
+          <div class="rb-trade-form-group">
+            <label>Back Glass Crack</label>
+            <div class="rb-trade-form-group-inside">
+              <input type="radio" id="back_glass_crack_yes" name="back_glass_crack" value="yes" required>
+              <label for="back_glass_crack_yes">Yes</label>
+            </div>
+            <div class="rb-trade-form-group-inside">
+              <input type="radio" id="back_glass_crack_no" name="back_glass_crack" value="no" required>
+              <label for="back_glass_crack_no">No</label>
+            </div>
+          </div>
+
+          <!-- Replaced Parts -->
+          <div class="rb-trade-form-group">
+            <label>Replaced Parts</label>
+            <div class="rb-trade-form-group-inside">
+              <input type="radio" id="replaced_parts_yes" name="replaced_parts" value="yes" required>
+              <label for="replaced_parts_yes">Yes</label>
+            </div>
+            <div class="rb-trade-form-group-inside">
+              <input type="radio" id="replaced_parts_no" name="replaced_parts" value="no" required>
+              <label for="replaced_parts_no">No</label>
+            </div>
+          </div>
+          <!-- Box Available -->
+          <div class="rb-trade-form-group">
+            <label>Box Available</label>
+            <div class="rb-trade-form-group-inside">
+              <input type="radio" id="box_available_yes" name="box_available" value="yes" required>
+              <label for="box_available_yes">Yes</label>
+            </div>
+            <div class="rb-trade-form-group-inside">
+              <input type="radio" id="box_available_no" name="box_available" value="no" required>
+              <label for="box_available_no">No</label>
+            </div>
+          </div>
+
+          <!-- Colour -->
+          <div class="trade-form-group-inside">
+            <label for="colour">Colour</label>
+            <select id="colour" name="colour" required>
+              <option >Select colour</option>
+              <option value="Space Grey">Space Grey</option>
+              <option value="Silver">Silver</option>
+              <option value="Gold">Gold</option>
+              <option value="Rose Gold">Rose Gold</option>
+              <option value="Midnight">Midnight</option>
+              <option value="Starlight">Starlight</option>
+              <option value="Red">Red</option>
+              <option value="Blue">Blue</option>
+              <option value="Green">Green</option>
+              <option value="Purple">Purple</option>
+              <option value="Yellow">Yellow</option>
+            </select>
+          </div>
+
+          <!-- Willing To -->
+          <div class="trade-form-group-inside">
+            <label for="willing_to">Willing To</label>
+            <select id="willing_to" name="willing_to" required>
+              <option value="sell">Sell</option>
+              <option value="exchange">Exchange</option>
+            </select>
+          </div>
+
+          <!-- Upgrading Model -->
+          <div class="trade-form-group-inside">
+            <label for="upgrading_model">Upgrading Model</label>
+            <select id="upgrading_model" name="upgrading_model">
+              <option >Select model</option>
+              <option value="iPhone 7">iPhone 7</option>
+              <option value="iPhone 7 Plus">iPhone 7 Plus</option>
+              <option value="iPhone 8">iPhone 8</option>
+              <option value="iPhone 8 Plus">iPhone 8 Plus</option>
+              <option value="iPhone X">iPhone X</option>
+              <option value="iPhone XR">iPhone XR</option>
+              <option value="iPhone XS">iPhone XS</option>
+              <option value="iPhone XS Max">iPhone XS Max</option>
+              <option value="iPhone 11">iPhone 11</option>
+              <option value="iPhone 11 Pro">iPhone 11 Pro</option>
+              <option value="iPhone 11 Pro Max">iPhone 11 Pro Max</option>
+              <option value="iPhone SE (2nd generation)">iPhone SE (2nd generation)</option>
+              <option value="iPhone 12">iPhone 12</option>
+              <option value="iPhone 12 Mini">iPhone 12 Mini</option>
+              <option value="iPhone 12 Pro">iPhone 12 Pro</option>
+              <option value="iPhone 12 Pro Max">iPhone 12 Pro Max</option>
+              <option value="iPhone 13">iPhone 13</option>
+              <option value="iPhone 13 Mini">iPhone 13 Mini</option>
+              <option value="iPhone 13 Pro">iPhone 13 Pro</option>
+              <option value="iPhone 13 Pro Max">iPhone 13 Pro Max</option>
+              <option value="iPhone SE (3rd generation)">iPhone SE (3rd generation)</option>
+              <option value="iPhone 14">iPhone 14</option>
+              <option value="iPhone 14 Plus">iPhone 14 Plus</option>
+              <option value="iPhone 14 Pro">iPhone 14 Pro</option>
+              <option value="iPhone 14 Pro Max">iPhone 14 Pro Max</option>
+              <option value="iPhone 15">iPhone 15</option>
+              <option value="iPhone 15 Plus">iPhone 15 Plus</option>
+              <option value="iPhone 15 Pro">iPhone 15 Pro</option>
+              <option value="iPhone 15 Pro Max">iPhone 15 Pro Max</option>
+              <option value="iPhone 16">iPhone 16</option>
+              <option value="iPhone 16 Plus">iPhone 16 Plus</option>
+              <option value="iPhone 16 Pro">iPhone 16 Pro</option>
+              <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+
+            </select>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="trade-form-group-inside">
+            <button type="submit" class="trade-phone-submit-btn">Submit</button>
+          </div>
+
+        </form>
+      </div>
+      <div class="trade-output">
+        <div class="trade-output-inside">
+          <div class="trade-output-inside-header">
+            <h3>Your iPhone price analysis</h3>
+          </div>
+          <div class="trade-output-inside-body">
+            <div class="trade-output-inside-body-image-section">
+              <img src="img/u15pm.jpg" alt="your iphone image here">
+            </div>
+            <div class="trade-output-inside-body-iphone-model">
+              <h3>iPhone 15 pro max 1TB</h3>
+            </div>
+            <div class="trade-output-inside-body-fixed-price">
+              Best price : LKR 200 000.00
+            </div>
+            <div class="trade-output-inside-body-price-negotiation-information">
+              <div class="battery-negotiation">
+                <div class="negotiation-name">
+                  Battery negotiation :
+                </div>
+                <div class="negotiation-price">
+                  - LKR 19000
+                </div>
+              </div>
+              <div class="frame-negotiation">
+                <div class="negotiation-name">
+                  Frame condition negotiation :
+                </div>
+                <div class="negotiation-price">
+                  - LKR 19000
+                </div>
+              </div>
+              <div class="display-negotiation">
+                <div class="negotiation-name">
+                  Display negotiation :
+                </div>
+                <div class="negotiation-price">
+                  - LKR 19000
+                </div>
+              </div>
+              <div class="back-glass-negotiation">
+                <div class="negotiation-name">
+                  Back glass cracked negotiation :
+                </div>
+                <div class="negotiation-price">
+                  - LKR 19000
+                </div>
+              </div>
+              <div class="replaced-part-negotiation">
+                <div class="negotiation-name">
+                  Replaced parts negotiation :
+                </div>
+                <div class="negotiation-price">
+                  - LKR 19000
+                </div>
+              </div>
+              <div class="box-negotiation">
+                <div class="negotiation-name">
+                  Box negotiation :
+                </div>
+                <div class="negotiation-price">
+                  - LKR 19000
+                </div>
+              </div>
+            </div>
+            <div class="trade-output-inside-body-current-price">
+              <div class="negotiation-name-final">
+                Final offering price after negotiation
+              </div>
+              <div class="negotiation-price-final">
+                LKR 100 000.00
+              </div>
+            </div>
+            <div class="trade-output-inside-footer">
+              <button class="trade-output-submit-btn">Okay with the deal</button>
+              <button class="trade-output-submit-btn">Not satisfied with the deal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page exchange" id="Exchange">
+  <h2>Exchange Content</h2>
+</section>
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-sections">
+      <div class="footer-section">
+        <h3>Vish Mobile</h3>
+        <p>Premium pre-owned iPhones with warranty. Quality assurance and customer satisfaction guaranteed.</p>
+      </div>
+
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#Home">Home</a></li>
+          <li><a href="#Buy">Shop</a></li>
+          <li><a href="#Trade">Trade</a></li>
+          <li><a href="#Exchange">Exchange</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <p><i class="la la-map-marker"></i> 123 Mobile St, Phone City</p>
+        <p><i class="la la-phone"></i> (123) 456-7890</p>
+        <p><i class="la la-envelope"></i> info@vishmobile.com</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Vish Mobile by Perera Investments. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
 </body>
 
 </html>
-
- 

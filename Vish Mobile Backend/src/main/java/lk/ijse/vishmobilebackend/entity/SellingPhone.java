@@ -19,7 +19,7 @@ public class SellingPhone {
     private String color;
     private BigDecimal boughtPrice;
     private BigDecimal sellingPrice;
-    private BigDecimal batteryHealth;
+    private int batteryHealth;
     private long imei;
 
     @Transient

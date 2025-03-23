@@ -23,4 +23,8 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\": \"" + ex.getMessage() + "\"}");
+    }
 }

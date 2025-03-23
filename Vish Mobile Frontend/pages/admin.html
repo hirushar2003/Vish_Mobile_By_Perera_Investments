@@ -6,559 +6,184 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-  <style>
-    :root {
-      --base-color: #333;
-      --dark-color: #272829;
-      --medium-color: #61677A;
-      --light-color: #D8D9DA;
-      --bg-color: #FFF6E0;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--base-color);
-      overflow-x: hidden;
-    }
-
-    .admin-header {
-      background-color: var(--dark-color);
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-logo {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo-img {
-      width: 50px;
-      height: 50px;
-      background-color: var(--light-color);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-right: 15px;
-    }
-
-    .logo-name h1 {
-      font-size: 20px;
-      margin: 0;
-    }
-
-    .logo-name p {
-      font-size: 12px;
-      opacity: 0.8;
-    }
-
-    .navigation {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-bar a {
-      color: white;
-      text-decoration: none;
-      margin-left: 25px;
-      padding: 8px 15px;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .nav-bar a:hover {
-      background-color: rgba(255,255,255,0.1);
-    }
-
-    .nav-bar a.active {
-      background-color: var(--medium-color);
-    }
-
-    main {
-      margin-top: 90px;
-      padding: 20px;
-      height: calc(100vh - 90px);
-      overflow: hidden;
-    }
-
-    section {
-      display: none;
-      padding: 20px;
-      height: 100%;
-      overflow-y: auto;
-    }
-
-    section.active {
-      display: block;
-      animation: fadeIn 0.5s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--medium-color);
-    }
-
-    .section-header h2 {
-      color: var(--dark-color);
-    }
-
-    .btn {
-      background-color: var(--medium-color);
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn:hover {
-      background-color: var(--dark-color);
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      color: var(--medium-color);
-      border: 1px solid var(--medium-color);
-    }
-
-    .btn-outline:hover {
-      background-color: var(--medium-color);
-      color: white;
-    }
-
-    .btn-danger {
-      background-color: #ff4d4d;
-    }
-
-    .btn-success {
-      background-color: #4CAF50;
-    }
-
-    .btn-small {
-      padding: 4px 8px;
-      font-size: 12px;
-    }
-
-    .card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-
-    .admin-phone-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .detail-section, .photo-section {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-    }
-
-    .phone-detail-form {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .phone-detail-form-inside {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .phone-detail-form-inside:last-child {
-      grid-column: span 2;
-      margin-top: 10px;
-    }
-
-    .phone-detail-form-inside label {
-      margin-bottom: 5px;
-      color: var(--medium-color);
-    }
-
-    .phone-detail-form-inside input,
-    .phone-detail-form-inside select {
-      padding: 8px 12px;
-      border: 1px solid var(--light-color);
-      border-radius: 5px;
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    .phone-detail-form-inside input:focus,
-    .phone-detail-form-inside select:focus {
-      border-color: var(--medium-color);
-      box-shadow: 0 0 0 2px rgba(97, 103, 122, 0.2);
-    }
-
-    .phone-detail-form-inside button {
-      padding: 10px;
-      background-color: var(--medium-color);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .phone-detail-form-inside button:hover {
-      background-color: var(--dark-color);
-    }
-
-    .photo-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .photo-preview-container {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-      min-height: 150px;
-    }
-
-    .photo-upload {
-      width: 100%;
-    }
-
-    .admin-phone-view, .admin-user-view, .admin-price-view {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid var(--light-color);
-    }
-
-    th {
-      background-color: var(--light-color);
-      color: var(--dark-color);
-      font-weight: 500;
-    }
-
-    tr:hover {
-      background-color: rgba(216, 217, 218, 0.1);
-    }
-
-    .action-btns {
-      display: flex;
-      gap: 8px;
-    }
-
-    .color-preview {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 5px;
-      vertical-align: middle;
-    }
-
-    .battery-health {
-      position: relative;
-      width: 80px;
-      height: 24px;
-      background-color: #f0f0f0;
-      border-radius: 12px;
-    }
-
-    .battery-fill {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 12px;
-    }
-
-    .search-box {
-      display: flex;
-      background-color: white;
-      border-radius: 5px;
-      overflow: hidden;
-      border: 1px solid var(--light-color);
-      width: 300px;
-    }
-
-    .search-box input {
-      flex-grow: 1;
-      padding: 8px 12px;
-      border: none;
-      outline: none;
-    }
-
-    .search-box button {
-      border: none;
-      background-color: var(--medium-color);
-      color: white;
-      padding: 8px 15px;
-      cursor: pointer;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      width: 400px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--light-color);
-    }
-
-    .modal-close {
-      cursor: pointer;
-      font-size: 20px;
-      color: var(--medium-color);
-    }
-
-    .modal-body {
-      margin-bottom: 20px;
-    }
-
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .notification {
-      position: fixed;
-      top: 100px;
-      right: 20px;
-      background-color: var(--medium-color);
-      color: white;
-      padding: 15px 20px;
-      border-radius: 5px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-      display: none;
-      z-index: 1000;
-    }
-
-    .status-badge {
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .status-active {
-      background-color: #e6f7e6;
-      color: #4CAF50;
-    }
-
-    .status-inactive {
-      background-color: #ffe6e6;
-      color: #ff4d4d;
-    }
-
-    .tabs {
-      display: flex;
-      margin-bottom: 20px;
-      border-bottom: 1px solid var(--light-color);
-    }
-
-    .tab {
-      padding: 10px 20px;
-      cursor: pointer;
-      margin-right: 5px;
-      transition: all 0.3s ease;
-    }
-
-    .tab.active {
-      border-bottom: 2px solid var(--medium-color);
-      color: var(--medium-color);
-      font-weight: 500;
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    /* New Image Upload Styles */
-    .image-preview-item {
-      position: relative;
-      width: 100px;
-      height: 100px;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-
-    .image-preview-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .image-preview-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .image-preview-item:hover .image-preview-overlay {
-      opacity: 1;
-    }
-
-    .delete-image {
-      background-color: #ff4d4d;
-      color: white;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      border: none;
-      transition: all 0.3s ease;
-    }
-
-    .delete-image:hover {
-      background-color: #ff3333;
-      transform: scale(1.1);
-    }
-
-    .upload-count {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--medium-color);
-    }
-
-    .upload-placeholder {
-      width: 100px;
-      height: 100px;
-      border: 2px dashed var(--light-color);
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--medium-color);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .upload-placeholder:hover {
-      border-color: var(--medium-color);
-      background-color: rgba(97, 103, 122, 0.05);
-    }
-
-    .upload-instructions {
-      text-align: center;
-      margin-top: 15px;
-      color: var(--medium-color);
-      font-size: 13px;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/adminStyles.css"/>
 </head>
 <body>
-<header class="admin-header">
-  <div class="header-logo">
-    <div class="logo-img">
-      <i class="fas fa-mobile-alt" style="font-size: 24px;"></i>
-    </div>
-    <div class="logo-name">
-      <h1>Vish Mobile</h1>
+<div id="auth-wrapper">
+  <div class="auth-container">
+    <div class="auth-header">
+      <div class="logo-container">
+        <div class="logo-img">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <h1>Vish Mobile</h1>
+      </div>
       <p>by Perera Investments</p>
-    </div>
-  </div>
 
-  <div class="navigation">
-    <div class="nav-bar">
-      <a href="#phone-management" class="nav-link active" data-section="phone-management">Phone Management</a>
-      <a href="#user-management" class="nav-link" data-section="user-management">Customer Management</a>
-      <a href="#price-management" class="nav-link" data-section="price-management">Price Management</a>
+      <div class="auth-tabs">
+        <div class="auth-tab active" data-tab="signup">Sign Up</div>
+        <div class="auth-tab" data-tab="login">Login</div>
+      </div>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="auth-page active" id="signup">
+      <div class="auth-body">
+        <form class="auth-form" id="signup-form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="name" placeholder="Full Name" required>
+            <span class="form-icon"><i class="fas fa-user"></i></span>
+            <div class="error-message" id="name-error">Please enter your full name</div>
+          </div>
+
+          <div class="form-group">
+            <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+            <span class="form-icon"><i class="fas fa-envelope"></i></span>
+            <div class="error-message" id="email-error">Please enter a valid email address</div>
+          </div>
+
+          <div class="form-group">
+            <input type="password" class="form-control" id="password" placeholder="Password" required>
+            <span class="form-icon toggle-password" data-target="password"><i class="fas fa-eye"></i></span>
+            <div class="error-message" id="password-error">Password does not meet requirements</div>
+
+            <div class="password-validation">
+              <div class="validation-item length-check">
+                <i class="fas fa-times-circle"></i> At least 8 characters
+              </div>
+              <div class="validation-item uppercase-check">
+                <i class="fas fa-times-circle"></i> At least one uppercase letter
+              </div>
+              <div class="validation-item number-check">
+                <i class="fas fa-times-circle"></i> At least one number
+              </div>
+              <div class="validation-item special-check">
+                <i class="fas fa-times-circle"></i> At least one special character
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" id="contact_number" name="contactNumber" placeholder="Contact Number" required>
+            <span class="form-icon"><i class="fas fa-phone"></i></span>
+            <div class="error-message" id="contact-error">Please enter a valid contact number</div>
+          </div>
+
+          <div class="form-group">
+            <textarea class="form-control" id="address" name="address" placeholder="Address" required></textarea>
+            <span class="form-icon"><i class="fas fa-map-marker-alt"></i></span>
+            <div class="error-message" id="address-error">Please enter your address</div>
+          </div>
+
+          <div class="checkbox-container">
+            <input type="checkbox" class="form-checkbox" id="terms" required>
+            <label for="terms" class="checkbox-label">I agree to the <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a></label>
+          </div>
+
+          <button type="submit" class="auth-btn">Create Account</button>
+        </form>
+
+
+        <div class="divider">
+          <span>or sign up with</span>
+        </div>
+
+        <div class="social-login">
+          <button class="social-btn facebook">
+            <i class="fab fa-facebook-f"></i>
+          </button>
+          <button class="social-btn google">
+            <i class="fab fa-google"></i>
+          </button>
+          <button class="social-btn apple">
+            <i class="fab fa-apple"></i>
+          </button>
+        </div>
+
+        <div class="auth-footer">
+          Already have an account? <a href="#" class="auth-link" id="to-login">Login</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="auth-page" id="login">
+      <div class="auth-body">
+        <form class="auth-form" id="login-form">
+          <div class="form-group">
+            <input type="email" class="form-control" id="login-email" placeholder="Email Address" required>
+            <span class="form-icon"><i class="fas fa-envelope"></i></span>
+            <div class="error-message" id="login-email-error">Please enter a valid email address</div>
+          </div>
+
+          <div class="form-group">
+            <input type="password" class="form-control" id="login-password" placeholder="Password" required>
+            <span class="form-icon toggle-password" data-target="login-password"><i class="fas fa-eye"></i></span>
+            <div class="error-message" id="login-password-error">Invalid email or password</div>
+          </div>
+
+          <div class="checkbox-container">
+            <input type="checkbox" class="form-checkbox" id="remember">
+            <label for="remember" class="checkbox-label">Remember me</label>
+            <a href="#" class="auth-link" style="margin-left: auto;">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="auth-btn">Login</button>
+        </form>
+
+        <div class="divider">
+          <span>or login with</span>
+        </div>
+
+        <div class="social-login">
+          <button class="social-btn facebook">
+            <i class="fab fa-facebook-f"></i>
+          </button>
+          <button class="social-btn google">
+            <i class="fab fa-google"></i>
+          </button>
+          <button class="social-btn apple">
+            <i class="fab fa-apple"></i>
+          </button>
+        </div>
+
+        <div class="auth-footer">
+          Don't have an account? <a href="#" class="auth-link" id="to-signup">Sign Up</a>
+        </div>
+      </div>
     </div>
   </div>
-</header>
+</div>
+
+<!-- Notification -->
+<div class="notification" id="notification">
+  Account created successfully!
+</div>
+
+<!-- Main SPA Container (Hidden until logged in) -->
+<div id="spa-container">
+  <!-- This will contain your existing app structure -->
+  <header class="admin-header">
+    <div class="header-logo">
+      <div class="logo-img">
+        <i class="fas fa-mobile-alt" style="font-size: 24px;"></i>
+      </div>
+      <div class="logo-name">
+        <h1>Vish Mobile</h1>
+        <p>by Perera Investments</p>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <div class="nav-bar">
+        <a href="#phone-management" class="nav-link active" data-section="phone-management">Phone Management</a>
+        <a href="#user-management" class="nav-link" data-section="user-management">Customer Management</a>
+        <a href="#price-management" class="nav-link" data-section="price-management">Price Management</a>
+        <a href="#" class="nav-link" id="logout-btn">Logout</a>
+      </div>
+    </div>
+  </header>
+
 
 <main>
   <!-- Phone Management Section -->
@@ -603,9 +228,6 @@
             <label>Selling Price</label>
             <input type="text" placeholder="Enter selling price">
           </div>
-          <div class="phone-detail-form-inside">
-            <button type="submit"><i class="fas fa-plus"></i> Add Phone</button>
-          </div>
         </form>
       </div>
       <div class="photo-section">
@@ -616,19 +238,13 @@
           </div>
         </div>
         <div class="upload-count">
-          <span>3 photos remaining</span>
+          <span>Upload upto 5 photos</span>
           <span>2/5 uploaded</span>
         </div>
         <div class="photo-upload">
-          <input type="file" id="phone-image" accept="image/*" style="display: none;" multiple onchange="handleImageUpload(this)">
-          <button type="button" class="btn" style="width: 100%;" onclick="document.getElementById('phone-image').click();">
-            <i class="fas fa-upload"></i> Upload Images
-          </button>
+          <input type="file" id="phone-image" accept="image/*" style="display: none;" >
+          <button id="add-phone-btn" type="submit" class="btn" style="width: 100%;"> <i class="fas fa-plus"></i> Add Phone </button>
         </div>
-        <p class="upload-instructions">
-          Upload up to 5 images of the phone from different angles.<br>
-          Click on an image to view deletion option.
-        </p>
       </div>
     </div>
 
@@ -648,75 +264,6 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1</td>
-          <td>iPhone 13</td>
-          <td>123456789012345</td>
-          <td>128GB</td>
-          <td>
-            <span class="color-preview" style="background-color: #0071e3;"></span>Blue
-          </td>
-          <td>
-            <div class="battery-health">
-              <div class="battery-fill" style="width: 92%; background-color: #4CAF50;">92%</div>
-            </div>
-          </td>
-          <td>$550.00</td>
-          <td>$699.00</td>
-          <td>
-            <div class="action-btns">
-              <button class="btn btn-small btn-outline"><i class="fas fa-edit"></i></button>
-              <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i></button>
-              <button class="btn btn-small"><i class="fas fa-images"></i></button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Samsung S21</td>
-          <td>987654321098765</td>
-          <td>256GB</td>
-          <td>
-            <span class="color-preview" style="background-color: #1c1c1c;"></span>Phantom Black
-          </td>
-          <td>
-            <div class="battery-health">
-              <div class="battery-fill" style="width: 88%; background-color: #4CAF50;">88%</div>
-            </div>
-          </td>
-          <td>$480.00</td>
-          <td>$599.00</td>
-          <td>
-            <div class="action-btns">
-              <button class="btn btn-small btn-outline"><i class="fas fa-edit"></i></button>
-              <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i></button>
-              <button class="btn btn-small"><i class="fas fa-images"></i></button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>iPhone 12</td>
-          <td>456789012345678</td>
-          <td>64GB</td>
-          <td>
-            <span class="color-preview" style="background-color: #FFFF00;"></span>Yellow
-          </td>
-          <td>
-            <div class="battery-health">
-              <div class="battery-fill" style="width: 78%; background-color: #FFC107;">78%</div>
-            </div>
-          </td>
-          <td>$400.00</td>
-          <td>$499.00</td>
-          <td>
-            <div class="action-btns">
-              <button class="btn btn-small btn-outline"><i class="fas fa-edit"></i></button>
-              <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i></button>
-              <button class="btn btn-small"><i class="fas fa-images"></i></button>
-            </div>
-          </td>
-        </tr>
         </tbody>
       </table>
     </div>
@@ -933,119 +480,7 @@
 </div>
 
 <!-- Notification -->
-<div class="notification" id="notification">
-  Action completed successfully!
 </div>
 
-<script>
-  $(document).ready(function() {
-    // Navigation
-    $('.nav-link').click(function (e) {
-      e.preventDefault();
-      const sectionId = $(this).data('section');
-
-      // Update navigation
-      $('.nav-link').removeClass('active');
-      $(this).addClass('active');
-
-      // Show section
-      $('section').removeClass('active');
-      $('#' + sectionId).addClass('active');
-    });
-
-    // Tab navigation
-    $('.tab').click(function () {
-      const tabId = $(this).data('tab');
-
-      // Update tabs
-      $('.tab').removeClass('active');
-      $(this).addClass('active');
-
-      // Show tab content
-      $('.tab-content').removeClass('active');
-      $('#' + tabId).addClass('active');
-    });
-
-    // Modal
-    $('.btn-danger').click(function () {
-      $('#confirm-modal').css('display', 'flex');
-    });
-
-    $('.modal-close').click(function () {
-      $('#confirm-modal').css('display', 'none');
-    });
-
-    $('#confirm-action').click(function () {
-      $('#confirm-modal').css('display', 'none');
-      showNotification('Action completed successfully!');
-    });
-
-    // Notification
-    function showNotification(message) {
-      $('#notification').text(message);
-      $('#notification').fadeIn();
-
-      setTimeout(function () {
-        $('#notification').fadeOut();
-      }, 3000);
-    }
-  }); // <-- This was missing
-
-  $(document).ready(function () {
-    const maxImages = 5;
-    const imagePreviewContainer = $("#image-preview-container");
-    const uploadPlaceholder = $("#upload-placeholder");
-    let imageCount = 0;
-
-    $("#phone-image").change(function (event) {
-      const files = event.target.files;
-      const remainingSlots = maxImages - imageCount;
-
-      if (files.length > remainingSlots) {
-        alert(`You can only upload ${remainingSlots} more images.`);
-        return;
-      }
-
-      Array.from(files).forEach((file) => {
-        if (imageCount < maxImages) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const imageHtml = `
-                        <div class="image-preview-item">
-                            <img src="${e.target.result}" alt="Phone Image" />
-                            <div class="image-preview-overlay">
-                                <button class="delete-image" onclick="deleteImage(this)">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>`;
-            uploadPlaceholder.before(imageHtml);
-            imageCount++;
-            updateUploadUI();
-          };
-          reader.readAsDataURL(file);
-        }
-      });
-
-      // Reset input field to allow re-uploading same file
-      $(this).val('');
-    });
-
-    window.deleteImage = function (element) {
-      $(element).closest(".image-preview-item").remove();
-      imageCount--;
-      updateUploadUI();
-    };
-
-    function updateUploadUI() {
-      if (imageCount >= maxImages) {
-        uploadPlaceholder.hide();
-      } else {
-        uploadPlaceholder.show();
-      }
-    }
-  });
-
-
-</script>
+<script src="/js/adminScript.js"></script>
 </body>

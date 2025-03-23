@@ -19,7 +19,7 @@ public class SellingPhoneDTO {
     private BigDecimal boughtPrice;
     private BigDecimal sellingPrice;
     private BigDecimal profit;
-    private BigDecimal batteryHealth;
+    private int batteryHealth;
     private long imei;
     private List<String> photoUrls;
 }
