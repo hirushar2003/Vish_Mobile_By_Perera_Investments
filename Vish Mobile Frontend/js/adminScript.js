@@ -95,7 +95,7 @@ $(document).ready(function() {
     }
   });
 
-  // Signup form submission
+  //------------------------------------------------- Signup form submission
   $(document).ready(function () {
     $('#signup-form').submit(function (e) {
       e.preventDefault();
@@ -178,6 +178,7 @@ $(document).ready(function() {
           localStorage.setItem("address", response.address);
           localStorage.setItem("isLoggedIn", "true");
 
+          showMainApp();
           // Show success notification
           showNotification("Account created successfully!");
 
@@ -192,8 +193,7 @@ $(document).ready(function() {
   });
 
 
-
-  // Login form submission
+  // ------------------------------------------------Login form submission
   $('#login-form').submit(function(e) {
     e.preventDefault();
 
@@ -260,6 +260,7 @@ $(document).ready(function() {
     return re.test(password);
   }
 
+  // ----------------------------------Customize notification----------
   function showNotification(message) {
     $('#notification').text(message);
     $('#notification').fadeIn();
@@ -308,7 +309,125 @@ $(document).ready(function() {
 
     // Other existing functionality...
   }
-}); // <-- This was missing
+});
+
+
+
+
+$(document).ready(function () {
+  // Trigger the file input when the "Select Images" button is clicked
+  $("#trigger-upload").click(function () {
+    // Trigger the file input to open file dialog
+    $("#phone-image").click();
+  });
+
+  // Handle the file input change event when the user selects files
+  $("#phone-image").on("change", function () {
+    let files = this.files;
+    console.log("Files selected:", files); // Log files to ensure they're being captured
+
+    if (files.length > 0) {
+      console.log("Number of files selected:", files.length);
+      for (let i = 0; i < files.length; i++) {
+        console.log(`File ${i + 1}:`, files[i].name);
+      }
+    } else {
+      console.log("No files selected.");
+    }
+  });
+
+  // Handle the "Add Phone" button click
+  $("#add-phone-btn").click(async function (event) {
+    event.preventDefault(); // Prevent form submission
+
+    let phoneData = {
+      model: $("input[placeholder='Enter phone model']").val(),
+      imei: $("input[placeholder='Enter IMEI number']").val(),
+      capacity: $("input[placeholder='Enter storage capacity']").val(),
+      color: $("input[placeholder='Enter color']").val(),
+      batteryHealth: $("input[placeholder='Enter battery health %']").val(),
+      boughtPrice: $("input[placeholder='Enter bought price']").val(),
+      sellingPrice: $("input[placeholder='Enter selling price']").val(),
+      photoLinks: [] // To store image URLs after upload
+    };
+
+    // Upload images to Cloudinary
+    let uploadedImages = await uploadImagesToCloudinary();
+
+    if (uploadedImages.length === 0) {
+      alert("Please upload at least one image.");
+      return;
+    }
+
+    phoneData.photoLinks = uploadedImages;
+
+    // Send phone details to the backend
+    $.ajax({
+      url: "http://localhost:8080/api/v1/sellingPhone/save",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(phoneData),
+      success: function (response) {
+        alert("Phone added successfully!");
+        location.reload(); // Reload to show new phone in the list
+      },
+      error: function (error) {
+        console.error("Error adding phone:", error);
+        alert("Failed to add phone. Try again.");
+      }
+    });
+  });
+
+  // Function to upload images to Cloudinary
+  async function uploadImagesToCloudinary() {
+    let imageInput = $("#phone-image")[0];
+    let imageFiles = imageInput.files;
+    let imageUrls = [];
+
+    console.log("Selected files:", imageFiles); // Debugging: Log selected files
+
+    if (imageFiles.length === 0) {
+      console.log("No images selected."); // Debugging: Log if no files are selected
+      return imageUrls;
+    }
+
+    let cloudinaryUploadUrl = "https://api.cloudinary.com/v1_1/duxanz6pf/image/upload";
+    let cloudinaryUploadPreset = "Phone photos"; // Ensure this is correct in Cloudinary settings
+
+    for (let file of imageFiles) {
+      let formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", cloudinaryUploadPreset);
+
+      try {
+        let response = await $.ajax({
+          url: cloudinaryUploadUrl,
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          dataType: "json" // Ensure response is treated as JSON
+        });
+
+        console.log("Cloudinary response:", response); // Debugging: Log Cloudinary response
+
+        if (response.secure_url) {
+          imageUrls.push(response.secure_url);
+        } else {
+          console.error("Unexpected Cloudinary response:", response);
+          alert("Image upload failed. Please check your Cloudinary settings.");
+        }
+      } catch (error) {
+        console.error("Image upload failed:", error);
+        alert("Image upload failed. Please try again.");
+        return []; // Exit early on error
+      }
+    }
+
+    return imageUrls;
+  }
+});
+
 
 $(document).ready(function () {
   const maxImages = 5;
@@ -365,195 +484,121 @@ $(document).ready(function () {
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $(document).ready(function () {
-  $("#add-phone-btn").click(async function () {
+  // Fetch phone data after registration (or whenever you need)
+  let token = localStorage.getItem("token");
 
-    console.log("jjjj")
-    let phoneData = {
-      model: $("input[placeholder='Enter phone model']").val(),
-      imei: $("input[placeholder='Enter IMEI number']").val(),
-      capacity: $("input[placeholder='Enter storage capacity']").val(),
-      color: $("input[placeholder='Enter color']").val(),
-      batteryHealth: $("input[placeholder='Enter battery health %']").val(),
-      boughtPrice: $("input[placeholder='Enter bought price']").val(),
-      sellingPrice: $("input[placeholder='Enter selling price']").val(),
-      photoLinks: [] // To store image URLs after upload
-    };
+  // Make sure the token exists
+  if (token) {
+    console.log("Token found:", token); // Debugging line
 
-    // Upload images to Cloudinary
-    let uploadedImages = await uploadImagesToCloudinary();
-
-    if (uploadedImages.length === 0) {
-      alert("Please upload at least one image.");
-      return;
-    }
-
-    phoneData.photoLinks = uploadedImages;
-
-    // Send phone details to the backend
     $.ajax({
-      url: "http://localhost:8080/api/v1/sellingPhone/save",
-      // Adjust the API endpoint
-      type: "POST",
+      url: "http://localhost:8080/api/v1/sellingPhone/getAll",
+      type: "GET",
       contentType: "application/json",
-      data: JSON.stringify(phoneData),
+      headers: {
+        "Authorization": "Bearer " + token  // Include the token in the Authorization header
+      },
       success: function (response) {
-        alert("Phone added successfully!");
-        location.reload(); // Reload to show new phone in the list
+        console.log("Phone data:", response);
+
+        if (!Array.isArray(response.data)) {
+          console.error("Expected an array but got:", response);
+          return;
+        }
+
+        let phones = response.data; // Extract the actual phone list
+        let phoneTableBody = $(".admin-phone-view tbody");
+        phoneTableBody.empty();
+
+        phones.forEach(function (phone) {
+          let batteryColor = getBatteryColor(phone.batteryHealth);
+          let phoneRow = `
+            <tr>
+                <td>${phone.id}</td>
+                <td>${phone.model}</td>
+                <td>${phone.imei}</td>
+                <td>${phone.capacity}</td>
+                <td>
+                    <span class="color-preview" style="background-color: ${phone.colorCode};"></span> ${phone.color}
+                </td>
+                <td>
+                    <div class="battery-health">
+                        <div class="battery-fill" style="width: ${phone.batteryHealth}%; background-color: ${batteryColor};">
+                            ${phone.batteryHealth}%
+                        </div>
+                    </div>
+                </td>
+                <td>$${phone.boughtPrice.toFixed(2)}</td>
+                <td>$${phone.sellingPrice.toFixed(2)}</td>
+                <td>
+                    <div class="action-btns">
+                        <button class="btn btn-small btn-outline edit-btn" data-id="${phone.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-small btn-danger delete-btn" data-id="${phone.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn btn-small image-btn" data-id="${phone.id}">
+                            <i class="fas fa-images"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+          `;
+          phoneTableBody.append(phoneRow);
+        });
       },
       error: function (error) {
-        console.error("Error adding phone:", error);
-        alert("Failed to add phone. Try again.");
+        console.error("Error fetching phone details:", error);
+        alert("Failed to retrieve phone details. Try again.");
       }
     });
-  });
-
-  async function uploadImagesToCloudinary() {
-    let imageInput = $("#phone-image")[0];
-    let imageFiles = imageInput.files; // Get selected files
-    let imageUrls = [];
-
-    if (imageFiles.length === 0) return imageUrls; // No images selected
-
-    let cloudinaryUploadUrl = "https://api.cloudinary.com/v1_1/duxanz6pf/image/upload";
-    let cloudinaryUploadPreset = "Phone Photos"; // Correct this
-
-    for (let file of imageFiles) {
-      let formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", cloudinaryUploadPreset); // FIXED KEY
-
-      try {
-        let response = await $.ajax({
-          url: cloudinaryUploadUrl,
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false
-        });
-
-        imageUrls.push(response.secure_url); // Get uploaded image URL
-      } catch (error) {
-        console.error("Image upload failed:", error);
-      }
-    }
-
-    return imageUrls;
+  } else {
+    console.error("No token found, please login.");
   }
 });
-// $(document).ready(function () {
-//   console.log("Script loaded"); // To check if script is loaded
-//
-//   // Handle signup form submission
-//   $("#signup-form").submit(function (event) {
-//     event.preventDefault(); // Prevent form from submitting normally
-//     console.log("Form submitted"); // Debugging line
-//
-//     // Get form data
-//     let userDTO = {
-//       username: $("#username").val(),
-//       email: $("#email").val(),
-//       password: $("#password").val(),
-//       contactNumber: $("#contact_number").val(),
-//       address: $("#address").val(),
-//       userType: "customer" // Set userType in frontend
-//     };
-//
-//     // Send AJAX request to register user
-//     $.ajax({
-//       url: "http://localhost:8080/api/v1/user/auth/register",
-//       type: "POST",
-//       contentType: "application/json",
-//       data: JSON.stringify(userDTO),
-//       success: function (response) {
-//         console.log("User registered successfully:", response);
-//
-//         // Store the token in localStorage (or sessionStorage)
-//         localStorage.setItem("jwtToken", response.token);
-//
-//         // Optionally, redirect the user to the admin page or another part of the app
-//         window.location.href = "../pages/admin.html"; // Replace with your URL
-//       },
-//       error: function (error) {
-//         console.error("Registration failed:", error);
-//         alert("Registration failed, please try again.");
-//       }
-//     });
-//   });
-//
-//   // Fetch phone data after registration (or whenever you need)
-//   let token = localStorage.getItem("jwtToken");
-//
-//   // Make sure the token exists
-//   if (token) {
-//     console.log("Token found:", token); // Debugging line
-//
-//     $.ajax({
-//       url: "http://localhost:8080/api/v1/sellingPhone/getAll",
-//       type: "GET",
-//       contentType: "application/json",
-//       headers: {
-//         "Authorization": "Bearer " + token  // Include the token in the Authorization header
-//       },
-//       success: function (response) {
-//         console.log("Phone data:", response);
-//
-//         if (!Array.isArray(response.data)) {
-//           console.error("Expected an array but got:", response);
-//           return;
-//         }
-//
-//         let phones = response.data; // Extract the actual phone list
-//         let phoneTableBody = $(".admin-phone-view tbody");
-//         phoneTableBody.empty();
-//
-//         phones.forEach(function (phone) {
-//           let batteryColor = getBatteryColor(phone.batteryHealth);
-//           let phoneRow = `
-//             <tr>
-//                 <td>${phone.id}</td>
-//                 <td>${phone.model}</td>
-//                 <td>${phone.imei}</td>
-//                 <td>${phone.capacity}</td>
-//                 <td>
-//                     <span class="color-preview" style="background-color: ${phone.colorCode};"></span> ${phone.color}
-//                 </td>
-//                 <td>
-//                     <div class="battery-health">
-//                         <div class="battery-fill" style="width: ${phone.batteryHealth}%; background-color: ${batteryColor};">
-//                             ${phone.batteryHealth}%
-//                         </div>
-//                     </div>
-//                 </td>
-//                 <td>$${phone.boughtPrice.toFixed(2)}</td>
-//                 <td>$${phone.sellingPrice.toFixed(2)}</td>
-//                 <td>
-//                     <div class="action-btns">
-//                         <button class="btn btn-small btn-outline edit-btn" data-id="${phone.id}">
-//                             <i class="fas fa-edit"></i>
-//                         </button>
-//                         <button class="btn btn-small btn-danger delete-btn" data-id="${phone.id}">
-//                             <i class="fas fa-trash"></i>
-//                         </button>
-//                         <button class="btn btn-small image-btn" data-id="${phone.id}">
-//                             <i class="fas fa-images"></i>
-//                         </button>
-//                     </div>
-//                 </td>
-//             </tr>
-//           `;
-//           phoneTableBody.append(phoneRow);
-//         });
-//       },
-//       error: function (error) {
-//         console.error("Error fetching phone details:", error);
-//         alert("Failed to retrieve phone details. Try again.");
-//       }
-//     });
-//   } else {
-//     console.error("No token found, please login.");
-//   }
-// });
 
 
 // Function to determine battery color based on health percentage

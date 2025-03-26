@@ -6,6 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+  <script src="https://upload.widget.cloudinary.com/global/all.js"></script>
   <link rel="stylesheet" href="/css/adminStyles.css"/>
 </head>
 <body>
@@ -242,8 +243,13 @@
           <span>2/5 uploaded</span>
         </div>
         <div class="photo-upload">
-          <input type="file" id="phone-image" accept="image/*" style="display: none;" >
-          <button id="add-phone-btn" type="submit" class="btn" style="width: 100%;"> <i class="fas fa-plus"></i> Add Phone </button>
+          <input type="file" id="phone-image" accept="image/*" style="visibility: visible;" multiple>
+          <button id="trigger-upload" class="btn" style="width: 100%;">
+            <i class="fas fa-plus"></i> Select Images
+          </button>
+          <button id="add-phone-btn" type="submit" class="btn" style="width: 100%; margin-top: 10px;">
+            <i class="fas fa-plus"></i> Add Phone
+          </button>
         </div>
       </div>
     </div>
