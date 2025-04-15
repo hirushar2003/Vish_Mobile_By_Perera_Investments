@@ -91,4 +91,8 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
             return dto;
         }).collect(Collectors.toList());
     }
+    @Override
+    public Long getLastInsertedPhoneId() {
+        return sellingPhoneRepo.findLastInsertedId();
+    }
 }

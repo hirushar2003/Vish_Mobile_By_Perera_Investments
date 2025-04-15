@@ -6,7 +6,11 @@ import lk.ijse.vishmobilebackend.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 @RestController
 @CrossOrigin
@@ -20,12 +24,7 @@ public class SellingPhoneController {
     @PostMapping("save")
     public ResponseUtil savePhone(@RequestBody SellingPhoneDTO sellingPhoneDTO) {
         sellingPhoneService.addSellingPhone(sellingPhoneDTO);
-//        log.trace("trace message");
-//        log.debug("debug message");
-//        log.info("info message");
-//        log.warn("warn message");
-//        log.error("error message");
-        return new ResponseUtil(201, "Phone Sa4 ved", null);
+        return new ResponseUtil(201, "Phone Saved", null);
     }
 
     @PutMapping("update")
@@ -43,5 +42,14 @@ public class SellingPhoneController {
     @GetMapping("getAll")
     public ResponseUtil getAllPhones() {
         return new ResponseUtil(200, "Phone List", sellingPhoneService.getAllSellingPhones());
+    }
+
+    @GetMapping("/lastId")
+    public ResponseEntity<?> getLastInsertedPhoneId() {
+        Long lastId = sellingPhoneService.getLastInsertedPhoneId();
+        if (lastId != null) {
+            return ResponseEntity.ok(Collections.singletonMap("id", lastId));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No phones found");
     }
 }

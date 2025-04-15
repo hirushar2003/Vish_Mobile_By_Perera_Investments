@@ -9,4 +9,5 @@ public interface SellingPhoneService {
     void updateSellingPhone(SellingPhoneDTO sellingPhoneDTO);
     void deleteSellingPhone(int id);
     List<SellingPhoneDTO> getAllSellingPhones();
+    Long getLastInsertedPhoneId();
 }

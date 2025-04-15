@@ -311,90 +311,129 @@ $(document).ready(function() {
   }
 });
 
+$('#battery-health').on('input', function() {
+  $('#battery-health-value').text(this.value + '%');
+});
 
+let selectedFiles = []; // Declare selectedFiles globally
 
 
 $(document).ready(function () {
-  // Trigger the file input when the "Select Images" button is clicked
+  // let selectedFiles = [];
+
   $("#trigger-upload").click(function () {
-    // Trigger the file input to open file dialog
     $("#phone-image").click();
   });
 
-  // Handle the file input change event when the user selects files
   $("#phone-image").on("change", function () {
-    let files = this.files;
-    console.log("Files selected:", files); // Log files to ensure they're being captured
+    let files = Array.from(this.files);
 
-    if (files.length > 0) {
-      console.log("Number of files selected:", files.length);
-      for (let i = 0; i < files.length; i++) {
-        console.log(`File ${i + 1}:`, files[i].name);
-      }
-    } else {
-      console.log("No files selected.");
+    if (files.length + selectedFiles.length > 5) {
+      alert(`You can only upload ${5 - selectedFiles.length} more images.`);
+      return;
     }
+
+    selectedFiles.push(...files);
+
+    files.forEach((file) => {
+      let reader = new FileReader();
+      reader.onload = function (e) {
+        let imageHtml = `
+          <div class="image-preview-item">
+            <img src="${e.target.result}" alt="Phone Image" />
+            <div class="image-preview-overlay">
+              <button class="delete-image" onclick="deleteImage('${file.name}', this)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>`;
+        $("#upload-placeholder").before(imageHtml);
+      };
+      reader.readAsDataURL(file);
+    });
   });
 
-  // Handle the "Add Phone" button click
+  window.deleteImage = function (fileName, element) {
+    $(element).closest(".image-preview-item").remove();
+    selectedFiles = selectedFiles.filter(file => file.name !== fileName);
+  };
+
   $("#add-phone-btn").click(async function (event) {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault();
+
+    let token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to add a phone.");
+      return;
+    }
 
     let phoneData = {
-      model: $("input[placeholder='Enter phone model']").val(),
+      model: $("select[name='phone-model']").val(),
       imei: $("input[placeholder='Enter IMEI number']").val(),
-      capacity: $("input[placeholder='Enter storage capacity']").val(),
-      color: $("input[placeholder='Enter color']").val(),
-      batteryHealth: $("input[placeholder='Enter battery health %']").val(),
+      capacity: $("select[name='capacity']").val(),
+      color: $("select[name='color']").val(),
+      batteryHealth: $("#battery-health").val(),
       boughtPrice: $("input[placeholder='Enter bought price']").val(),
       sellingPrice: $("input[placeholder='Enter selling price']").val(),
-      photoLinks: [] // To store image URLs after upload
     };
 
-    // Upload images to Cloudinary
-    let uploadedImages = await uploadImagesToCloudinary();
+    console.log("Phone Data:", phoneData);
 
+    let uploadedImages = await uploadImagesToCloudinary();
     if (uploadedImages.length === 0) {
       alert("Please upload at least one image.");
       return;
     }
 
-    phoneData.photoLinks = uploadedImages;
-
-    // Send phone details to the backend
     $.ajax({
       url: "http://localhost:8080/api/v1/sellingPhone/save",
       type: "POST",
       contentType: "application/json",
+      headers: {
+        "Authorization": "Bearer " + token
+      },
       data: JSON.stringify(phoneData),
-      success: function (response) {
-        alert("Phone added successfully!");
-        location.reload(); // Reload to show new phone in the list
+      success: function () {
+        console.log("Phone saved successfully! Now fetching last inserted ID...");
+
+        // Step 2: Fetch the last inserted ID
+        $.ajax({
+          url: "http://localhost:8080/api/v1/sellingPhone/lastId",
+          type: "GET",
+          headers: {
+            "Authorization": "Bearer " + token
+          },
+          success: function (response) {
+            if (response && response.id) {
+              console.log("Last Inserted Phone ID:", response.id);
+              localStorage.setItem("phoneId", response.id);
+              savePhonePhotos(response.id, uploadedImages);
+            } else {
+              console.log("Failed to retrieve last ID.");
+            }
+          },
+          error: function (error) {
+            console.error("Error fetching last inserted ID:", error);
+          }
+        });
       },
       error: function (error) {
-        console.error("Error adding phone:", error);
-        alert("Failed to add phone. Try again.");
+        console.error("Error saving phone:", error);
+        alert("Failed to save phone. Try again.");
       }
     });
+
+
   });
 
-  // Function to upload images to Cloudinary
   async function uploadImagesToCloudinary() {
-    let imageInput = $("#phone-image")[0];
-    let imageFiles = imageInput.files;
-    let imageUrls = [];
-
-    console.log("Selected files:", imageFiles); // Debugging: Log selected files
-
-    if (imageFiles.length === 0) {
-      console.log("No images selected."); // Debugging: Log if no files are selected
-      return imageUrls;
-    }
+    if (selectedFiles.length === 0) return [];
 
     let cloudinaryUploadUrl = "https://api.cloudinary.com/v1_1/duxanz6pf/image/upload";
-    let cloudinaryUploadPreset = "Phone photos"; // Ensure this is correct in Cloudinary settings
+    let cloudinaryUploadPreset = "phone_photos";
+    let imageUrls = [];
 
-    for (let file of imageFiles) {
+    for (let file of selectedFiles) {
       let formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", cloudinaryUploadPreset);
@@ -406,74 +445,64 @@ $(document).ready(function () {
           data: formData,
           processData: false,
           contentType: false,
-          dataType: "json" // Ensure response is treated as JSON
+          dataType: "json"
         });
-
-        console.log("Cloudinary response:", response); // Debugging: Log Cloudinary response
 
         if (response.secure_url) {
           imageUrls.push(response.secure_url);
         } else {
           console.error("Unexpected Cloudinary response:", response);
-          alert("Image upload failed. Please check your Cloudinary settings.");
+          alert("Image upload failed.");
         }
       } catch (error) {
-        console.error("Image upload failed:", error);
-        alert("Image upload failed. Please try again.");
-        return []; // Exit early on error
+        console.error("Image upload error:", error);
+        alert("Image upload failed. Try again.");
       }
     }
-
     return imageUrls;
+  }
+
+  function savePhonePhotos(phoneId, imageUrls) {
+    let photoData = imageUrls.map(url => ({ phoneId, photoUrl: url }));
+    console.log(photoData);
+
+    let token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to add photos.");
+      return;
+    }
+
+    $.ajax({
+      url: "http://localhost:8080/api/v1/sellingPhonePhoto/save",
+      type: "POST",
+      contentType: "application/json",
+      headers: { "Authorization": "Bearer " + token },
+      data: JSON.stringify(photoData),
+      success: function (response) {
+        alert("Phone and photos added successfully!");
+        location.reload();
+      },
+      error: function (error) {
+        console.error("Error saving photos:", error);
+        alert("Failed to save photos.");
+      }
+    });
   }
 });
 
 
+
 $(document).ready(function () {
-  const maxImages = 5;
-  const imagePreviewContainer = $("#image-preview-container");
-  const uploadPlaceholder = $("#upload-placeholder");
-  let imageCount = 0;
 
-  $("#phone-image").change(function (event) {
-    const files = event.target.files;
-    const remainingSlots = maxImages - imageCount;
-
-    if (files.length > remainingSlots) {
-      alert(`You can only upload ${remainingSlots} more images.`);
-      return;
-    }
-
-    Array.from(files).forEach((file) => {
-      if (imageCount < maxImages) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const imageHtml = `
-                        <div class="image-preview-item">
-                            <img src="${e.target.result}" alt="Phone Image" />
-                            <div class="image-preview-overlay">
-                                <button class="delete-image" onclick="deleteImage(this)">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>`;
-          uploadPlaceholder.before(imageHtml);
-          imageCount++;
-          updateUploadUI();
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Reset input field to allow re-uploading same file
-    $(this).val('');
-  });
-
-  window.deleteImage = function (element) {
+// Function to remove image from preview & global array
+  window.deleteImage = function (fileName, element) {
     $(element).closest(".image-preview-item").remove();
-    imageCount--;
+    selectedFiles = selectedFiles.filter(file => file.name !== fileName);
     updateUploadUI();
+    console.log("Updated selectedFiles after delete:", selectedFiles); // Debugging
   };
+
+
 
   function updateUploadUI() {
     if (imageCount >= maxImages) {
@@ -632,29 +661,369 @@ $(document).on("click", ".delete-btn", function () {
 
 
 $(document).on("click", ".edit-btn", function () {
-  let row = $(this).closest("tr"); // Get the row where the button was clicked
+  let row = $(this).closest("tr");
 
-  // Extract data from table row
   let model = row.find("td:eq(1)").text().trim();
   let imei = row.find("td:eq(2)").text().trim();
   let capacity = row.find("td:eq(3)").text().trim();
   let color = row.find("td:eq(4)").text().trim();
-  let batteryHealth = row.find("td:eq(5)").text().trim().replace('%', '');
-  let boughtPrice = row.find("td:eq(6)").text().trim().replace('$', '');
-  let sellingPrice = row.find("td:eq(7)").text().trim().replace('$', '');
+  let batteryHealth = row.find("td:eq(5)").text().trim().replace('%', ''); // Removing '%' sign
+  let boughtPrice = row.find("td:eq(6)").text().trim().replace('LKR', '').trim(); // Removing 'LKR' text
+  let sellingPrice = row.find("td:eq(7)").text().trim().replace('LKR', '').trim(); // Removing 'LKR' text
 
-  // Populate input fields with row data
-  $(".phone-detail-form input:eq(0)").val(model);
-  $(".phone-detail-form input:eq(1)").val(imei);
-  $(".phone-detail-form input:eq(2)").val(capacity);
-  $(".phone-detail-form input:eq(3)").val(color);
-  $(".phone-detail-form input:eq(4)").val(batteryHealth);
-  $(".phone-detail-form input:eq(5)").val(boughtPrice);
-  $(".phone-detail-form input:eq(6)").val(sellingPrice);
+  $("#phone-model").val(model);
+  $("#imei-number").val(imei);
+  $("#capacity").val(capacity);
+  $("#color").val(color);
+  $("#battery-health").val(batteryHealth).next('span').text(batteryHealth + "%"); // Update range value display
+  $("#bought-price").val(boughtPrice);
+  $("#selling-price").val(sellingPrice);
 
-  // Change "Add Phone" button to "Update Phone"
-  $("#add-phone-btn").text("Update Phone").attr("id", "update-phone-btn");
+  const addButton = document.getElementById('add-phone-btn');
+  addButton.id = 'update-phone-btn';
+  addButton.innerHTML = '<i class="fas fa-edit"></i> Update Phone';
 
-  // update eken nawattuwe methana button eke id eka wenas wena thanata wenakn kara ...
-  // karanna thiyenne photo tika load karala ekath update karanna puluwen wenna hadana eka
+  let phoneId = row.find("td:eq(0)").text().trim();
+  fetchPhoneImages(phoneId);
 });
+
+function fetchPhoneImages(phoneId) {
+  let token = localStorage.getItem("token");
+
+  if (token) {
+    $.ajax({
+      url: `http://localhost:8080/api/v1/sellingPhonePhoto/getPhotoByPhoneId/${phoneId}`, // Fetch images for the phone by phoneId
+      type: "GET",
+      contentType: "application/json",
+      headers: {
+        "Authorization": "Bearer " + token
+      },
+      success: function (response) {
+        if (response && response.data) {
+          let photoUrls = response.data;
+
+          // Clear existing images and add new ones
+          let imagePreviewContainer = $("#image-preview-container");
+          imagePreviewContainer.empty();
+
+          // Populate the photo preview container with the fetched image URLs
+          photoUrls.forEach(url => {
+            imagePreviewContainer.append(`
+              <div class="image-preview-item">
+                <img src="${url}" alt="Phone Image" class="phone-image" />
+                <div class="image-preview-overlay">
+                  <button class="delete-image" onclick="deleteImageFromServer('${url}', this)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            `);
+          });
+
+          // Always append the input field to allow users to upload more images
+          let uploadedImagesCount = photoUrls.length;
+          if (uploadedImagesCount < 5) {
+            imagePreviewContainer.append(`
+              <div class="photo-preview-container">
+                <div class="upload-placeholder" id="upload-placeholder" onclick="document.getElementById('phone-image').click();">
+                    <i class="fas fa-plus" style="font-size: 24px;"></i>
+                </div>
+              </div>
+            `);
+          }
+
+          // Update the uploaded count
+          $(".upload-count span:nth-child(2)").text(`${photoUrls.length}/5 uploaded`);
+
+          // Show/Hide placeholder based on the number of uploaded images
+          updateUploadUI(uploadedImagesCount);
+        }
+      },
+      error: function (error) {
+        console.error("Error fetching images:", error);
+      }
+    });
+  } else {
+    alert("No token found, please login.");
+  }
+}
+
+
+
+// New delete function for removing images from preview and server
+function deleteImageFromServer(imageUrl, element) {
+  let token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Please login to delete images.");
+    return;
+  }
+
+  $.ajax({
+    url: `http://localhost:8080/api/v1/sellingPhonePhoto/delete`, // Assuming a DELETE API exists for removing the image
+    type: "DELETE",
+    contentType: "application/json",
+    headers: {
+      "Authorization": "Bearer " + token
+    },
+    data: JSON.stringify({ imageUrl }), // Send the image URL to delete
+    success: function () {
+      // Remove the image from the preview container
+      $(element).closest(".image-preview-item").remove();
+      updateUploadUI();
+    },
+    error: function (error) {
+      console.error("Error deleting image:", error);
+      alert("Failed to delete image.");
+    }
+  });
+}
+
+// Update the UI to allow adding images if there are less than 5
+function updateUploadUI(uploadedImagesCount = 0) {
+  let maxImages = 5;
+
+  if (uploadedImagesCount >= maxImages) {
+    $("#upload-placeholder").hide(); // Hide the upload button if the max is reached
+  } else {
+    $("#upload-placeholder").show(); // Show the upload button if there's space
+  }
+}
+
+
+
+
+
+
+$(document).on("click", ".image-btn", function () {
+  let row = $(this).closest("tr");
+  let phoneId = row.find("td:eq(0)").text().trim();
+  let token = localStorage.getItem("token");
+
+  if (token) {
+    $.ajax({
+      url: `http://localhost:8080/api/v1/sellingPhonePhoto/getPhotoByPhoneId/${phoneId}`,
+      type: "GET",
+      contentType: "application/json",
+      headers: {
+        "Authorization": "Bearer " + token
+      },
+      success: function (response) {
+        if (response && response.data) {
+          let photoUrls = response.data;
+          console.log(`Photos for phone ID ${phoneId}:`, photoUrls);
+        }
+      },
+      error: function (error) {
+        console.error("Error fetching photos:", error);
+        alert("Failed to load photos.");
+      }
+    });
+  } else {
+    alert("No token found, please login.");
+  }
+});
+
+
+
+
+
+
+
+
+
+
+// --------------------BUYING PRICE MANAGEMENT PAGE JS ---------------------------------------------------------
+
+
+$(document).ready(function() {
+  const token = localStorage.getItem('token');
+  $.ajax({
+    url: "http://localhost:8080/api/v1/phoneBuyingPrice/getAllPhonePrices",
+    type: "GET",
+    contentType: "application/json",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+    success: function(response) {
+      if (response.statusCode === 200) {
+        const phonePrices = response.data;
+        $("#prices-list tbody").empty();
+        phonePrices.forEach(price => {
+          const row = `
+                <tr>
+                    <td>${price.id}</td>
+                    <td>${price.model}</td>
+                    <td>${price.storage}</td>
+                    <td>${price.color}</td>
+                    <td><span class="color-preview" style="background-color: ${price.colorCode};"></span></td>
+                    <td>$${price.price}</td>
+                    <td>
+                        <div class="action-btns">
+                            <!--<button class="btn btn-small btn-outline" onclick="editPrice(${price.id})"><i class="fas fa-edit"></i></button>-->
+                            <button class="btn btn-small btn-danger" data-id="${price.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+          $("#prices-list tbody").append(row);
+        });
+
+      } else {
+        alert("Failed to fetch phone buying prices");
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error("Error fetching phone buying prices:", error);
+      alert("An error occurred while fetching data.");
+    }
+  });
+});
+
+$(".save-price").on("click", function (event) {
+  event.preventDefault();
+  let token = localStorage.getItem('token');
+  console.log(token);
+
+  const phoneBuyingPrice = {
+    model: $("select[name='price-phone-model']").val(),
+    storage: $("select[name='price-capacity']").val(),
+    color: $("select[name='price-color']").val(),
+    colorCode: $("input[name='price-color-code']").val(),
+    price: $("input[name='price-price']").val()
+  };
+  $.ajax({
+    url: "http://localhost:8080/api/v1/phoneBuyingPrice/savePhonePrice",
+    type: "POST",
+    contentType: "application/json",
+    headers: {
+      "Authorization": "Bearer " + token
+    },
+    data: JSON.stringify(phoneBuyingPrice),
+    success: function () {
+      alert("phone buying price saved successfully.");
+      $("#price-form")[0].reset();
+    },
+    error: function (error) {
+      alert("Failed to save phone buying price, Try again." + error);
+    }
+  });
+});
+
+$(document).on("click", ".btn-danger", function () {
+  let token = localStorage.getItem("token");
+  let buyingPhonePriceId = $(this).data("id");
+  console.log("Phone ID to delete:", buyingPhonePriceId);
+
+  if (confirm(`Are you sure you want to delete phone ID ${buyingPhonePriceId}?`)) {
+    $.ajax({
+      url: `http://localhost:8080/api/v1/phoneBuyingPrice/deletePhoneBuyingPrice/${buyingPhonePriceId}`,
+      type: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+      success: function (response) {
+        alert(`Phone ID ${buyingPhonePriceId} deleted successfully!`);
+        $(`button[data-id="${buyingPhonePriceId}"]`).closest("tr").remove();
+      },
+      error: function (xhr, status, error) {
+        console.error("Error deleting buying phone price details :", error);
+        alert("Failed to delete buying phone price details. Please try again.");
+      }
+    });
+  }
+});
+
+
+
+// ----------------------------------------USER MANAGEMENT ------------------------------------------------
+
+document.addEventListener("DOMContentLoaded", function () {
+  fetchCustomers();
+});
+
+function fetchCustomers() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    console.error("No authentication token found. Please log in.");
+    return;
+  }
+
+  fetch("http://localhost:8080/api/v1/userManage/getAllCustomers", {
+    method: "GET",
+    contentType: "application/json",
+    headers: {
+      "Authorization": `Bearer ${token}`, // Attach JWT token
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      populateCustomerTable(data);
+    })
+    .catch(error => {
+      console.error("Error fetching customers:", error);
+    });
+}
+
+function populateCustomerTable(customers) {
+  const tableBody = document.querySelector("#user-management tbody");
+  tableBody.innerHTML = ""; // Clear previous data
+
+  customers.forEach(customer => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>${customer.id}</td>
+        <td>${customer.username}</td>
+        <td>${customer.email}</td>
+        <td>${customer.contactNumber || "N/A"}</td>
+        <td>${customer.address || "N/A"}</td>
+        <td>
+          <span class="status-badge ${customer.status === "ACTIVE" ? "status-active" : "status-inactive"}">
+            ${customer.status}
+          </span>
+        </td>
+        <td>
+          <div class="action-btns">
+            <button class="btn btn-small btn-outline"><i class="fas fa-eye"></i></button>
+            ${customer.status === "ACTIVE" ? `
+              <button class="btn btn-small btn-danger-customer customer-deactive" onclick="changeUserStatus(${customer.id}, 'DEACTIVE')">
+                <i class="fas fa-ban"></i> Deactivate
+              </button>`
+      :
+      `<button class="btn btn-small btn-success-customer customer-active" onclick="changeUserStatus(${customer.id}, 'ACTIVE')">
+                <i class="fas fa-check"></i> Activate
+              </button>`}
+          </div>
+        </td>
+      `;
+
+    tableBody.appendChild(row);
+  });
+}
+
+function changeUserStatus(userId, newStatus) {
+  const token = localStorage.getItem("token");
+
+  fetch(`http://localhost:8080/api/v1/userManage/changeStatus/${userId}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ status: newStatus })
+  })
+    .then(response => response.json())
+    .then(updatedUser => {
+      console.log(updatedUser);
+      alert(`User status changed to ${updatedUser.status}`);
+      fetchCustomers();
+    })
+    .catch(error => console.error("Error updating user status:", error));
+}

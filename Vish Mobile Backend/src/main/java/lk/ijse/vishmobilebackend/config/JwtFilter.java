@@ -1,6 +1,8 @@
 package lk.ijse.vishmobilebackend.config;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import java.io.IOException;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
+
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -39,10 +42,22 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authorization != null && authorization.startsWith("Bearer ")) {
             token = authorization.substring(7);
-            username = jwtUtil.extractUsername(token);
-            Claims claims = jwtUtil.extractAllClaims(token);
-            request.setAttribute("email", username);
-            request.setAttribute("role", claims.get("role"));
+
+            try {
+                username = jwtUtil.extractUsername(token);
+                Claims claims = jwtUtil.extractAllClaims(token);
+
+                request.setAttribute("email", username);
+                request.setAttribute("role", claims.get("role"));
+
+            } catch (ExpiredJwtException e) {
+                logger.warn("JWT token has expired");
+                request.setAttribute("expired", "true");
+            } catch (JwtException e) {
+                logger.error("Invalid JWT token: {}");
+            } catch (Exception e) {
+                logger.error("Error processing JWT token: {}");
+            }
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

@@ -1,10 +1,9 @@
 package lk.ijse.vishmobilebackend.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.vishmobilebackend.model.UserStatus;
 import lk.ijse.vishmobilebackend.model.UserType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
@@ -12,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class User {
 
     @Id
@@ -31,6 +32,10 @@ public class User {
     @Column(nullable = false)
     private UserType userType;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserStatus status = UserStatus.ACTIVE;
+
     @Column(length = 15)
     private String contactNumber;
 
@@ -41,4 +46,5 @@ public class User {
         this.password = new BCryptPasswordEncoder().encode(rawPassword);
     }
 }
+
 

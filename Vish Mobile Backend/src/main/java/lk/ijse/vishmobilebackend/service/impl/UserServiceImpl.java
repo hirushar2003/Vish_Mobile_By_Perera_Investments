@@ -2,6 +2,7 @@ package lk.ijse.vishmobilebackend.service.impl;
 
 import lk.ijse.vishmobilebackend.dto.UserDTO;
 import lk.ijse.vishmobilebackend.entity.User;
+import lk.ijse.vishmobilebackend.model.UserStatus;
 import lk.ijse.vishmobilebackend.model.UserType;
 import lk.ijse.vishmobilebackend.repo.UserRepo;
 import lk.ijse.vishmobilebackend.repo.UserRepoCustom;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -69,5 +71,24 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+
+    @Override
+    public List<User> getAllCustomers() {
+        return userRepository.findAllByUserType(UserType.customer);
+    }
+
+    @Override
+    public User updateUserStatus(Integer id, String status) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            UserStatus userStatus = UserStatus.valueOf(status.toUpperCase());
+            user.setStatus(userStatus);
+            userRepository.save(user);
+            return user;  // Return the full User object with updated status
+        }
+        throw new RuntimeException("User not found");
+    }
+
 
 }

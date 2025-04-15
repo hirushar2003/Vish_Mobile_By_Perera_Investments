@@ -180,6 +180,7 @@
         <a href="#phone-management" class="nav-link active" data-section="phone-management">Phone Management</a>
         <a href="#user-management" class="nav-link" data-section="user-management">Customer Management</a>
         <a href="#price-management" class="nav-link" data-section="price-management">Price Management</a>
+        <a href="#phone-approval" class="nav-link" data-section="phone-approval">Phone Approval</a>
         <a href="#" class="nav-link" id="logout-btn">Logout</a>
       </div>
     </div>
@@ -203,31 +204,94 @@
         <form class="phone-detail-form">
           <div class="phone-detail-form-inside">
             <label>Phone Model</label>
-            <input type="text" placeholder="Enter phone model">
+            <select name="phone-model" id="phone-model">
+              <option>Select model</option>
+              <option value="iPhone 7">iPhone 7</option>
+              <option value="iPhone 7 Plus">iPhone 7 Plus</option>
+              <option value="iPhone 8">iPhone 8</option>
+              <option value="iPhone 8 Plus">iPhone 8 Plus</option>
+              <option value="iPhone X">iPhone X</option>
+              <option value="iPhone XR">iPhone XR</option>
+              <option value="iPhone XS">iPhone XS</option>
+              <option value="iPhone XS Max">iPhone XS Max</option>
+              <option value="iPhone 11">iPhone 11</option>
+              <option value="iPhone 11 Pro">iPhone 11 Pro</option>
+              <option value="iPhone 11 Pro Max">iPhone 11 Pro Max</option>
+              <option value="iPhone SE (2nd generation)">iPhone SE (2nd generation)</option>
+              <option value="iPhone 12">iPhone 12</option>
+              <option value="iPhone 12 Mini">iPhone 12 Mini</option>
+              <option value="iPhone 12 Pro">iPhone 12 Pro</option>
+              <option value="iPhone 12 Pro Max">iPhone 12 Pro Max</option>
+              <option value="iPhone 13">iPhone 13</option>
+              <option value="iPhone 13 Mini">iPhone 13 Mini</option>
+              <option value="iPhone 13 Pro">iPhone 13 Pro</option>
+              <option value="iPhone 13 Pro Max">iPhone 13 Pro Max</option>
+              <option value="iPhone SE (3rd generation)">iPhone SE (3rd generation)</option>
+              <option value="iPhone 14">iPhone 14</option>
+              <option value="iPhone 14 Plus">iPhone 14 Plus</option>
+              <option value="iPhone 14 Pro">iPhone 14 Pro</option>
+              <option value="iPhone 14 Pro Max">iPhone 14 Pro Max</option>
+              <option value="iPhone 15">iPhone 15</option>
+              <option value="iPhone 15 Plus">iPhone 15 Plus</option>
+              <option value="iPhone 15 Pro">iPhone 15 Pro</option>
+              <option value="iPhone 15 Pro Max">iPhone 15 Pro Max</option>
+              <option value="iPhone 16">iPhone 16</option>
+              <option value="iPhone 16 Plus">iPhone 16 Plus</option>
+              <option value="iPhone 16 Pro">iPhone 16 Pro</option>
+              <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+            </select>
           </div>
+
           <div class="phone-detail-form-inside">
             <label>IMEI Number</label>
-            <input type="text" placeholder="Enter IMEI number">
+            <input type="text" placeholder="Enter IMEI number" id="imei-number">
           </div>
+
           <div class="phone-detail-form-inside">
             <label>Capacity</label>
-            <input type="text" placeholder="Enter storage capacity">
+            <select name="capacity" id="capacity">
+              <option>Select phone capacity</option>
+              <option value="32GB">32GB</option>
+              <option value="64GB">64GB</option>
+              <option value="128GB">128GB</option>
+              <option value="256GB">256GB</option>
+              <option value="512GB">512GB</option>
+              <option value="1TB">1TB</option>
+            </select>
           </div>
+
           <div class="phone-detail-form-inside">
             <label>Color</label>
-            <input type="text" placeholder="Enter color">
+            <select name="color" id="color">
+              <option>Select colour</option>
+              <option value="Space Grey">Space Grey</option>
+              <option value="Silver">Silver</option>
+              <option value="Gold">Gold</option>
+              <option value="Rose Gold">Rose Gold</option>
+              <option value="Midnight">Midnight</option>
+              <option value="Starlight">Starlight</option>
+              <option value="Red">Red</option>
+              <option value="Blue">Blue</option>
+              <option value="Green">Green</option>
+              <option value="Purple">Purple</option>
+              <option value="Yellow">Yellow</option>
+            </select>
           </div>
+
           <div class="phone-detail-form-inside">
             <label>Battery Health</label>
-            <input type="text" placeholder="Enter battery health %">
+            <input type="range" min="50" max="100" value="100" id="battery-health" step="1">
+            <span id="battery-health-value">100%</span>
           </div>
+
           <div class="phone-detail-form-inside">
-            <label>Bought Price</label>
-            <input type="text" placeholder="Enter bought price">
+            <label>Bought Price(LKR)</label>
+            <input type="text" placeholder="Enter bought price" id="bought-price">
           </div>
+
           <div class="phone-detail-form-inside">
-            <label>Selling Price</label>
-            <input type="text" placeholder="Enter selling price">
+            <label>Selling Price(LKR)</label>
+            <input type="text" placeholder="Enter selling price" id="selling-price">
           </div>
         </form>
       </div>
@@ -243,10 +307,7 @@
           <span>2/5 uploaded</span>
         </div>
         <div class="photo-upload">
-          <input type="file" id="phone-image" accept="image/*" style="visibility: visible;" multiple>
-          <button id="trigger-upload" class="btn" style="width: 100%;">
-            <i class="fas fa-plus"></i> Select Images
-          </button>
+          <input type="file" id="phone-image" accept="image/*" style="display: none;" multiple>
           <button id="add-phone-btn" type="submit" class="btn" style="width: 100%; margin-top: 10px;">
             <i class="fas fa-plus"></i> Add Phone
           </button>
@@ -299,48 +360,6 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1</td>
-          <td>johnsmith</td>
-          <td>john.smith@email.com</td>
-          <td>+1 123-456-7890</td>
-          <td>123 Main Street, New York, NY</td>
-          <td><span class="status-badge status-active">Active</span></td>
-          <td>
-            <div class="action-btns">
-              <button class="btn btn-small btn-outline"><i class="fas fa-eye"></i></button>
-              <button class="btn btn-small btn-danger"><i class="fas fa-ban"></i> Deactivate</button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>janedoe</td>
-          <td>jane.doe@email.com</td>
-          <td>+1 987-654-3210</td>
-          <td>456 Oak Avenue, San Francisco, CA</td>
-          <td><span class="status-badge status-active">Active</span></td>
-          <td>
-            <div class="action-btns">
-              <button class="btn btn-small btn-outline"><i class="fas fa-eye"></i></button>
-              <button class="btn btn-small btn-danger"><i class="fas fa-ban"></i> Deactivate</button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>mikebrown</td>
-          <td>mike.brown@email.com</td>
-          <td>+1 555-123-4567</td>
-          <td>789 Pine Road, Chicago, IL</td>
-          <td><span class="status-badge status-inactive">Inactive</span></td>
-          <td>
-            <div class="action-btns">
-              <button class="btn btn-small btn-outline"><i class="fas fa-eye"></i></button>
-              <button class="btn btn-small btn-success"><i class="fas fa-check"></i> Activate</button>
-            </div>
-          </td>
-        </tr>
         </tbody>
       </table>
     </div>
@@ -373,62 +392,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>1</td>
-            <td>iPhone 13</td>
-            <td>128GB</td>
-            <td>Midnight</td>
-            <td><span class="color-preview" style="background-color: #1c1c1c;"></span></td>
-            <td>$699.00</td>
-            <td>
-              <div class="action-btns">
-                <button class="btn btn-small btn-outline"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>iPhone 13</td>
-            <td>256GB</td>
-            <td>Blue</td>
-            <td><span class="color-preview" style="background-color: #0071e3;"></span></td>
-            <td>$799.00</td>
-            <td>
-              <div class="action-btns">
-                <button class="btn btn-small btn-outline"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Samsung S21</td>
-            <td>128GB</td>
-            <td>Phantom Grey</td>
-            <td><span class="color-preview" style="background-color: #696969;"></span></td>
-            <td>$599.00</td>
-            <td>
-              <div class="action-btns">
-                <button class="btn btn-small btn-outline"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Samsung S21</td>
-            <td>256GB</td>
-            <td>Phantom Black</td>
-            <td><span class="color-preview" style="background-color: #000000;"></span></td>
-            <td>$699.00</td>
-            <td>
-              <div class="action-btns">
-                <button class="btn btn-small btn-outline"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
+
           </tbody>
         </table>
       </div>
@@ -440,31 +404,571 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
             <div class="phone-detail-form-inside">
               <label>Model</label>
-              <input type="text" placeholder="Enter model name">
+              <select name="price-phone-model" id="price-phone-model">
+                <option>Select model</option>
+                <option value="iPhone 7">iPhone 7</option>
+                <option value="iPhone 7 Plus">iPhone 7 Plus</option>
+                <option value="iPhone 8">iPhone 8</option>
+                <option value="iPhone 8 Plus">iPhone 8 Plus</option>
+                <option value="iPhone X">iPhone X</option>
+                <option value="iPhone XR">iPhone XR</option>
+                <option value="iPhone XS">iPhone XS</option>
+                <option value="iPhone XS Max">iPhone XS Max</option>
+                <option value="iPhone 11">iPhone 11</option>
+                <option value="iPhone 11 Pro">iPhone 11 Pro</option>
+                <option value="iPhone 11 Pro Max">iPhone 11 Pro Max</option>
+                <option value="iPhone SE (2nd generation)">iPhone SE (2nd generation)</option>
+                <option value="iPhone 12">iPhone 12</option>
+                <option value="iPhone 12 Mini">iPhone 12 Mini</option>
+                <option value="iPhone 12 Pro">iPhone 12 Pro</option>
+                <option value="iPhone 12 Pro Max">iPhone 12 Pro Max</option>
+                <option value="iPhone 13">iPhone 13</option>
+                <option value="iPhone 13 Mini">iPhone 13 Mini</option>
+                <option value="iPhone 13 Pro">iPhone 13 Pro</option>
+                <option value="iPhone 13 Pro Max">iPhone 13 Pro Max</option>
+                <option value="iPhone SE (3rd generation)">iPhone SE (3rd generation)</option>
+                <option value="iPhone 14">iPhone 14</option>
+                <option value="iPhone 14 Plus">iPhone 14 Plus</option>
+                <option value="iPhone 14 Pro">iPhone 14 Pro</option>
+                <option value="iPhone 14 Pro Max">iPhone 14 Pro Max</option>
+                <option value="iPhone 15">iPhone 15</option>
+                <option value="iPhone 15 Plus">iPhone 15 Plus</option>
+                <option value="iPhone 15 Pro">iPhone 15 Pro</option>
+                <option value="iPhone 15 Pro Max">iPhone 15 Pro Max</option>
+                <option value="iPhone 16">iPhone 16</option>
+                <option value="iPhone 16 Plus">iPhone 16 Plus</option>
+                <option value="iPhone 16 Pro">iPhone 16 Pro</option>
+                <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+              </select>
             </div>
+
             <div class="phone-detail-form-inside">
               <label>Storage</label>
-              <input type="text" placeholder="Enter storage capacity">
+              <select name="price-capacity" id="price-capacity">
+                <option>Select phone capacity</option>
+                <option value="32GB">32GB</option>
+                <option value="64GB">64GB</option>
+                <option value="128GB">128GB</option>
+                <option value="256GB">256GB</option>
+                <option value="512GB">512GB</option>
+                <option value="1TB">1TB</option>
+              </select>
             </div>
+
             <div class="phone-detail-form-inside">
               <label>Color</label>
-              <input type="text" placeholder="Enter color name">
+              <select name="price-color" id="price-color">
+                <option>Select color</option>
+                <option value="Space Grey">Space Grey</option>
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
+                <option value="Rose Gold">Rose Gold</option>
+                <option value="Midnight">Midnight</option>
+                <option value="Starlight">Starlight</option>
+                <option value="Red">Red</option>
+                <option value="Blue">Blue</option>
+                <option value="Green">Green</option>
+                <option value="Purple">Purple</option>
+                <option value="Yellow">Yellow</option>
+              </select>
             </div>
+
             <div class="phone-detail-form-inside">
               <label>Color Code</label>
-              <input type="color" value="#000000">
+              <input name="price-color-code" type="color" value="#000000">
             </div>
+
             <div class="phone-detail-form-inside">
-              <label>Price</label>
-              <input type="number" step="0.01" placeholder="Enter price">
+              <label>Price(LKR)</label>
+              <input name="price-price" type="number" step="0.01" placeholder="Enter price">
             </div>
+
             <div class="phone-detail-form-inside" style="justify-content: flex-end;">
-              <button type="submit" class="btn"><i class="fas fa-save"></i> Save Price</button>
+              <button type="submit" class="btn save-price"><i class="fas fa-save"></i> Save Price</button>
             </div>
           </div>
         </form>
+
       </div>
     </div>
+  </section>
+  <section id="phone-approval">
+    <div class="section-header">
+      <h2>Phone Approval</h2>
+      <div class="search-box">
+        <input type="text" placeholder="Search approval phones...">
+        <button type="button"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+    <div class="phone-approval-container-wrapper">
+      <div class="phone-approval-container">
+        <div class="phone-approval-card">
+          <div class="phone-approval-card-header">
+            <h4>iPhone 15 Pro Max</h4>
+          </div>
+          <div class="phone-approval-card-body">
+            <div class="phone-approval-card-image">
+              <img src="/img/u15pm.jpg" alt="phone-image">
+            </div>
+            <div class="phone-approval-card-content">
+              <div class="phone-approval-card-content-specs">
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    <p>Storage : </p>
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    128 GB
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Battery health :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    86%
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Frame condition :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Good
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Display glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Back glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Replaced parts :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Box available :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Yes
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Color :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Graphite
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Willing to :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Sell/exchange
+                  </div>
+                </div>
+              </div>
+              <div class="phone-approval-card-content-buttons">
+                <button class="phone-approval-card-btn-view">View more</button>
+                <button class="phone-approval-card-btn-approve">Approve</button>
+                <button class="phone-approval-card-btn-decline">Decline</button>
+                <button class="phone-approval-card-btn-email">Send email</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone-approval-card">
+          <div class="phone-approval-card-header">
+            <h4>iPhone 15 Pro Max</h4>
+          </div>
+          <div class="phone-approval-card-body">
+            <div class="phone-approval-card-image">
+              <img src="/img/u15pm.jpg" alt="phone-image">
+            </div>
+            <div class="phone-approval-card-content">
+              <div class="phone-approval-card-content-specs">
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    <p>Storage : </p>
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    128 GB
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Battery health :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    86%
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Frame condition :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Good
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Display glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Back glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Replaced parts :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Box available :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Yes
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Color :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Graphite
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Willing to :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Sell/exchange
+                  </div>
+                </div>
+              </div>
+              <div class="phone-approval-card-content-buttons">
+                <button class="phone-approval-card-btn-view">View more</button>
+                <button class="phone-approval-card-btn-approve">Approve</button>
+                <button class="phone-approval-card-btn-decline">Decline</button>
+                <button class="phone-approval-card-btn-email">Send email</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone-approval-card">
+          <div class="phone-approval-card-header">
+            <h4>iPhone 15 Pro Max</h4>
+          </div>
+          <div class="phone-approval-card-body">
+            <div class="phone-approval-card-image">
+              <img src="/img/u15pm.jpg" alt="phone-image">
+            </div>
+            <div class="phone-approval-card-content">
+              <div class="phone-approval-card-content-specs">
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    <p>Storage : </p>
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    128 GB
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Battery health :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    86%
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Frame condition :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Good
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Display glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Back glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Replaced parts :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Box available :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Yes
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Color :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Graphite
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Willing to :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Sell/exchange
+                  </div>
+                </div>
+              </div>
+              <div class="phone-approval-card-content-buttons">
+                <button class="phone-approval-card-btn-view">View more</button>
+                <button class="phone-approval-card-btn-approve">Approve</button>
+                <button class="phone-approval-card-btn-decline">Decline</button>
+                <button class="phone-approval-card-btn-email">Send email</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone-approval-card">
+          <div class="phone-approval-card-header">
+            <h4>iPhone 15 Pro Max</h4>
+          </div>
+          <div class="phone-approval-card-body">
+            <div class="phone-approval-card-image">
+              <img src="/img/u15pm.jpg" alt="phone-image">
+            </div>
+            <div class="phone-approval-card-content">
+              <div class="phone-approval-card-content-specs">
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    <p>Storage : </p>
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    128 GB
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Battery health :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    86%
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Frame condition :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Good
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Display glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Back glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Replaced parts :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Box available :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Yes
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Color :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Graphite
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Willing to :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Sell/exchange
+                  </div>
+                </div>
+              </div>
+              <div class="phone-approval-card-content-buttons">
+                <button class="phone-approval-card-btn-view">View more</button>
+                <button class="phone-approval-card-btn-approve">Approve</button>
+                <button class="phone-approval-card-btn-decline">Decline</button>
+                <button class="phone-approval-card-btn-email">Send email</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone-approval-card">
+          <div class="phone-approval-card-header">
+            <h4>iPhone 15 Pro Max</h4>
+          </div>
+          <div class="phone-approval-card-body">
+            <div class="phone-approval-card-image">
+              <img src="/img/u15pm.jpg" alt="phone-image">
+            </div>
+            <div class="phone-approval-card-content">
+              <div class="phone-approval-card-content-specs">
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    <p>Storage : </p>
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    128 GB
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Battery health :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    86%
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Frame condition :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Good
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Display glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Back glass crack :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Replaced parts :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    no
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Box available :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Yes
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Color :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Graphite
+                  </div>
+                </div>
+                <div class="phone-approval-card-content-specs-group">
+                  <div class="phone-approval-card-content-specs-group-header">
+                    Willing to :
+                  </div>
+                  <div class="phone-approval-card-content-specs-group-body">
+                    Sell/exchange
+                  </div>
+                </div>
+              </div>
+              <div class="phone-approval-card-content-buttons">
+                <button class="phone-approval-card-btn-view">View more</button>
+                <button class="phone-approval-card-btn-approve">Approve</button>
+                <button class="phone-approval-card-btn-decline">Decline</button>
+                <button class="phone-approval-card-btn-email">Send email</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
 </main>
 
