@@ -1,6 +1,7 @@
 package lk.ijse.vishmobilebackend.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.vishmobilebackend.dto.UserDTO;
 import lk.ijse.vishmobilebackend.model.Box;
 import lk.ijse.vishmobilebackend.model.WillingTo;
 import lombok.*;
@@ -36,4 +37,8 @@ public class CustomerPhonePricePrediction{
     @Enumerated(EnumType.STRING)
     @Column(name = "willing_to")
     private WillingTo willingTo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

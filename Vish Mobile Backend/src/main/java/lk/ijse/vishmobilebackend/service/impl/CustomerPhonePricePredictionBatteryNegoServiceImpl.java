@@ -12,8 +12,9 @@ public class CustomerPhonePricePredictionBatteryNegoServiceImpl implements Custo
     private CustomerPhonePricePredictionBatteryNegoRepo customerPhonePricePredictionBatteryNegoRepo;
 
     @Override
-    public double getAmountReducedByModelAndBattery(String model, String batteryHealthRange) {
-        Double reducedAmount = customerPhonePricePredictionBatteryNegoRepo.findBatteryReductionAmount(model, batteryHealthRange);
+    public double getAmountReducedByModelAndBattery(String model, String batteryRange) {
+        Double reducedAmount = customerPhonePricePredictionBatteryNegoRepo.findBatteryReductionAmount(model, batteryRange);
+        System.out.println("Battery range received: " + batteryRange);
         return reducedAmount != null ? reducedAmount : 0.0;
     }
 }

@@ -40,6 +40,7 @@ public class CustomerPhonePricePredictionController {
     public ResponseEntity<?> getBatteryNegotiationPriceByBatteryHealth(@RequestParam String model, @RequestParam String batteryHealth) {
         try {
             double batteryNegotiationPrice = customerPhonePricePredictionBatteryNegoService.getAmountReducedByModelAndBattery(model, batteryHealth);
+            System.out.println(batteryNegotiationPrice);
             return ResponseEntity.ok(new ResponseDTO(200 , "Price negotiation according to battery fetched" , batteryNegotiationPrice));
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error fetching battery negotiation price");

@@ -20,6 +20,10 @@ $(document).ready(function () {
 
   // Profile Button Click (Opens My Profile Register)
   $('.profile-btn').click(function () {
+    let currentPage = $('.page.active').attr('id');
+    localStorage.setItem("previousPage", currentPage);
+
+    // Navigate to the profile register section
     $('.page').removeClass('active').hide();
     $('#my-profile-register').addClass('active').fadeIn();
 
@@ -258,10 +262,22 @@ $(document).ready(function () {
       contentType: "application/json",
       data: JSON.stringify(userData),
       success: function (response) {
+        localStorage.setItem("jwtToken", response.token);
+        localStorage.setItem("userId", response.userId);
+        localStorage.setItem("contactNumber", response.contact);
+
         alert("User registered successfully!");
-        console.log("Success:", response);
-        // Redirect to login page if needed
-        window.location.href = "../pages/admin.html";
+
+        // Get the previous section the user came from
+        let previousPage = localStorage.getItem("previousPage") || "home"; // fallback to "home"
+
+        // Navigate back
+        $('.page').removeClass('active').hide();
+        $('#' + previousPage).addClass('active').fadeIn();
+
+        // Optional: reset nav link active state
+        $('.nav-link').removeClass('active');
+        $('.nav-link[href="#' + previousPage + '"]').addClass('active');
       },
       error: function (xhr, status, error) {
         let errMsg = xhr.responseJSON ? xhr.responseJSON.message : "Unknown error";
@@ -282,6 +298,109 @@ $(document).ready(function () {
     $("#login-section").fadeOut(300, function () {
       $("#signup-section").fadeIn(300);
     });
+  });
+});
+
+
+// -------------------------- TRADE PAGE JS-----------------------------------
+
+$(document).ready(function () {
+  $(".trade-phone-submit-btn").click(function (event) {
+    event.preventDefault();
+
+    let model = $("#model").val();
+    let storage = $("#storage").val();
+    let batteryHealth = $("#battery_health").val(); // Example: 87%
+    let batteryRange = getBatteryRangeFromPercentage(batteryHealth); // Now returns correct "95-85%"
+
+    let frameCondition = $("#frame_condition").val();
+    let color = $("#colour").val();
+    let willingTo = $("#willing_to").val();
+    let boxAvailable = $('input[name="box_available"]:checked').val();
+
+    if (
+      model === "" || storage === "" || batteryHealth === "" ||
+      frameCondition === "" || color === "" || willingTo === "" ||
+      !boxAvailable
+    ) {
+      alert("Please fill all the required fields before submitting.");
+      return;
+    }
+
+    function getBatteryRangeFromPercentage(percentage) {
+      let battery = parseInt(percentage.replace("%", "").trim());
+
+      if (battery >= 95 && battery <= 100) return "100-95%";
+      else if (battery >= 85 && battery < 95) return "95-85%";
+      else if (battery >= 80 && battery < 85) return "85-80%";
+      else if (battery >= 70 && battery < 80) return "80-70%";
+      else return "below 70%";
+    }
+
+    let token = localStorage.getItem("token");
+
+    if (token) {
+      $.ajax({
+        url: `http://localhost:8080/api/v1/customerPhonePricePrediction/getPhonePrice?model=${encodeURIComponent(model)}&storage=${encodeURIComponent(storage)}`,
+        type: "GET",
+        contentType: "application/json",
+        headers: {
+          "Authorization": "Bearer " + token
+        },
+        success: function (response) {
+          if (response != null && response.statusCode === 200) {
+            let phonePrice = response.data;
+            localStorage.setItem("bestPhonePrice", phonePrice);
+            $.ajax({
+              url: `http://localhost:8080/api/v1/customerPhonePricePrediction/getBatteryNegotiation?model=${encodeURIComponent(model)}&batteryHealth=${encodeURIComponent(batteryRange)}`,
+              type: "GET",
+              contentType: "application/json",
+              headers: {
+                "Authorization": "Bearer " + token
+              },
+              success: function (response) {
+                if (response != null && response.statusCode === 200) {
+                  let batteryReductionAmount = response.data;
+                  localStorage.setItem("batteryReducedAmount", batteryReductionAmount);
+
+                  $.ajax({
+                    url:`http://localhost:8080/api/v1/customerPhonePricePrediction/getFrameNegotiation?model=${encodeURIComponent(model)}&frameCondition=${encodeURIComponent(frameCondition)}`,
+                    type: "GET",
+                    contentType: "application/json",
+                    headers: {
+                      "Authorization": "Bearer " + token
+                    },
+                    success: function (response) {
+                      if (response != null && response.statusCode === 200) {
+                        console.log(response.data);
+                      } else {
+                        console.log(response);
+                      }
+                    },
+                    error: function (xhr, status, error) {
+                      console.log("Error:", xhr.responseText);
+                    }
+                  });
+
+                } else {
+                  console.warn("Unexpected response for battery:", response);
+                }
+              },
+              error: function (xhr, status, error) {
+                console.error("Error fetching battery negotiation price:", error);
+              }
+            });
+          } else {
+            console.warn("Unexpected response:", response);
+          }
+        },
+        error: function (error) {
+          console.error("Error fetching phone price:", error);
+        }
+      });
+    } else {
+      alert("No token found, please login.");
+    }
   });
 });
 

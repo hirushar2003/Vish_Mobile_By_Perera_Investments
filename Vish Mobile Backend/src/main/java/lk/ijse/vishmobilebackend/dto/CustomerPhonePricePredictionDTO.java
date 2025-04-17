@@ -15,4 +15,5 @@ public class CustomerPhonePricePredictionDTO {
     private String frameCondition;
     private String colour;
     private WillingTo willingTo;
+    private Long userId;
 }
