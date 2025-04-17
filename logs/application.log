@@ -481,3 +481,11 @@ java.io.IOException: The server sockets created using the LocalRMIServerSocketFa
 2025-04-17T17:05:23.620+05:30  INFO 19836 --- [Vish Mobile Backend] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-04-17T17:05:23.626+05:30  INFO 19836 --- [Vish Mobile Backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-04-17T17:05:23.674+05:30  INFO 19836 --- [Vish Mobile Backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 48 ms
+2025-04-17T17:14:20.237+05:30  INFO 19836 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-04-17T17:14:20.420+05:30  INFO 19836 --- [Vish Mobile Backend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-04-17T17:14:20.428+05:30  INFO 19836 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-04-17T17:14:20.437+05:30  INFO 19836 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@60c568fb]]
+2025-04-17T17:14:20.437+05:30  INFO 19836 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-04-17T17:14:20.470+05:30  INFO 19836 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-17T17:14:20.512+05:30  INFO 19836 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-17T17:14:20.551+05:30  INFO 19836 --- [Vish Mobile Backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
