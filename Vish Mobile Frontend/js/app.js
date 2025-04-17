@@ -21,11 +21,20 @@ $(document).ready(function () {
     localStorage.setItem("previousPage", currentPage);
 
     $('.page').removeClass('active').hide();
-    $('#my-profile-register').addClass('active').fadeIn();
 
-    $("#signup-section").show();
-    $("#login-section").hide();
+    const token = localStorage.getItem("jwtToken");
+
+    if (token) {
+      // If token exists → show "my-profile-inside"
+      $('#my-profile-inside').addClass('active').fadeIn();
+    } else {
+      // No token → show signup/login form
+      $('#my-profile-register').addClass('active').fadeIn();
+      $("#signup-section").show();
+      $("#login-section").hide();
+    }
   });
+
 
   $('.cart-btn').click(function () {
     $('.page').removeClass('active').hide();
@@ -363,7 +372,6 @@ $(document).ready(function () {
                 const uploadedImageUrls = await uploadImagesToCloudinary();
 
                 if (uploadedImageUrls.length > 0) {
-                  // Prepare photo objects
                   const photoObjects = uploadedImageUrls.map(url => ({
                     phoneId,
                     photoUrl: url
@@ -378,6 +386,16 @@ $(document).ready(function () {
                     success: function (res) {
                       if (res?.statusCode === 200) {
                         alert("Your phone was sent to the admin successfully.");
+
+                        $('form')[0].reset();
+                        $('.image-preview-container').html(`
+                            <div class="upload-placeholder" onclick="document.getElementById('phone-image').click();">
+                              <i class="fas fa-plus" style="font-size: 24px;"></i>
+                            </div>
+                        `);
+                        $('#upload-count-text').text('0/5 uploaded');
+
+                        $('.profile-btn').trigger('click');
                       } else {
                         alert("Failed to send phone to admin");
                       }

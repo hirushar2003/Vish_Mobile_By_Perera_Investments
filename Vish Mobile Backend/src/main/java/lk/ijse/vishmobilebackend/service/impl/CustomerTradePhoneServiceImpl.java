@@ -1,10 +1,11 @@
 package lk.ijse.vishmobilebackend.service.impl;
 
 import lk.ijse.vishmobilebackend.dto.CustomerTradePhoneDTO;
-import lk.ijse.vishmobilebackend.dto.PhoneBuyingPriceDTO;
+import lk.ijse.vishmobilebackend.dto.TradePhoneWithPhotosDTO;
 import lk.ijse.vishmobilebackend.entity.CustomerTradePhone;
 import lk.ijse.vishmobilebackend.repo.CustomerTradePhoneRepo;
 import lk.ijse.vishmobilebackend.service.CustomerTradePhoneService;
+import lk.ijse.vishmobilebackend.service.PhonePhotoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class CustomerTradePhoneServiceImpl implements CustomerTradePhoneService 
 
     @Autowired
     CustomerTradePhoneRepo customerTradePhoneRepo;
+
+    @Autowired
+    private PhonePhotoService phonePhotoService;
 
     @Override
     public Long saveCustomerTradePhone(CustomerTradePhoneDTO customerTradePhoneDTO) {
@@ -44,4 +48,17 @@ public class CustomerTradePhoneServiceImpl implements CustomerTradePhoneService 
             throw new RuntimeException("Trade phone with " + id + " not found");
         }
     }
+
+
+    @Override
+    public List<TradePhoneWithPhotosDTO> getCustomerTradePhonesWithPhotosByUserId(Long userId) {
+        return customerTradePhoneRepo.findByUserId(userId).stream()
+                .map(phone -> {
+                    TradePhoneWithPhotosDTO dto = modelMapper.map(phone, TradePhoneWithPhotosDTO.class);
+                    dto.setPhotoUrls(phonePhotoService.getTradePhotoUrlsByPhoneId(phone.getId()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
 }

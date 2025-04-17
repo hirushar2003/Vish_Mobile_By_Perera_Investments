@@ -10,5 +10,5 @@ public interface PhonePhotoService {
     void savePhonePhotos(List<PhonePhoto> photos);
     List<String> getPhotoUrlsByPhoneId(int phoneId);
     void saveTradePhonePhotos(List<TradePhonePhoto> photos);
-    List<String> getTradePhotoUrlsByPhoneId(int phoneId);
+    List<String> getTradePhotoUrlsByPhoneId(Long phoneId);
 }

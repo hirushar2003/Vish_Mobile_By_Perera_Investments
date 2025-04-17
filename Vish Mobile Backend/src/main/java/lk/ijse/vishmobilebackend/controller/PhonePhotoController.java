@@ -61,7 +61,7 @@ public class PhonePhotoController {
     }
 
     @GetMapping("/getTradePhotoByPhoneId/{phoneId}")
-    public ResponseEntity<?> getTradePhotoUrlsByPhoneId(@PathVariable int phoneId) {
+    public ResponseEntity<?> getTradePhotoUrlsByPhoneId(@PathVariable Long phoneId) {
         try {
             List<String> photoUrls = phonePhotoService.getTradePhotoUrlsByPhoneId(phoneId);
             return ResponseEntity.ok(new ResponseDTO(200, "Photos retrieved successfully", photoUrls));

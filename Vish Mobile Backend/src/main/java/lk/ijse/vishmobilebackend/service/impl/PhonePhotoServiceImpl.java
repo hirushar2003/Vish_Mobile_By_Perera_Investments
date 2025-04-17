@@ -36,8 +36,9 @@ public class PhonePhotoServiceImpl implements PhonePhotoService {
     }
 
     @Override
-    public List<String> getTradePhotoUrlsByPhoneId(int phoneId) {
+    public List<String> getTradePhotoUrlsByPhoneId(Long phoneId) {
         List<TradePhonePhoto> photos = tradePhonePhotoRepo.findByPhoneId(phoneId);
         return photos.stream().map(TradePhonePhoto::getPhotoUrl).collect(Collectors.toList());
     }
+
 }
