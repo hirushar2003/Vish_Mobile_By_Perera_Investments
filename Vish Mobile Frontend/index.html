@@ -816,23 +816,27 @@
     </div>
     <div class="trade-form-and-trade-output">
       <div class="trade-form">
-        <form action="your_backend_script_here" method="POST">
+        <form action="" method="POST">
           <!-- Photo Upload Section -->
           <div class="photo-section">
             <h3 style="margin-bottom: 15px;">Upload real images of your device</h3>
-            <div class="photo-preview-container" id="image-preview-container">
-              <div class="upload-placeholder" id="upload-placeholder" onclick="document.getElementById('phone-image').click();">
+
+            <!-- This is where the image previews will appear -->
+            <div class="photo-preview-container image-preview-container">
+              <div class="upload-placeholder" onclick="document.getElementById('phone-image').click();">
                 <i class="fas fa-plus" style="font-size: 24px;"></i>
               </div>
             </div>
+
             <div class="upload-count">
-              <span>Upload upto 5 photos</span>
               <span id="upload-count-text">0/5 uploaded</span>
             </div>
+
             <div class="photo-upload">
-              <input type="file" id="phone-image" accept="image/*" style="display: none;" >
+              <input type="file" id="phone-image" accept="image/*" multiple style="display: none;" />
             </div>
           </div>
+
 
           <!-- Model -->
           <div class="trade-form-group-inside">
@@ -909,9 +913,9 @@
             <label for="frame_condition">Frame Condition</label>
             <select id="frame_condition" name="frame_condition" required>
               <option value="">Select condition percentage</option>
-              <option value="below_90%">Below 90%</option>
-              <option value="90_95%">90% - 95%</option>
-              <option value="brand_new">Brand New Condition</option>
+              <option value="bellow 90%">Below 90%</option>       <!-- typo matches DB -->
+              <option value="95-90%">90% - 95%</option>
+              <option value="brand new condition">Brand New Condition</option>
             </select>
           </div>
 
@@ -951,9 +955,9 @@
           <div class="trade-form-group-inside">
             <label for="willing_to">Willing To</label>
             <select id="willing_to" name="willing_to" required>
-              <option value="sell">Sell</option>
-              <option value="exchange">Exchange</option>
-              <option value="exchangeOrExchange">Sell or Exchange</option>
+              <option value="SELL">Sell</option>
+              <option value="EXCHANGE">Exchange</option>
+              <option value="SELLOREXCHANGE">Sell or Exchange</option>
             </select>
           </div>
 
@@ -970,9 +974,6 @@
             <h3>Your iPhone price analysis</h3>
           </div>
           <div class="trade-output-inside-body">
-            <div class="trade-output-inside-body-image-section">
-              <img src="img/u15pm.jpg" alt="your iphone image here">
-            </div>
             <div class="trade-output-inside-body-iphone-model">
               <h3>iPhone 15 pro max 1TB</h3>
             </div>
@@ -1014,8 +1015,10 @@
               </div>
             </div>
             <div class="trade-output-inside-footer">
-              <button class="trade-output-submit-btn">Okay with the deal</button>
-              <button class="trade-output-submit-btn">Not satisfied with the deal</button>
+              <button class="trade-output-submit-seller">Okay with the deal, submit to seller</button>
+              <button class="trade-output-submit-btn">Okay with the deal, submit to seller and exchange</button>
+              <button class="trade-output-submit-btn">Not satisfied with the deal, email seller to negotiate</button>
+              <button class="trade-output-submit-btn">Not satisfied with the deal, ignore the deal</button>
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@ public class SellingPhone {
     private BigDecimal profit;
 
     @OneToMany(mappedBy = "phoneId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SellingPhonePhoto> photos;
+    private List<PhonePhoto> photos;
 
     public BigDecimal getProfit() {
         return sellingPrice.subtract(boughtPrice);

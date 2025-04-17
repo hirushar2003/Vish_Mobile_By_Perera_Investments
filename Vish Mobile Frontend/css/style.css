@@ -1253,19 +1253,7 @@ input[type="radio"] {
   width: 100%;
   gap: 1rem;
 }
-.trade-output-inside-body-image-section{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 450px;
-}
-.trade-output-inside-body-image-section img{
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-}
+
 .trade-output-inside-body-iphone-model , .trade-output-inside-body-fixed-price {
   display: flex;
   flex-direction: column;

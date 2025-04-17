@@ -1,137 +1,49 @@
 // ------------------------------NAVIGATION---------------------
+
+
 $(document).ready(function () {
-  // Ensure only the active section is visible on page load
   $('.page').hide();
   $('.page.active').show();
 
-  // Navigation Links Click
   $('.nav-link').click(function (e) {
     e.preventDefault();
     const sectionId = $(this).attr('href').substring(1); // Get section ID
 
-    // Update active link
     $('.nav-link').removeClass('active');
     $(this).addClass('active');
 
-    // Show selected section
     $('.page').removeClass('active').hide();
     $('#' + sectionId).addClass('active').fadeIn();
   });
 
-  // Profile Button Click (Opens My Profile Register)
   $('.profile-btn').click(function () {
     let currentPage = $('.page.active').attr('id');
     localStorage.setItem("previousPage", currentPage);
 
-    // Navigate to the profile register section
     $('.page').removeClass('active').hide();
     $('#my-profile-register').addClass('active').fadeIn();
 
-    // Reset login/signup visibility
     $("#signup-section").show();
     $("#login-section").hide();
   });
 
-  // Cart Button Click (Opens My Cart Main)
   $('.cart-btn').click(function () {
     $('.page').removeClass('active').hide();
     $('#my-cart-main').addClass('active').fadeIn();
   });
 
-  // Show login form when clicking "Already have an account?"
   $("#show-login").click(function () {
     $("#signup-section").fadeOut(300, function () {
       $("#login-section").fadeIn(300);
     });
   });
 
-  // Show signup form when clicking "Don't have an account?"
   $("#show-signup").click(function () {
     $("#login-section").fadeOut(300, function () {
       $("#signup-section").fadeIn(300);
     });
   });
 });
-
-// ------------------photo upload-------------------------
-$(document).ready(function () {
-  const maxImages = 5;
-  const imagePreviewContainer = $("#image-preview-container");
-  const uploadPlaceholder = $("#upload-placeholder");
-  const uploadCountText = $("#upload-count-text");
-  let imageCount = 0;
-
-  $("#phone-image").change(function (event) {
-    const files = event.target.files;
-    const remainingSlots = maxImages - imageCount;
-
-    if (files.length > remainingSlots) {
-      alert(`You can only upload ${remainingSlots} more images.`);
-      return;
-    }
-
-    Array.from(files).forEach((file) => {
-      if (imageCount < maxImages) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const imageHtml = `
-            <div class="image-preview-item">
-              <img src="${e.target.result}" alt="Phone Image" />
-              <div class="image-preview-overlay">
-                <button class="delete-image">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </div>
-            </div>`;
-          imagePreviewContainer.prepend(imageHtml); // Add new images before existing ones
-          imageCount++;
-          updateUploadUI();
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Reset input field to allow re-uploading the same file
-    $(this).val('');
-  });
-
-  // Event delegation for dynamically added delete buttons
-  $(document).on("click", ".delete-image", function () {
-    $(this).closest(".image-preview-item").remove();
-    imageCount--;
-    updateUploadUI();
-  });
-
-  function updateUploadUI() {
-    uploadCountText.text(`${imageCount}/5 uploaded`);
-    if (imageCount >= maxImages) {
-      uploadPlaceholder.hide();
-    } else {
-      uploadPlaceholder.show();
-    }
-  }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // PAGINATION IN BUY PAGE
 // $(document).ready(function () {
@@ -185,24 +97,16 @@ $(document).ready(function () {
 
 
 
-
-
-
-
-
-
-
 $(document).ready(function () {
   let $list = $(".list");
   let $items = $(".item");
   let currentIndex = 0;
   let autoSlideInterval;
 
-  // Clone the first item and append it at the end to create a seamless loop
   function initializeCarousel() {
     let $firstItem = $items.first().clone();
     $list.append($firstItem);
-    $items = $(".item"); // Re-select all items after modification
+    $items = $(".item");
   }
 
   function updateCarousel() {
@@ -213,10 +117,9 @@ $(document).ready(function () {
     currentIndex++;
     if (currentIndex === $items.length) {
       currentIndex = 0;
-      // Once we reach the cloned item (the last one), reset it without animation
+
       $list.css("transition", "none");
       updateCarousel();
-      // After resetting, enable the transition again
       setTimeout(() => {
         $list.css("transition", "transform 0.5s ease");
       }, 50);
@@ -226,7 +129,7 @@ $(document).ready(function () {
   }
 
   function startAutoSlide() {
-    autoSlideInterval = setInterval(nextSlide, 3000); // Change every 2 seconds
+    autoSlideInterval = setInterval(nextSlide, 3000);
   }
 
   function stopAutoSlide() {
@@ -236,14 +139,14 @@ $(document).ready(function () {
   $list.on("mouseenter", stopAutoSlide);
   $list.on("mouseleave", startAutoSlide);
 
-  initializeCarousel(); // Initialize the carousel and make it loopable
-  updateCarousel(); // Initialize the first view
-  startAutoSlide(); // Start auto sliding
+  initializeCarousel();
+  updateCarousel();
+  startAutoSlide();
 });
 
 $(document).ready(function () {
   $("#signup-form").submit(function (event) {
-    event.preventDefault(); // Prevent form from submitting normally
+    event.preventDefault();
 
     // Get form data
     let userData = {
@@ -252,10 +155,9 @@ $(document).ready(function () {
       password: $("#password").val(),
       contactNumber: $("#contact_number").val(),
       address: $("#address").val(),
-      userType: "customer" // Set userType in frontend
+      userType: "customer"
     };
 
-    // Send AJAX request
     $.ajax({
       url: "http://localhost:8080/api/v1/user/auth/register",
       type: "POST",
@@ -268,14 +170,11 @@ $(document).ready(function () {
 
         alert("User registered successfully!");
 
-        // Get the previous section the user came from
         let previousPage = localStorage.getItem("previousPage") || "home"; // fallback to "home"
 
-        // Navigate back
         $('.page').removeClass('active').hide();
         $('#' + previousPage).addClass('active').fadeIn();
 
-        // Optional: reset nav link active state
         $('.nav-link').removeClass('active');
         $('.nav-link[href="#' + previousPage + '"]').addClass('active');
       },
@@ -304,104 +203,270 @@ $(document).ready(function () {
 
 // -------------------------- TRADE PAGE JS-----------------------------------
 
+
+const maxImages = 5;
+let imageCount = 0;
+let selectedFiles = [];
+
+const uploadCountText = $("#upload-count-text");
+const uploadPlaceholder = $(".upload-placeholder");
+const imagePreviewContainer = $(".image-preview-container");
+
+$("#phone-image").change(function (event) {
+  const files = Array.from(event.target.files);
+  const remainingSlots = maxImages - imageCount;
+
+  if (files.length > remainingSlots) {
+    alert(`You can only upload ${remainingSlots} more images.`);
+    return;
+  }
+
+  files.forEach((file, index) => {
+    if (imageCount < maxImages) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const imageHtml = `
+        <div class="image-preview-item" data-index="${selectedFiles.length}">
+          <img src="${e.target.result}" alt="Phone Image" />
+          <div class="image-preview-overlay">
+            <button class="delete-image" type="button">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>`;
+        imagePreviewContainer.prepend(imageHtml);
+        selectedFiles.push(file);
+        imageCount++;
+        updateUploadUI();
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  $(this).val(""); // Reset input
+});
+
+$(document).on("click", ".delete-image", function () {
+  const item = $(this).closest(".image-preview-item");
+  const index = item.data("index");
+
+  selectedFiles.splice(index, 1);
+  item.remove();
+  imageCount--;
+
+  $(".image-preview-item").each((i, el) => {
+    $(el).attr("data-index", i);
+  });
+
+  updateUploadUI();
+});
+
+function updateUploadUI() {
+  uploadCountText.text(`${imageCount}/5 uploaded`);
+  if (imageCount >= maxImages) {
+    uploadPlaceholder.hide();
+  } else {
+    uploadPlaceholder.show();
+  }
+}
+
+
+async function uploadImagesToCloudinary() {
+  if (selectedFiles.length === 0) return [];
+
+  const cloudinaryUploadUrl = "https://api.cloudinary.com/v1_1/duxanz6pf/image/upload";
+  const cloudinaryUploadPreset = "phone_photos";
+
+  const imageUrls = [];
+
+  for (let file of selectedFiles) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", cloudinaryUploadPreset);
+
+    try {
+      const response = await $.ajax({
+        url: cloudinaryUploadUrl,
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+      });
+
+      if (response.secure_url) {
+        imageUrls.push(response.secure_url);
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Failed to upload image.");
+    }
+  }
+  return imageUrls;
+}
+
 $(document).ready(function () {
   $(".trade-phone-submit-btn").click(function (event) {
     event.preventDefault();
 
-    let model = $("#model").val();
-    let storage = $("#storage").val();
-    let batteryHealth = $("#battery_health").val(); // Example: 87%
-    let batteryRange = getBatteryRangeFromPercentage(batteryHealth); // Now returns correct "95-85%"
+    const model = $("#model").val();
+    const storage = $("#storage").val();
+    const batteryHealth = $("#battery_health").val();
+    const batteryRange = getBatteryRangeFromPercentage(batteryHealth);
+    const frameCondition = $("#frame_condition").val();
+    const color = $("#colour").val();
+    const willingTo = $("#willing_to").val();
+    const boxValue = $('input[name="box_available"]:checked').val();
 
-    let frameCondition = $("#frame_condition").val();
-    let color = $("#colour").val();
-    let willingTo = $("#willing_to").val();
-    let boxAvailable = $('input[name="box_available"]:checked').val();
+    if (!validateForm(model, storage, batteryHealth, frameCondition, color, willingTo, boxValue)) return;
 
-    if (
-      model === "" || storage === "" || batteryHealth === "" ||
-      frameCondition === "" || color === "" || willingTo === "" ||
-      !boxAvailable
-    ) {
-      alert("Please fill all the required fields before submitting.");
+    const box = boxValue === "yes" ? "AVAILABLE" : "NOT_AVAILABLE"; // enum compatible
+    const token = localStorage.getItem("jwtToken");
+    const userId = localStorage.getItem("userId");
+
+    if (!token) {
+      alert("No token found. Please login.");
       return;
     }
 
-    function getBatteryRangeFromPercentage(percentage) {
-      let battery = parseInt(percentage.replace("%", "").trim());
+    getPricePrediction(model, storage, batteryRange, frameCondition, token)
+      .then(({ phonePrice, batteryReduceAmount, frameReduceAmount }) => {
+        const finalPrice = calculateFinalPrice(phonePrice, batteryReduceAmount, frameReduceAmount, box);
+        renderPriceBreakdown(model, storage, phonePrice, batteryReduceAmount, frameReduceAmount, box, finalPrice);
 
-      if (battery >= 95 && battery <= 100) return "100-95%";
-      else if (battery >= 85 && battery < 95) return "95-85%";
-      else if (battery >= 80 && battery < 85) return "85-80%";
-      else if (battery >= 70 && battery < 80) return "80-70%";
-      else return "below 70%";
+        $(".trade-output-submit-seller").off("click").on("click", function (e) {
+          e.preventDefault();
+
+          const customerIphone = {
+            model,
+            storage,
+            batteryHealth: batteryRange,
+            frameCondition,
+            colour: color,
+            willingTo,
+            box,
+            userId,
+          };
+
+          $.ajax({
+            url: `http://localhost:8080/api/v1/customerPhoneTrade/save`,
+            type: "POST",
+            contentType: "application/json",
+            headers: { "Authorization": "Bearer " + token },
+            data: JSON.stringify(customerIphone),
+            success: async function (response) {
+              if (response?.statusCode === 200) {
+                const phoneId = response.data;
+                localStorage.setItem("customerTradePhoneId", phoneId);
+                console.log("Trade Phone Saved:", phoneId);
+
+                const uploadedImageUrls = await uploadImagesToCloudinary();
+
+                if (uploadedImageUrls.length > 0) {
+                  // Prepare photo objects
+                  const photoObjects = uploadedImageUrls.map(url => ({
+                    phoneId,
+                    photoUrl: url
+                  }));
+
+                  $.ajax({
+                    url: `http://localhost:8080/api/v1/sellingPhonePhoto/savePhoto`,
+                    type: "POST",
+                    contentType: "application/json",
+                    headers: { "Authorization": "Bearer " + token },
+                    data: JSON.stringify(photoObjects),
+                    success: function (res) {
+                      if (res?.statusCode === 200) {
+                        alert("Your phone was sent to the admin successfully.");
+                      } else {
+                        alert("Failed to send phone to admin");
+                      }
+                    },
+                    error: function (err) {
+                      console.error("Save photo error:", err);
+                      alert("Error saving photos");
+                    }
+                  });
+                }
+              }
+            }
+
+          });
+        });
+      })
+      .catch(err => console.error("Prediction error:", err));
+  });
+
+  function validateForm(model, storage, battery, frame, color, willing, box) {
+    if (!model || !storage || !battery || !frame || !color || !willing || !box) {
+      alert("Please fill all required fields before submitting.");
+      return false;
     }
+    return true;
+  }
 
-    let token = localStorage.getItem("token");
+  function getBatteryRangeFromPercentage(percentage) {
+    const battery = parseInt(percentage.replace("%", "").trim());
+    if (battery >= 95 && battery <= 100) return "100-95%";
+    else if (battery >= 85) return "95-85%";
+    else if (battery >= 80) return "85-80%";
+    else if (battery >= 70) return "80-70%";
+    else return "below 70%";
+  }
 
-    if (token) {
+  function getPricePrediction(model, storage, batteryRange, frameCondition, token) {
+    return new Promise((resolve, reject) => {
       $.ajax({
         url: `http://localhost:8080/api/v1/customerPhonePricePrediction/getPhonePrice?model=${encodeURIComponent(model)}&storage=${encodeURIComponent(storage)}`,
         type: "GET",
-        contentType: "application/json",
-        headers: {
-          "Authorization": "Bearer " + token
-        },
-        success: function (response) {
-          if (response != null && response.statusCode === 200) {
-            let phonePrice = response.data;
-            localStorage.setItem("bestPhonePrice", phonePrice);
-            $.ajax({
-              url: `http://localhost:8080/api/v1/customerPhonePricePrediction/getBatteryNegotiation?model=${encodeURIComponent(model)}&batteryHealth=${encodeURIComponent(batteryRange)}`,
-              type: "GET",
-              contentType: "application/json",
-              headers: {
-                "Authorization": "Bearer " + token
-              },
-              success: function (response) {
-                if (response != null && response.statusCode === 200) {
-                  let batteryReductionAmount = response.data;
-                  localStorage.setItem("batteryReducedAmount", batteryReductionAmount);
+        headers: { "Authorization": "Bearer " + token },
+        success: function (res1) {
+          if (res1?.statusCode !== 200) return reject("Phone price failed");
 
-                  $.ajax({
-                    url:`http://localhost:8080/api/v1/customerPhonePricePrediction/getFrameNegotiation?model=${encodeURIComponent(model)}&frameCondition=${encodeURIComponent(frameCondition)}`,
-                    type: "GET",
-                    contentType: "application/json",
-                    headers: {
-                      "Authorization": "Bearer " + token
-                    },
-                    success: function (response) {
-                      if (response != null && response.statusCode === 200) {
-                        console.log(response.data);
-                      } else {
-                        console.log(response);
-                      }
-                    },
-                    error: function (xhr, status, error) {
-                      console.log("Error:", xhr.responseText);
-                    }
-                  });
+          const phonePrice = parseInt(res1.data);
 
-                } else {
-                  console.warn("Unexpected response for battery:", response);
-                }
-              },
-              error: function (xhr, status, error) {
-                console.error("Error fetching battery negotiation price:", error);
-              }
-            });
-          } else {
-            console.warn("Unexpected response:", response);
-          }
+          $.ajax({
+            url: `http://localhost:8080/api/v1/customerPhonePricePrediction/getBatteryNegotiation?model=${encodeURIComponent(model)}&batteryHealth=${encodeURIComponent(batteryRange)}`,
+            type: "GET",
+            headers: { "Authorization": "Bearer " + token },
+            success: function (res2) {
+              if (res2?.statusCode !== 200) return reject("Battery reduction failed");
+
+              const batteryReduceAmount = parseInt(res2.data);
+
+              $.ajax({
+                url: `http://localhost:8080/api/v1/customerPhonePricePrediction/getFrameNegotiation?model=${encodeURIComponent(model)}&frameCondition=${encodeURIComponent(frameCondition)}`,
+                type: "GET",
+                headers: { "Authorization": "Bearer " + token },
+                success: function (res3) {
+                  if (res3?.statusCode !== 200) return reject("Frame reduction failed");
+
+                  const frameReduceAmount = parseInt(res3.data);
+                  resolve({ phonePrice, batteryReduceAmount, frameReduceAmount });
+                },
+                error: reject,
+              });
+            },
+            error: reject,
+          });
         },
-        error: function (error) {
-          console.error("Error fetching phone price:", error);
-        }
+        error: reject,
       });
-    } else {
-      alert("No token found, please login.");
-    }
-  });
+    });
+  }
+  function calculateFinalPrice(phonePrice, batteryReduceAmount, frameReduceAmount, box) {
+    const boxBonus = box === "AVAILABLE" ? 1000 : 0;
+    return phonePrice - batteryReduceAmount - frameReduceAmount + boxBonus;
+  }
+  function renderPriceBreakdown(model, storage, phonePrice, batteryReduce, frameReduce, box, finalPrice) {
+    $(".trade-output-inside-body-iphone-model h3").text(`iPhone ${model} ${storage}`);
+    $(".trade-output-inside-body-fixed-price").text(`Best price : LKR ${phonePrice.toLocaleString()}.00`);
+    $(".battery-negotiation .negotiation-price").text(`- LKR ${batteryReduce.toLocaleString()}`);
+    $(".frame-negotiation .negotiation-price").text(`- LKR ${frameReduce.toLocaleString()}`);
+    $(".box-negotiation .negotiation-price").text(box === "AVAILABLE" ? "+ LKR 1000" : "LKR 0");
+    $(".trade-output-inside-body-current-price .negotiation-price-final").text(`LKR ${finalPrice.toLocaleString()}.00`);
+  }
 });
+
 
 

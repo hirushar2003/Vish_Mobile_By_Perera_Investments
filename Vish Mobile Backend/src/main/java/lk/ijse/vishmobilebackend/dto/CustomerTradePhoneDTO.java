@@ -2,12 +2,13 @@ package lk.ijse.vishmobilebackend.dto;
 
 import lk.ijse.vishmobilebackend.model.WillingTo;
 import lombok.*;
+import lk.ijse.vishmobilebackend.model.Box;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CustomerPhonePricePredictionDTO {
+public class CustomerTradePhoneDTO {
     private int id;
     private String model;
     private String storage;
@@ -15,5 +16,7 @@ public class CustomerPhonePricePredictionDTO {
     private String frameCondition;
     private String colour;
     private WillingTo willingTo;
+    private Box box;
     private Long userId;
 }
+

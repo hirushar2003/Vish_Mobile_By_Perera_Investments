@@ -1,7 +1,6 @@
 package lk.ijse.vishmobilebackend.entity;
 
 import jakarta.persistence.*;
-import lk.ijse.vishmobilebackend.dto.UserDTO;
 import lk.ijse.vishmobilebackend.model.Box;
 import lk.ijse.vishmobilebackend.model.WillingTo;
 import lombok.*;
@@ -12,14 +11,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CustomerPhonePricePrediction{
+public class CustomerTradePhone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String model;
-
     private String storage;
 
     @Column(name = "battery_health")
@@ -38,7 +36,6 @@ public class CustomerPhonePricePrediction{
     @Column(name = "willing_to")
     private WillingTo willingTo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 }

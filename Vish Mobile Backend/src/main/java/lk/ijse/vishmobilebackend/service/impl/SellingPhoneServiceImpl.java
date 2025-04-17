@@ -2,9 +2,9 @@ package lk.ijse.vishmobilebackend.service.impl;
 
 import lk.ijse.vishmobilebackend.dto.SellingPhoneDTO;
 import lk.ijse.vishmobilebackend.entity.SellingPhone;
-import lk.ijse.vishmobilebackend.entity.SellingPhonePhoto;
+import lk.ijse.vishmobilebackend.entity.PhonePhoto;
 import lk.ijse.vishmobilebackend.repo.SellingPhoneRepo;
-import lk.ijse.vishmobilebackend.repo.SellingPhonePhotoRepo;
+import lk.ijse.vishmobilebackend.repo.PhonePhotoRepo;
 import lk.ijse.vishmobilebackend.service.SellingPhoneService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
     private SellingPhoneRepo sellingPhoneRepo;
 
     @Autowired
-    private SellingPhonePhotoRepo sellingPhonePhotoRepo;
+    private PhonePhotoRepo phonePhotoRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -37,14 +37,14 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
         sellingPhoneRepo.save(sellingPhone);
 
         if (sellingPhoneDTO.getPhotoUrls() != null) {
-            List<SellingPhonePhoto> photos = sellingPhoneDTO.getPhotoUrls().stream()
+            List<PhonePhoto> photos = sellingPhoneDTO.getPhotoUrls().stream()
                     .map(url -> {
-                        SellingPhonePhoto photo = new SellingPhonePhoto();
+                        PhonePhoto photo = new PhonePhoto();
                         photo.setPhoneId(sellingPhone.getId());
                         photo.setPhotoUrl(url);
                         return photo;
                     }).collect(Collectors.toList());
-            sellingPhonePhotoRepo.saveAll(photos);
+            phonePhotoRepo.saveAll(photos);
         }
 
         messagingTemplate.convertAndSend("/topic/phones", sellingPhoneDTO);
@@ -57,16 +57,16 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
             SellingPhone sellingPhone = modelMapper.map(sellingPhoneDTO, SellingPhone.class);
             sellingPhoneRepo.save(sellingPhone);
 
-            sellingPhonePhotoRepo.deleteByPhoneId(sellingPhone.getId());
+            phonePhotoRepo.deleteByPhoneId(sellingPhone.getId());
             if (sellingPhoneDTO.getPhotoUrls() != null) {
-                List<SellingPhonePhoto> photos = sellingPhoneDTO.getPhotoUrls().stream()
+                List<PhonePhoto> photos = sellingPhoneDTO.getPhotoUrls().stream()
                         .map(url -> {
-                            SellingPhonePhoto photo = new SellingPhonePhoto();
+                            PhonePhoto photo = new PhonePhoto();
                             photo.setPhoneId(sellingPhone.getId());
                             photo.setPhotoUrl(url);
                             return photo;
                         }).collect(Collectors.toList());
-                sellingPhonePhotoRepo.saveAll(photos);
+                phonePhotoRepo.saveAll(photos);
             }
         } else {
             throw new RuntimeException("Phone does not exist");
@@ -76,7 +76,7 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
     @Override
     @Transactional
     public void deleteSellingPhone(int id) {
-        sellingPhonePhotoRepo.deleteByPhoneId(id);
+        phonePhotoRepo.deleteByPhoneId(id);
         sellingPhoneRepo.deleteById(id);
     }
 
@@ -86,8 +86,8 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
         List<SellingPhone> phones = sellingPhoneRepo.findAll();
         return phones.stream().map(phone -> {
             SellingPhoneDTO dto = modelMapper.map(phone, SellingPhoneDTO.class);
-            dto.setPhotoUrls(sellingPhonePhotoRepo.findByPhoneId(phone.getId())
-                    .stream().map(SellingPhonePhoto::getPhotoUrl).collect(Collectors.toList()));
+            dto.setPhotoUrls(phonePhotoRepo.findByPhoneId(phone.getId())
+                    .stream().map(PhonePhoto::getPhotoUrl).collect(Collectors.toList()));
             return dto;
         }).collect(Collectors.toList());
     }
