@@ -1,15 +1,12 @@
 $(document).ready(function() {
-  // Check if user is logged in
   const isLoggedIn = localStorage.getItem('isLoggedIn');
   if (isLoggedIn === 'true') {
     showMainApp();
   }
 
-  // Tab switching
   $('.auth-tab').click(function() {
     const tabId = $(this).data('tab');
 
-    // Update tabs
     $('.auth-tab').removeClass('active');
     $(this).addClass('active');
 
@@ -377,8 +374,6 @@ $(document).ready(function () {
       sellingPrice: $("input[placeholder='Enter selling price']").val(),
     };
 
-    console.log("Phone Data:", phoneData);
-
     let uploadedImages = await uploadImagesToCloudinary();
     if (uploadedImages.length === 0) {
       alert("Please upload at least one image.");
@@ -565,6 +560,7 @@ $(document).ready(function () {
     $.ajax({
       url: "http://localhost:8080/api/v1/sellingPhone/getAll",
       type: "GET",
+      beforeSend: showLoader,
       contentType: "application/json",
       headers: {
         "Authorization": "Bearer " + token  // Include the token in the Authorization header
@@ -622,7 +618,8 @@ $(document).ready(function () {
       error: function (error) {
         console.error("Error fetching phone details:", error);
         alert("Failed to retrieve phone details. Try again.");
-      }
+      },
+      complete: hideLoader
     });
   } else {
     console.error("No token found, please login.");
@@ -1026,4 +1023,131 @@ function changeUserStatus(userId, newStatus) {
       fetchCustomers();
     })
     .catch(error => console.error("Error updating user status:", error));
+}
+
+
+
+// ----------------------------------Phone Approval Page---------------------------
+
+function getAllTradePhonesWithPhotos() {
+  const token = localStorage.getItem("token"); // or however you're storing it
+  const API_URL = "http://localhost:8080/api/v1/adminTradePhone/getAllTradePhonesWithPhotos";
+
+  $.ajax({
+    url: API_URL,
+    type: "GET",
+    headers: {
+      "Authorization": "Bearer " + token
+    },
+    success: function (data) {
+      const container = $("#phone-approval-container");
+      container.empty();
+
+      data.forEach(phone => {
+        const {
+          id,
+          model,
+          storage,
+          batteryHealth,
+          frameCondition,
+          box,
+          colour,
+          willingTo,
+          userId,
+          photoUrls
+        } = phone;
+
+        const photoUrl = photoUrls && photoUrls.length > 0 ? photoUrls[0] : "/img/default.jpg";
+
+        const card = `
+          <div class="phone-approval-card">
+            <div class="phone-approval-card-header">
+              <h4>${model || "N/A"}</h4>
+            </div>
+            <div class="phone-approval-card-body">
+              <div class="phone-approval-card-image">
+                <img src="${photoUrl}" alt="phone-image">
+              </div>
+              <div class="phone-approval-card-content">
+                <div class="phone-approval-card-content-specs">
+                  ${generateSpec("Storage", storage)}
+                  ${generateSpec("Battery health", batteryHealth)}
+                  ${generateSpec("Frame condition", frameCondition)}
+                  ${generateSpec("Box available", box === "AVAILABLE" ? "Yes" : "No")}
+                  ${generateSpec("Color", colour)}
+                  ${generateSpec("Willing to", formatWillingTo(willingTo))}
+                  ${generateSpec("User", userId)}
+                </div>
+                <div class="phone-approval-card-content-buttons">
+                  <button class="phone-approval-card-btn-view" onclick="viewMore(${id})">View more</button>
+                  <button class="phone-approval-card-btn-approve" onclick="approvePhone(${id})">Approve</button>
+                  <button class="phone-approval-card-btn-decline" onclick="declinePhone(${id})">Decline</button>
+                  <button class="phone-approval-card-btn-email" onclick="sendEmailToUser(${userId})">Send email</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.append(card);
+      });
+    },
+    error: function (err) {
+      console.error("Error fetching trade phone data:", err);
+    }
+  });
+
+  // Helper functions
+  function generateSpec(label, value) {
+    return `
+      <div class="phone-approval-card-content-specs-group">
+        <div class="phone-approval-card-content-specs-group-header">
+          <p>${label} :</p>
+        </div>
+        <div class="phone-approval-card-content-specs-group-body">
+          ${value ?? "N/A"}
+        </div>
+      </div>
+    `;
+  }
+
+  function formatWillingTo(value) {
+    if (!value) return "N/A";
+    return value.toUpperCase() === "SELL" ? "Sell" : "Sell/Exchange";
+  }
+
+  // Placeholder action functions
+  window.viewMore = function (id) {
+    console.log("View more for phone ID:", id);
+  };
+
+  window.approvePhone = function (id) {
+    console.log("Approve phone ID:", id);
+  };
+
+  window.declinePhone = function (id) {
+    console.log("Decline phone ID:", id);
+  };
+
+  window.sendEmailToUser = function (userId) {
+    console.log("Send email to user ID:", userId);
+  };
+}
+
+// Call the function on page load
+$(document).ready(function () {
+  getAllTradePhonesWithPhotos();
+});
+
+
+
+
+function showLoader() {
+  const overlay = document.getElementById("loading-overlay");
+  overlay.style.display = "flex";
+}
+
+function hideLoader() {
+  const overlay = document.getElementById("loading-overlay");
+  overlay.style.display = "none";
 }

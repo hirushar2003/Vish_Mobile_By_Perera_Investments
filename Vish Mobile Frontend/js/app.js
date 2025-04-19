@@ -23,16 +23,20 @@ $(document).ready(function () {
     $('.page').removeClass('active').hide();
 
     const token = localStorage.getItem("jwtToken");
+    const currentUser = localStorage.getItem("userId");
 
-    if (token) {
-      // If token exists → show "my-profile-inside"
+    if (
+      token && token !== "undefined" &&
+      currentUser && currentUser !== "undefined"
+    ) {
       $('#my-profile-inside').addClass('active').fadeIn();
+      getUserTradingPhones();
     } else {
-      // No token → show signup/login form
       $('#my-profile-register').addClass('active').fadeIn();
       $("#signup-section").show();
       $("#login-section").hide();
     }
+
   });
 
 
@@ -152,12 +156,12 @@ $(document).ready(function () {
   updateCarousel();
   startAutoSlide();
 });
+// ----------------------------- USER REGISTER---------------------------------
 
 $(document).ready(function () {
   $("#signup-form").submit(function (event) {
     event.preventDefault();
 
-    // Get form data
     let userData = {
       username: $("#username").val(),
       email: $("#email").val(),
@@ -252,7 +256,7 @@ $("#phone-image").change(function (event) {
     }
   });
 
-  $(this).val(""); // Reset input
+  $(this).val("");
 });
 
 $(document).on("click", ".delete-image", function () {
@@ -485,6 +489,88 @@ $(document).ready(function () {
     $(".trade-output-inside-body-current-price .negotiation-price-final").text(`LKR ${finalPrice.toLocaleString()}.00`);
   }
 });
+
+
+// --------------------------------- PROFILE MANAGEMENT JS---------------------------------
+let userId = localStorage.getItem("userId");
+let token = localStorage.getItem("jwtToken");
+
+function getUserTradingPhones() {
+  $.ajax({
+    url: `http://localhost:8080/api/v1/profileManager/getTradingPhonesByUser/${userId}`,
+    type: "GET",
+    headers: { "Authorization": "Bearer " + token },
+    success: function (response) {
+      if (response?.statusCode !== 200) {
+        console.error("Failed to fetch phones");
+        return;
+      }
+
+      const phoneList = response.data;
+      const container = $("#user-phone-list");
+      container.empty(); // Clear any existing content
+
+      phoneList.forEach(phone => {
+        const card = `
+          <div class="user-item-card">
+            <div class="user-item-image">
+              <img src="${phone.photoUrls[0] || 'img/default.jpg'}" alt="${phone.model}">
+            </div>
+            <div class="user-item-details">
+              <div class="user-item-title">${phone.model || 'Unknown Model'}</div>
+              <div class="user-item-description">
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Storage :</div>
+                  <div class="user-item-description-group-inside-value">${phone.storage || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Battery health :</div>
+                  <div class="user-item-description-group-inside-value">${phone.batteryHealth || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Frame :</div>
+                  <div class="user-item-description-group-inside-value">${phone.frameCondition || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Color :</div>
+                  <div class="user-item-description-group-inside-value">${phone.colour || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Box :</div>
+                  <div class="user-item-description-group-inside-value">${formatBoxValue(phone.box)}</div>
+                </div>
+              </div>
+              <div class="user-item-buttons">
+                <button class="user-item-buy">Buy</button>
+                <button class="user-item-remove">Remove item</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.append(card);
+      });
+    },
+    error: function (err) {
+      console.error("Error fetching trading phones:", err);
+    }
+  });
+}
+
+// Optional: Format 'AVAILABLE' to 'Available' etc.
+function formatBoxValue(value) {
+  if (!value) return "Not Available";
+  return value.replace("_", " ").toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+}
+function showLoader() {
+  $("#loading-overlay").fadeIn(200);
+}
+
+function hideLoader() {
+  $("#loading-overlay").fadeOut(200);
+}
+
+
 
 
 

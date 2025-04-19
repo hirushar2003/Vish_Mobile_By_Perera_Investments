@@ -1021,7 +1021,24 @@ img {
  .user-item-description{
    width: 95%;
    display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: flex-start;
+   gap: .3rem;
  }
+ .user-item-description-group-inside{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   width: 100%;
+ }
+.user-item-description-group-inside-key, .user-item-description-group-inside-value{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 50%;
+}
  .user-item-description p{
    width: 100%;
    text-align: left;
@@ -1346,4 +1363,55 @@ input[type="radio"] {
   border-radius: 10px;
   height: 50px;
   outline: none;
+}
+
+
+
+
+
+
+#loading-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* V logo styling */
+.v-loader {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+.v-left,
+.v-right {
+  position: absolute;
+  bottom: 0;
+  width: 18px;
+  height: 80px;
+  background-color: #1e1e2f;
+  border-radius: 4px;
+}
+
+.v-left {
+  left: 18px;
+  transform: rotate(-45deg);
+  transform-origin: bottom left;
+}
+
+.v-right {
+  right: 18px;
+  transform: rotate(45deg);
+  transform-origin: bottom right;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
 }

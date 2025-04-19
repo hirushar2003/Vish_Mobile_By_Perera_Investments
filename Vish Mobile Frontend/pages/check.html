@@ -2,37 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>User Registration</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.85);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: none; /* hidden by default */
+    }
+
+    .spinner-loader {
+      width: 60px;
+      height: 60px;
+      border: 6px solid #ddd;
+      border-top: 6px solid #4285F4;   /* Google Blue */
+      border-right: 6px solid #EA4335; /* Google Red */
+      border-bottom: 6px solid #FBBC05;/* Google Yellow */
+      border-left: 6px solid #34A853;  /* Google Green */
+      border-radius: 50%;
+      animation: spin 1.2s linear infinite;
+    }
+
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
 
-<input type="file" id="phone-image" accept="image/*" style="visibility: visible;" multiple>
+<!-- Loader Overlay -->
+<div id="loading-overlay">
+  <div class="spinner-loader"></div>
+</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Sample Page Content -->
+<div style="padding: 2rem;">
+  <h1>User Registration Page</h1>
+  <p>Loading spinner will show for 3 seconds...</p>
+</div>
+
 <script>
-  $(document).ready(function () {
-    // Trigger the file input when the "Select Images" button is clicked
-    $("#trigger-upload").click(function () {
-      // Trigger the file input to open file dialog
-      $("#phone-image").click();
-    });
+  function showLoader() {
+    document.getElementById("loading-overlay").style.display = "flex";
+  }
 
-    // Handle the file input change event when the user selects files
-    $("#phone-image").on("change", function () {
-      let files = this.files;
-      console.log("Files selected:", files); // Log files to ensure they're being captured
+  function hideLoader() {
+    document.getElementById("loading-overlay").style.display = "none";
+  }
 
-      if (files.length > 0) {
-        console.log("Number of files selected:", files.length);
-        for (let i = 0; i < files.length; i++) {
-          console.log(`File ${i + 1}:`, files[i].name);
-        }
-      } else {
-        console.log("No files selected.");
-      }
-    });
+  // Example usage: show loader for 3 seconds on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    showLoader();
+
+    setTimeout(() => {
+      hideLoader();
+    }, 3000);
   });
 </script>
 

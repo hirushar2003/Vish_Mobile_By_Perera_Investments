@@ -10,5 +10,6 @@ public interface CustomerTradePhoneService {
     List<CustomerTradePhoneDTO> getAllCustomerTradePhones();
     void deleteCustomerTradePhone(Long id);
     List<TradePhoneWithPhotosDTO> getCustomerTradePhonesWithPhotosByUserId(Long userId);
+    List<TradePhoneWithPhotosDTO> getAdminTradePhonesWithPhotos();
 
 }

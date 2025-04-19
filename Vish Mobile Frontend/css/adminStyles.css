@@ -964,3 +964,34 @@ tr:hover {
   color: var(--bg-color);
   cursor: pointer;
 }
+
+
+#loading-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: none; /* hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+
+.spinner-loader {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #ddd;
+  border-top: 6px solid #4285F4;   /* Google Blue */
+  border-right: 6px solid #EA4335; /* Google Red */
+  border-bottom: 6px solid #FBBC05;/* Google Yellow */
+  border-left: 6px solid #34A853;  /* Google Green */
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
