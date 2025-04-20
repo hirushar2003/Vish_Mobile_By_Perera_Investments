@@ -47,6 +47,242 @@ $(document).ready(function () {
   });
 });
 
+// ---------------------------------Auth--------------------------------------------
+$(document).ready(function () {
+  $(".auth-tab").click(function () {
+    const target = $(this).data("tab");
+    $(".auth-tab").removeClass("active");
+    $(this).addClass("active");
+
+    $(".auth-page").removeClass("active");
+    $("#" + target).addClass("active");
+  });
+
+  $("#to-login").click(function (e) {
+    e.preventDefault();
+    $(".auth-tab[data-tab='login']").click();
+  });
+
+  // ------------------------------------Signup--------------------------------------
+  $("#to-signup").click(function (e) {
+    e.preventDefault();
+    $(".auth-tab[data-tab='signup']").click();
+  });
+
+  $(".toggle-password").click(function () {
+    const targetId = $(this).data("target");
+    const input = $("#" + targetId);
+    const icon = $(this).find("i");
+
+    if (input.attr("type") === "password") {
+      input.attr("type", "text");
+      icon.removeClass("fa-eye").addClass("fa-eye-slash");
+    } else {
+      input.attr("type", "password");
+      icon.removeClass("fa-eye-slash").addClass("fa-eye");
+    }
+  });
+
+  $('#password').focus(function() {
+    $('.password-validation').slideDown(200);
+  });
+
+  $('#password').blur(function() {
+    if (!$(this).val()) {
+      $('.password-validation').slideUp(200);
+    }
+  });
+
+  $('#password').keyup(function() {
+    const password = $(this).val();
+    if (password.length >= 8) {
+      $('.length-check').addClass('valid').removeClass('invalid');
+      $('.length-check i').removeClass('fa-times-circle').addClass('fa-check-circle');
+    } else {
+      $('.length-check').removeClass('valid').addClass('invalid');
+      $('.length-check i').removeClass('fa-check-circle').addClass('fa-times-circle');
+    }
+    if (/[A-Z]/.test(password)) {
+      $('.uppercase-check').addClass('valid').removeClass('invalid');
+      $('.uppercase-check i').removeClass('fa-times-circle').addClass('fa-check-circle');
+    } else {
+      $('.uppercase-check').removeClass('valid').addClass('invalid');
+      $('.uppercase-check i').removeClass('fa-check-circle').addClass('fa-times-circle');
+    }
+    if (/\d/.test(password)) {
+      $('.number-check').addClass('valid').removeClass('invalid');
+      $('.number-check i').removeClass('fa-times-circle').addClass('fa-check-circle');
+    } else {
+      $('.number-check').removeClass('valid').addClass('invalid');
+      $('.number-check i').removeClass('fa-check-circle').addClass('fa-times-circle');
+    }
+    if (/[^A-Za-z0-9]/.test(password)) {
+      $('.special-check').addClass('valid').removeClass('invalid');
+      $('.special-check i').removeClass('fa-times-circle').addClass('fa-check-circle');
+    } else {
+      $('.special-check').removeClass('valid').addClass('invalid');
+      $('.special-check i').removeClass('fa-check-circle').addClass('fa-times-circle');
+    }
+  });
+
+  // -------------------------------REGISTER FORM-------------------------------
+  $("#signup-form").submit(function (e) {
+    e.preventDefault();
+    let valid = true;
+
+    if ($("#username").val().trim() === "") {
+      $("#name-error").show();
+      valid = false;
+    } else {
+      $("#name-error").hide();
+    }
+
+    const email = $("#email").val().trim();
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      $("#email-error").show();
+      valid = false;
+    } else {
+      $("#email-error").hide();
+    }
+
+    if ($(".password-validation .invalid").length > 0) {
+      $("#password-error").show();
+      valid = false;
+    } else {
+      $("#password-error").hide();
+    }
+
+    const contact = $("#contact_number").val().trim();
+    if (!/^[0-9]{10,15}$/.test(contact)) {
+      $("#contact-error").show();
+      valid = false;
+    } else {
+      $("#contact-error").hide();
+    }
+
+    if ($("#address").val().trim() === "") {
+      $("#address-error").show();
+      valid = false;
+    } else {
+      $("#address-error").hide();
+    }
+
+    if (!$("#terms").is(":checked")) {
+      alert("You must agree to the Terms of Service and Privacy Policy.");
+      valid = false;
+    }
+
+    if (valid) {
+      let userData = {
+        username: $("#username").val(),
+        email: $("#email").val(),
+        password: $("#password").val(),
+        contactNumber: $("#contact_number").val(),
+        address: $("#address").val(),
+        userType: "customer",
+        status:"ACTIVE"
+      };
+      $.ajax({
+        url: "http://localhost:8080/api/v1/user/auth/register",
+        type: "POST",
+        beforeSend: showLoader,
+        contentType: "application/json",
+        data: JSON.stringify(userData),
+        success: function (response) {
+          if (response.token != null) {
+            resetLocalStorage();
+            localStorage.setItem("token", response.token);
+            localStorage.setItem("userId", response.userId);
+            localStorage.setItem("username", response.username);
+            localStorage.setItem("email", response.email);
+
+            let previousPage = localStorage.getItem("previousPage") || "home";
+
+            $('.page').removeClass('active').hide();
+            $('#' + previousPage).addClass('active').fadeIn();
+
+            $('.nav-link').removeClass('active');
+            $('.nav-link[href="#' + previousPage + '"]').addClass('active');
+
+            alert("User registered successfully!");
+          } else {
+            console.log(response.message);
+            let errMsg = response.message || "Registration failed. Please try again.";
+            alert("Registration failed: " + errMsg);
+          }
+        },
+        error: function (xhr, status, error) {
+          let errMsg = xhr.responseJSON ? xhr.responseJSON.message : "Unknown error";
+          alert("Registration failed: " + errMsg);
+        },
+        complete:hideLoader
+      });
+    } else {
+      alert("Fill all the fields correctly")
+    }
+  });
+
+  // ---------------------------------------login------------------------------------
+  $("#login-form").submit(function (e) {
+    e.preventDefault();
+    let valid = true;
+
+    const email = $("#login-email").val().trim();
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      $("#login-email-error").show();
+      valid = false;
+    } else {
+      $("#login-email-error").hide();
+    }
+
+    if ($("#login-password").val().trim() === "") {
+      $("#login-password-error").text("Please enter your password").show();
+      valid = false;
+    } else {
+      $("#login-password-error").hide();
+    }
+
+    if (valid) {
+      let authDTO = {
+        email: $("#login-email").val(),
+        password: $("#login-password").val(),
+      };
+      $.ajax({
+        url: "http://localhost:8080/api/v1/user/auth/login",
+        type: "POST",
+        beforeSend: showLoader,
+        contentType: "application/json",
+        data: JSON.stringify(authDTO),
+        success: function (response) {
+          if (response != null && response.statusCode === 200) {
+            const data = response.data;
+            resetLocalStorage();
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("userId", data.user.id);
+            localStorage.setItem("username", data.user.username);
+            localStorage.setItem("email", data.user.email);
+          } else {
+            alert("login failed")
+          }
+          let previousPage = localStorage.getItem("previousPage") || "home";
+
+          $('.page').removeClass('active').hide();
+          $('#' + previousPage).addClass('active').fadeIn();
+
+          $('.nav-link').removeClass('active');
+          $('.nav-link[href="#' + previousPage + '"]').addClass('active');
+        },
+        error: function (xhr, status, error) {
+          let errMsg = xhr.responseJSON ? xhr.responseJSON.message : "Unknown error";
+          alert("Registration failed: " + errMsg);
+        },
+        complete:hideLoader
+      });
+    }
+  });
+});
+
+
 function resetLocalStorage() {
   localStorage.removeItem("batteryReducedAmount");
   localStorage.removeItem("bestPhonePrice");
@@ -56,6 +292,10 @@ function resetLocalStorage() {
   localStorage.removeItem("customerTradePhoneId");
   localStorage.removeItem("frameReduceAmount");
   localStorage.removeItem("willingTo");
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("username");
+  localStorage.removeItem("email");
 }
 
 function showNotification(message) {
@@ -66,6 +306,7 @@ function showNotification(message) {
     $('#notification').fadeOut();
   }, 3000);
 }
+
 
 // PAGINATION IN BUY PAGE
 // $(document).ready(function () {
@@ -117,8 +358,7 @@ function showNotification(message) {
 //   renderPhones();
 // });
 
-
-
+// ------------------------------COURSEL MANAGEMENT----------------------------
 $(document).ready(function () {
   let $list = $(".list");
   let $items = $(".item");
@@ -165,94 +405,7 @@ $(document).ready(function () {
   updateCarousel();
   startAutoSlide();
 });
-// ----------------------------- USER REGISTER---------------------------------
 
-$(document).ready(function () {
-  $("#signup-form").submit(function (event) {
-    event.preventDefault();
-
-    let userData = {
-      username: $("#username").val(),
-      email: $("#email").val(),
-      password: $("#password").val(),
-      contactNumber: $("#contact_number").val(),
-      address: $("#address").val(),
-      userType: "customer"
-    };
-
-    $.ajax({
-      url: "http://localhost:8080/api/v1/user/auth/register",
-      type: "POST",
-      beforeSend: showLoader,
-      contentType: "application/json",
-      data: JSON.stringify(userData),
-      success: function (response) {
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("userId", response.userId);
-        localStorage.setItem("contactNumber", response.contact);
-
-        alert("User registered successfully!");
-
-        let previousPage = localStorage.getItem("previousPage") || "home"; // fallback to "home"
-
-        $('.page').removeClass('active').hide();
-        $('#' + previousPage).addClass('active').fadeIn();
-
-        $('.nav-link').removeClass('active');
-        $('.nav-link[href="#' + previousPage + '"]').addClass('active');
-      },
-      error: function (xhr, status, error) {
-        let errMsg = xhr.responseJSON ? xhr.responseJSON.message : "Unknown error";
-        alert("Registration failed: " + errMsg);
-        console.error("Error:", xhr.responseText);
-      },
-      complete:hideLoader
-    });
-  });
-});
-
-// ------------------------------USER LOGIN----------------------------------
-
-$(document).ready(function () {
-  $("#login-form").submit(function (event) {
-    event.preventDefault();
-
-    let authDTO = {
-      email: $("#login-email").val(),
-      password: $("#login-password").val(),
-    };
-
-    console.log(authDTO)
-
-    $.ajax({
-      url: "http://localhost:8080/api/v1/user/auth/login",
-      type: "POST",
-      beforeSend: showLoader,
-      contentType: "application/json",
-      data: JSON.stringify(authDTO),
-      success: function (response) {
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("userId", response.userId);
-
-        showNotification("Login successful")
-
-        let previousPage = localStorage.getItem("previousPage") || "home";
-
-        $('.page').removeClass('active').hide();
-        $('#' + previousPage).addClass('active').fadeIn();
-
-        $('.nav-link').removeClass('active');
-        $('.nav-link[href="#' + previousPage + '"]').addClass('active');
-      },
-      error: function (xhr, status, error) {
-        let errMsg = xhr.responseJSON ? xhr.responseJSON.message : "Unknown error";
-        alert("Registration failed: " + errMsg);
-        console.error("Error:", xhr.responseText);
-      },
-      complete:hideLoader
-    });
-  });
-});
 
 $(document).ready(function () {
   $("#show-login").click(function () {
@@ -384,6 +537,7 @@ $(document).ready(function () {
     const color = $("#colour").val();
     const willingTo = $("#willing_to").val();
     const boxValue = $('input[name="box_available"]:checked').val();
+    const approval = "PENDING";
 
     if (!validateForm(model, storage, batteryHealth, frameCondition, color, willingTo, boxValue)) return;
 
@@ -413,6 +567,7 @@ $(document).ready(function () {
             willingTo,
             box,
             userId,
+            approval
           };
 
           $.ajax({
@@ -466,7 +621,6 @@ $(document).ready(function () {
                 }
               }
             }
-
           });
         });
       })
@@ -555,20 +709,29 @@ function getUserTradingPhones() {
     type: "GET",
     headers: { "Authorization": "Bearer " + token },
     success: function (response) {
-      if (response?.statusCode !== 200) {
-        console.error("Failed to fetch phones");
+      const container = $("#user-phone-list");
+      container.empty();
+
+      if (response?.statusCode !== 200 || !response.data || response.data.length === 0) {
+        const card = `<div class="card">
+                    <p>Haven't traded any phone</p>
+                  </div>`;
+        container.append(card);
         return;
       }
 
       const phoneList = response.data;
-      const container = $("#user-phone-list");
-      container.empty(); // Clear any existing content
+      container.empty();
 
       phoneList.forEach(phone => {
         const card = `
           <div class="user-item-card">
             <div class="user-item-image">
-              <img src="${phone.photoUrls[0] || 'img/default.jpg'}" alt="${phone.model}">
+                ${
+                    phone.photoUrls && phone.photoUrls.length > 0
+                      ? `<img src="${phone.photoUrls[0]}" alt="${phone.model}">`
+                      : `<div class="no-photo-msg">No photos are available</div>`
+                }
             </div>
             <div class="user-item-details">
               <div class="user-item-title">${phone.model || 'Unknown Model'}</div>
@@ -593,6 +756,10 @@ function getUserTradingPhones() {
                   <div class="user-item-description-group-inside-key">Box :</div>
                   <div class="user-item-description-group-inside-value">${formatBoxValue(phone.box)}</div>
                 </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Status :</div>
+                  <div class="user-item-description-group-inside-value">${formatApprovalStatus(phone.approval)}</div>
+                </div>
               </div>
               <div class="user-item-buttons">
                 <button class="user-item-buy">Buy</button>
@@ -616,6 +783,12 @@ function formatBoxValue(value) {
   if (!value) return "Not Available";
   return value.replace("_", " ").toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
 }
+function formatApprovalStatus(status) {
+  if (!status) return 'N/A';
+  const lower = status.toLowerCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1); // e.g., "APPROVED" => "Approved"
+}
+
 function showLoader() {
   const overlay = document.getElementById("loading-overlay");
   overlay.style.display = "flex";
@@ -625,7 +798,12 @@ function hideLoader() {
   const overlay = document.getElementById("loading-overlay");
   overlay.style.display = "none";
 }
-
+$(document).ready(function () {
+  $(".log-out").on("click", function () {
+    resetLocalStorage();
+    window.location.reload();
+  });
+});
 
 
 

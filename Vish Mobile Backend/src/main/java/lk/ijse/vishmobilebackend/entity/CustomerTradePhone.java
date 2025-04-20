@@ -1,6 +1,7 @@
 package lk.ijse.vishmobilebackend.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.vishmobilebackend.model.ApprovalStatus;
 import lk.ijse.vishmobilebackend.model.Box;
 import lk.ijse.vishmobilebackend.model.WillingTo;
 import lombok.*;
@@ -38,4 +39,9 @@ public class CustomerTradePhone {
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "approval", nullable = false)
+    private ApprovalStatus approval = ApprovalStatus.PENDING; // default value
+
 }

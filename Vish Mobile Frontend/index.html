@@ -66,7 +66,6 @@
 </header>
 
 
-
 <main>
   <section class="page home active" id="Home">
     <div class="hero">
@@ -626,74 +625,149 @@
 
 
 <section class="page my-profile-register" id="my-profile-register">
-  <!-- Login Section -->
-  <div id="login-section" class="auth-card-login">
-    <div class="auth-header">
-      <h1>Log In</h1>
-      <p>to Vish Mobile</p>
-    </div>
-    <div class="auth-body">
-      <div id="login-message" class="form-message"></div>
-      <form id="login-form">
-        <div class="form-group">
-          <label for="login-email">Email</label>
-          <input type="email" id="login-email" class="form-control" required>
+  <div id="auth-wrapper">
+    <div class="auth-container">
+      <div class="auth-header">
+        <div class="logo-container">
+          <div class="logo-img">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h1>Vish Mobile</h1>
         </div>
-        <div class="form-group">
-          <label for="login-password">Password</label>
-          <input type="password" id="login-password" class="form-control" required>
-        </div>
-        <button type="submit" class="btn">Log In</button>
-        <button type="button" class="btn btn-social">
-          <img width="20" height="20" src="https://img.icons8.com/fluency/48/google-logo.png" alt="google-logo"/>
-          Log in with Google
-        </button>
-      </form>
-    </div>
-    <div class="auth-footer">
-      Don't have an account? <a href="#" id="show-signup">Sign up</a>
-    </div>
-  </div>
+        <p>by Perera Investments</p>
 
-  <!-- Signup Section -->
-  <div id="signup-section" class="auth-card-signup">
-    <div class="auth-header">
-      <h1>Sign Up</h1>
-      <p>to Vish Mobile</p>
-    </div>
-    <div class="auth-body">
-      <div id="signup-message" class="form-message"></div>
-      <form id="signup-form">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" class="form-control" required>
+        <div class="auth-tabs">
+          <div class="auth-tab active" data-tab="signup">Sign Up</div>
+          <div class="auth-tab" data-tab="login">Login</div>
         </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="contact_number">Contact Number</label>
-          <input type="tel" id="contact_number" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="address">Address</label>
-          <input type="text" id="address" class="form-control" required>
-        </div>
-        <button type="submit" class="btn">Sign Up</button>
-        <button type="button" class="btn btn-social">
-          <img width="20" height="20" src="https://img.icons8.com/fluency/48/google-logo.png" alt="google-logo"/>
-          Sign up with Google
-        </button>
-      </form>
+      </div>
 
-    </div>
-    <div class="auth-footer">
-      Already have an account? <a href="#" id="show-login">Log in</a>
+      <!-- Signup Form -->
+      <div class="auth-page active" id="signup">
+        <div class="auth-body">
+          <form class="auth-form" id="signup-form">
+            <div class="form-group">
+              <input type="text" class="form-control" id="username" placeholder="Full Name" required>
+              <span class="form-icon"><i class="fas fa-user"></i></span>
+              <div class="error-message" id="name-error">Please enter your full name</div>
+            </div>
+
+            <div class="form-group">
+              <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+              <span class="form-icon"><i class="fas fa-envelope"></i></span>
+              <div class="error-message" id="email-error">Please enter a valid email address</div>
+            </div>
+
+            <div class="form-group">
+              <input type="password" class="form-control" id="password" placeholder="Password" required>
+              <span class="form-icon toggle-password" data-target="password"><i class="fas fa-eye"></i></span>
+              <div class="error-message" id="password-error">Password does not meet requirements</div>
+
+              <div class="password-validation">
+                <div class="validation-item length-check">
+                  <i class="fas fa-times-circle"></i> At least 8 characters
+                </div>
+                <div class="validation-item uppercase-check">
+                  <i class="fas fa-times-circle"></i> At least one uppercase letter
+                </div>
+                <div class="validation-item number-check">
+                  <i class="fas fa-times-circle"></i> At least one number
+                </div>
+                <div class="validation-item special-check">
+                  <i class="fas fa-times-circle"></i> At least one special character
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="contact_number" name="contactNumber" placeholder="Contact Number" required>
+              <span class="form-icon"><i class="fas fa-phone"></i></span>
+              <div class="error-message" id="contact-error">Please enter a valid contact number</div>
+            </div>
+
+            <div class="form-group">
+              <textarea class="form-control" id="address" name="address" placeholder="Address" required></textarea>
+              <span class="form-icon"><i class="fas fa-map-marker-alt"></i></span>
+              <div class="error-message" id="address-error">Please enter your address</div>
+            </div>
+
+            <div class="checkbox-container">
+              <input type="checkbox" class="form-checkbox" id="terms" required>
+              <label for="terms" class="checkbox-label">I agree to the <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a></label>
+            </div>
+
+            <button type="submit" class="auth-btn">Create Account</button>
+          </form>
+
+
+          <div class="divider">
+            <span>or sign up with</span>
+          </div>
+
+          <div class="social-login">
+            <button class="social-btn facebook">
+              <i class="fab fa-facebook-f"></i>
+            </button>
+            <button class="social-btn google">
+              <i class="fab fa-google"></i>
+            </button>
+            <button class="social-btn apple">
+              <i class="fab fa-apple"></i>
+            </button>
+          </div>
+
+          <div class="auth-footer">
+            Already have an account? <a href="#" class="auth-link" id="to-login">Login</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <div class="auth-page" id="login">
+        <div class="auth-body">
+          <form class="auth-form" id="login-form">
+            <div class="form-group">
+              <input type="email" class="form-control" id="login-email" placeholder="Email Address" required>
+              <span class="form-icon"><i class="fas fa-envelope"></i></span>
+              <div class="error-message" id="login-email-error">Please enter a valid email address</div>
+            </div>
+
+            <div class="form-group">
+              <input type="password" class="form-control" id="login-password" placeholder="Password" required>
+              <span class="form-icon toggle-password" data-target="login-password"><i class="fas fa-eye"></i></span>
+              <div class="error-message" id="login-password-error">Invalid email or password</div>
+            </div>
+
+            <div class="checkbox-container">
+              <input type="checkbox" class="form-checkbox" id="remember">
+              <label for="remember" class="checkbox-label">Remember me</label>
+              <a href="#" class="auth-link" style="margin-left: auto;">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="auth-btn">Login</button>
+          </form>
+
+          <div class="divider">
+            <span>or login with</span>
+          </div>
+
+          <div class="social-login">
+            <button class="social-btn facebook">
+              <i class="fab fa-facebook-f"></i>
+            </button>
+            <button class="social-btn google">
+              <i class="fab fa-google"></i>
+            </button>
+            <button class="social-btn apple">
+              <i class="fab fa-apple"></i>
+            </button>
+          </div>
+
+          <div class="auth-footer">
+            Don't have an account? <a href="#" class="auth-link" id="to-signup">Sign Up</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -717,7 +791,8 @@
       </div>
       <div class="user-profile-manage">
         <div class="user-settings">
-          Settings and Privacy
+          <p>Settings & privacy</p>
+          <p class="log-out">Log out</p>
         </div>
       </div>
     </div>

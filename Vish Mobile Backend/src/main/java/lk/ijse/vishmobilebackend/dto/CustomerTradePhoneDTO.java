@@ -1,5 +1,6 @@
 package lk.ijse.vishmobilebackend.dto;
 
+import lk.ijse.vishmobilebackend.model.ApprovalStatus;
 import lk.ijse.vishmobilebackend.model.WillingTo;
 import lombok.*;
 import lk.ijse.vishmobilebackend.model.Box;
@@ -18,5 +19,6 @@ public class CustomerTradePhoneDTO {
     private WillingTo willingTo;
     private Box box;
     private Long userId;
+    private ApprovalStatus approval;
 }
 

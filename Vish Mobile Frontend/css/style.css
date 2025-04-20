@@ -819,91 +819,284 @@ img {
 }
 
 
-/*---------------------------PROFILE CSS---------------------------*/
-
-.my-profile-register{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 90vh;
-  gap: 2rem;
-  margin-top: 80px;
-}
-
-.auth-card-login , .auth-card-signup{
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 600px;
-  gap: 2rem;
-}
-
-.auth-header{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 70%;
-  height: 100px;
-  background-color: var(--color-beige);
-  color: #333;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-}
-
-.auth-body{
+/*---------------------------Auth CSS---------------------------*/
+#auth-wrapper{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 400px;
 }
-
-#login-form , #signup-form{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.auth-container {
   width: 100%;
-  height: 100%;
-  gap: 1rem;
+  max-width: 420px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin-top: 150px;
+  animation: fadeIn 0.5s ease;
 }
 
-.form-group{
+.auth-header {
+  background-color: var(--dark-color);
+  padding: 30px 0;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.logo-container {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  width: 60%;
+  margin-bottom: 10px;
+}
+
+.logo-img {
+  width: 50px;
   height: 50px;
+  background-color: var(--light-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  font-size: 24px;
 }
 
-.form-group input{
-  width: 250px;
-  height: 35px;
+.auth-header h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.auth-body {
+  padding: 30px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-control {
+  width: 100%;
+  padding: 14px 20px;
   border: none;
-  border-radius: 5px;
-  background-color: var(--color-light-gray);
-  padding: 5px 10px;
-  color: var(--color-light-gray);
+  background-color: #f5f5f5;
+  border-radius: 8px;
   font-size: 15px;
-  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
 }
 
-.auth-body button{
-  width: 60%;
-  font-size: 15px;
+.form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--medium-color);
+}
+
+.form-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-gray);
+}
+
+.auth-btn {
+  background-color: var(--color-beige);
+  color: var(--color-dark);
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+  background-color: var(--dark-color);
+  transform: translateY(-2px);
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--medium-color);
+}
+
+.auth-link {
+  color: var(--medium-color);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.auth-link:hover {
+  color: var(--dark-color);
+  text-decoration: underline;
+}
+
+.divider {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: .5rem;
+  margin: 20px 0;
+  color: var(--medium-color);
 }
 
+.divider::before, .divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #eee;
+}
+
+.divider span {
+  padding: 0 15px;
+  font-size: 14px;
+}
+
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.social-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.facebook {
+  color: #4267B2;
+}
+
+.google {
+  color: #DB4437;
+}
+
+.apple {
+  color: #000;
+}
+
+.auth-page {
+  display: none;
+}
+
+.auth-page.active {
+  display: block;
+}
+
+.auth-tabs {
+  display: none;
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.auth-tab {
+  padding: 15px 30px;
+  background-color: white;
+  border-radius: 50px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0 5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.auth-tab.active {
+  background-color: var(--medium-color);
+  color: white;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Checkbox styling */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--medium-color);
+}
+
+.checkbox-label {
+  font-size: 14px;
+  color: var(--medium-color);
+}
+
+/* Password validation */
+.password-validation {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  display: none;
+}
+
+.validation-item {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.validation-item i {
+  margin-right: 5px;
+}
+
+.valid {
+  color: #4CAF50;
+}
+
+.invalid {
+  color: #ff4d4d;
+}
+
+/* Error message */
+.error-message {
+  color: #ff4d4d;
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
+}
 
 /*--------------------------------- PROFILE INSIDE CSS ----------------------------*/
 
@@ -914,7 +1107,9 @@ img {
   align-items: center;
   width: 100%;
   gap: 1rem;
-  /*overflow-x: scroll;*/
+}
+.log-out{
+  cursor: pointer;
 }
 .vish-branding{
   display: flex;
@@ -934,9 +1129,6 @@ img {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-}
-.user-profile-basic{
-
 }
 .user-profile-image img{
   width: 150px;
@@ -1424,3 +1616,6 @@ input[type="radio"] {
     opacity: 1;
   }
 }
+
+/*--------------------------auth----------------------*/
+

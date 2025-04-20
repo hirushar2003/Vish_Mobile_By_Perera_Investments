@@ -66,4 +66,14 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public Optional<User> getUserById(Integer id) {
+        Optional<User> userById = userRepository.findById(id);
+        if (userById.isPresent()) {
+            return userById;
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
 }

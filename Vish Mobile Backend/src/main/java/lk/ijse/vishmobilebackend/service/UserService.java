@@ -12,5 +12,5 @@ public interface UserService extends UserDetailsService {
     List<User> getAllCustomers();
     User updateUserStatus(Integer id, String status);
     Optional<User> getUserByEmail(String email);
-
+    Optional<User> getUserById(Integer id);
 }
