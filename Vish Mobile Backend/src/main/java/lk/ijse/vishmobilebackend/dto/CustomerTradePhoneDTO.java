@@ -20,5 +20,7 @@ public class CustomerTradePhoneDTO {
     private Box box;
     private Long userId;
     private ApprovalStatus approval;
+    private long favouriteCount;
+    private long cartCount;
 }
 

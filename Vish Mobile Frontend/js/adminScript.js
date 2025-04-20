@@ -211,9 +211,31 @@ $(document).ready(function() {
       $('#login-password-error').hide();
     }
 
+    const authDTO ={
+      email,
+      password
+    }
+
     if (isValid) {
-      // In a real app, you would verify credentials with your backend
-      // For demo purposes, just store that user is logged in
+
+      $.ajax({
+        url: "http://localhost:8080/api/v1/user/auth/login",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(authDTO),
+        success: function (response) {
+          let data = response.data;
+          console.log(data)
+          console.log(response.data)
+          if (data.token != null && data.statusCode === 200){
+            console.log("if")
+          }
+        },
+        error: function (error) {
+          console.error("Error saving phone:", error);
+          alert("Failed to save phone. Try again.");
+        }
+      });
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('user', JSON.stringify({
         email: email
@@ -1149,3 +1171,6 @@ function hideLoader() {
   const overlay = document.getElementById("loading-overlay");
   overlay.style.display = "none";
 }
+
+
+

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lk.ijse.vishmobilebackend.model.UserStatus;
 import lk.ijse.vishmobilebackend.model.UserType;
 import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "users")

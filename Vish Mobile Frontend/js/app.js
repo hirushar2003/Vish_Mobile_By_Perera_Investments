@@ -308,7 +308,7 @@ function showNotification(message) {
 }
 
 
-// PAGINATION IN BUY PAGE
+// // PAGINATION IN BUY PAGE
 // $(document).ready(function () {
 //   const phonesPerPage = 8; // 5 cards per row × 4 rows = 20 per page
 //   let currentPage = 1;
@@ -804,6 +804,169 @@ $(document).ready(function () {
     window.location.reload();
   });
 });
+
+
+
+// ----------------------------------------BUY PAGE JS-------------------------------
+let allPhones = [];
+let currentPage = 1;
+const phonesPerPage = 8;
+
+function getAllApprovedTradePhonesWithPhotos() {
+  const token = localStorage.getItem("token");
+
+  if (!token) return redirectToLogin("home");
+
+  $.ajax({
+    url: `http://localhost:8080/api/v1/customerPhoneTrade/getApprovedPhones`,
+    type: "GET",
+    headers: { "Authorization": "Bearer " + token },
+    beforeSend: showLoader,
+    success: function (response) {
+      if (response && response.statusCode === 200) {
+        const tradePhones = response.data.map(phone => {
+          phone.type = 'TRADE'; // retained for internal use
+          return phone;
+        });
+        allPhones = tradePhones;
+        getAllSellingPhonesWithPhotos();
+      } else {
+        console.log("Error in trade phones response:", response);
+        hideLoader();
+      }
+    },
+    error: function (response) {
+      console.log("Error fetching trade phones:", response);
+      hideLoader();
+    }
+  });
+}
+
+function getAllSellingPhonesWithPhotos() {
+  const token = localStorage.getItem("token");
+
+  if (!token) return redirectToLogin("home");
+
+  $.ajax({
+    url: `http://localhost:8080/api/v1/sellingPhone/getAll`,
+    type: "GET",
+    headers: { "Authorization": "Bearer " + token },
+    success: function (response) {
+      if (response.code === 200) {
+        const sellingPhones = response.data.map(phone => {
+          phone.type = 'SELLING'; // retained for internal use
+          return phone;
+        });
+        allPhones = allPhones.concat(sellingPhones);
+        currentPage = 1;
+        renderPhones();
+      } else {
+        console.log("Error in selling phones response:", response);
+      }
+    },
+    error: function (response) {
+      console.log("Error fetching selling phones:", response);
+    },
+    complete: hideLoader
+  });
+}
+
+function renderPhones() {
+  const start = (currentPage - 1) * phonesPerPage;
+  const end = start + phonesPerPage;
+  const currentPhones = allPhones.slice(start, end);
+
+  $('#approved-trade-phones').empty();
+
+  currentPhones.forEach(phone => {
+    const imageArea = (phone.photoUrls && phone.photoUrls.length > 0)
+      ? `<img src="${phone.photoUrls[0]}" alt="${phone.model}">`
+      : `<p style="text-align:center; padding: 20px;">No image is available</p>`;
+
+    const cardHtml = `
+      <div class="sale-phone-card">
+        <div class="sale-phone-card-image">${imageArea}</div>
+        <div class="sale-phone-card-details">
+          <div class="sale-phone-card-detail-title">
+            <h3>${phone.model || 'Unknown Model'}</h3>
+          </div>
+          <div class="sale-phone-card-detail-specs">
+            <div class="sale-phone-card-detail-spec-row">
+              <div class="sale-phone-card-detail-spec-name">
+                Battery health: ${phone.batteryHealth || 'N/A'}
+              </div>
+            </div>
+            <div class="sale-phone-card-detail-spec-row">
+              <div class="sale-phone-card-detail-spec-name">
+                Storage: ${phone.storage || phone.capacity || 'N/A'}
+              </div>
+            </div>
+            <div class="sale-phone-card-detail-spec-row">
+              <div class="sale-phone-card-detail-spec-name">
+                Colour: ${phone.colour || phone.color || 'N/A'}
+              </div>
+            </div>
+            <div class="sale-phone-card-detail-spec-row">
+              <p>Approved by VISH MOBILE</p>
+            </div>
+          </div>
+          <div class="sale-phone-card-detail-footer">
+            <button class="sale-phone-card-view-phone-button" data-id="${phone.id}" data-type="${phone.type}">View phone</button>
+            <button class="sale-phone-card-add-cart-button" data-id="${phone.id}" data-type="${phone.type}">Add to Cart</button>
+            <button class="sale-phone-card-add-cart-button" data-id="${phone.id}" data-type="${phone.type}">Buy iPhone</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    $('#approved-trade-phones').append(cardHtml);
+  });
+
+  $("#pageNumber").text("Page " + currentPage);
+  $("#prevPage").prop("disabled", currentPage === 1);
+  $("#nextPage").prop("disabled", end >= allPhones.length);
+}
+
+function redirectToLogin(previousPage) {
+  alert("Please login to view selling phones");
+  $('.page').removeClass('active').hide();
+  $('#' + previousPage).addClass('active').fadeIn();
+  $('.nav-link').removeClass('active');
+  $('.nav-link[href="#' + previousPage + '"]').addClass('active');
+}
+
+$(document).ready(function () {
+  $("#nextPage").click(function () {
+    const maxPages = Math.ceil(allPhones.length / phonesPerPage);
+    if (currentPage < maxPages) {
+      currentPage++;
+      renderPhones();
+      scrollToTop();
+    }
+  });
+
+  $("#prevPage").click(function () {
+    if (currentPage > 1) {
+      currentPage--;
+      renderPhones();
+      scrollToTop();
+    }
+  });
+
+  getAllApprovedTradePhonesWithPhotos();
+});
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+
+
+
+
 
 
 

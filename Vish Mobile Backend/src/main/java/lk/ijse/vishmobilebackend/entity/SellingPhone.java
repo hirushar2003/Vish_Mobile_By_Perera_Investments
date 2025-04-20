@@ -13,7 +13,6 @@ public class SellingPhone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String model;
     private String capacity;
     private String color;
@@ -21,10 +20,12 @@ public class SellingPhone {
     private BigDecimal sellingPrice;
     private String batteryHealth;
     private long imei;
-
+    @Column(name = "favourite_count")
+    private Long favouriteCount = 0L;
+    @Column(name = "cart_count")
+    private Long cartCount = 0L;
     @Transient
     private BigDecimal profit;
-
     @OneToMany(mappedBy = "phoneId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhonePhoto> photos;
 

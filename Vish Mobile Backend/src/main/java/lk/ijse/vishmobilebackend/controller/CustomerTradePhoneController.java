@@ -2,6 +2,7 @@ package lk.ijse.vishmobilebackend.controller;
 
 import lk.ijse.vishmobilebackend.dto.CustomerTradePhoneDTO;
 import lk.ijse.vishmobilebackend.dto.ResponseDTO;
+import lk.ijse.vishmobilebackend.dto.TradePhoneWithPhotosDTO;
 import lk.ijse.vishmobilebackend.service.CustomerTradePhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,22 @@ public class CustomerTradePhoneController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(500, "Failed to fetch customer trade phone", null));
+        }
+    }
+
+    @GetMapping("/getApprovedPhones")
+    public ResponseEntity<?> getApprovedCustomerTradePhones() {
+        try {
+            List<TradePhoneWithPhotosDTO> approvedPhones = customerTradePhoneService.getAllApprovedCustomerTradePhonesWithPhotos();
+            if (approvedPhones.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO(404, "No approved phones found", null));
+            }
+            return ResponseEntity.ok(new ResponseDTO(200, "Successfully retrieved approved phones", approvedPhones));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(500, "Something went wrong while fetching approved phones", null));
         }
     }
 }

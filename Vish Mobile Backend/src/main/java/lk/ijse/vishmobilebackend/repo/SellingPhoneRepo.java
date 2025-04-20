@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface SellingPhoneRepo extends JpaRepository<SellingPhone, Integer> {
     @Query(value = "SELECT id FROM selling_phones ORDER BY id DESC LIMIT 1", nativeQuery = true)
     Long findLastInsertedId();
+
+    boolean existsById(Integer id);
 }

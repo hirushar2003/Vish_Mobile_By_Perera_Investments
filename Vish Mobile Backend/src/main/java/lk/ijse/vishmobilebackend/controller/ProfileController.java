@@ -1,6 +1,5 @@
 package lk.ijse.vishmobilebackend.controller;
 
-import lk.ijse.vishmobilebackend.dto.CustomerTradePhoneDTO;
 import lk.ijse.vishmobilebackend.dto.ResponseDTO;
 import lk.ijse.vishmobilebackend.dto.TradePhoneWithPhotosDTO;
 import lk.ijse.vishmobilebackend.service.CustomerTradePhoneService;
@@ -27,7 +26,7 @@ public class ProfileController {
             List<TradePhoneWithPhotosDTO> phonesWithPhotos = customerTradePhoneService.getCustomerTradePhonesWithPhotosByUserId(id);
             return ResponseEntity.ok(new ResponseDTO(200, "Trade phones with photos fetched successfully", phonesWithPhotos));
         } catch (Exception e){
-            e.printStackTrace(); // ← See full error
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(500, "Failed to fetch trade phones", null));
         }

@@ -604,7 +604,7 @@ img {
   background: var(--color-gray);
   text-align: center;
   border-radius: 5px;
-  height: 400px;
+  height: 460px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 .sale-phone-card-image{
@@ -665,6 +665,15 @@ img {
 }
 .pagination {
   margin-top: 20px;
+}
+
+#nextPage , #prevPage{
+  cursor: pointer;
+  width: 60px;
+  outline: none;
+  border: none;
+  border-radius: 2px;
+  font: 13px 'Poppins';
 }
 
 .add-to-cart {

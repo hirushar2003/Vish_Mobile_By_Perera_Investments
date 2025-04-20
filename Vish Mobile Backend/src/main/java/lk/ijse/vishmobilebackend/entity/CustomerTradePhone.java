@@ -42,6 +42,11 @@ public class CustomerTradePhone {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "approval", nullable = false)
-    private ApprovalStatus approval = ApprovalStatus.PENDING; // default value
+    private ApprovalStatus approval = ApprovalStatus.PENDING;
 
+    @Column(name = "favourite_count")
+    private Long favouriteCount = 0L;
+
+    @Column(name = "cart_count")
+    private Long cartCount = 0L;
 }

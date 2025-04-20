@@ -19,7 +19,6 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expirationTime;
 
-    // Generate token with roles claim
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDetails.getAuthorities().stream()
@@ -28,7 +27,6 @@ public class JwtUtil {
         return createToken(claims, userDetails.getUsername());
     }
 
-    // Reusable token creation logic
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -39,7 +37,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Validate token, ensuring it's not expired and belongs to the correct user
     public boolean validateToken(String token, UserDetails userDetails) {
         try {
             String username = extractUsername(token);
@@ -51,12 +48,10 @@ public class JwtUtil {
         }
     }
 
-    // Extract username (subject) from token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Extract roles from the token
     public List<String> extractRoles(String token) {
         try {
             Claims claims = extractAllClaims(token);
@@ -66,18 +61,15 @@ public class JwtUtil {
         }
     }
 
-    // Extract expiration date
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // Generic claim extractor
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    // Extract all claims, gracefully handling expired tokens
     public Claims extractAllClaims(String token) {
         try {
             return Jwts.parser()
@@ -91,7 +83,6 @@ public class JwtUtil {
         }
     }
 
-    // Check token expiration
     private boolean isTokenExpired(String token) {
         try {
             return extractExpiration(token).before(new Date());

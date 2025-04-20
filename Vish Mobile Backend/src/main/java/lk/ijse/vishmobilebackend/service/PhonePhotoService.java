@@ -6,7 +6,6 @@ import lk.ijse.vishmobilebackend.entity.TradePhonePhoto;
 import java.util.List;
 
 public interface PhonePhotoService {
-    // Method to save all phone photos
     void savePhonePhotos(List<PhonePhoto> photos);
     List<String> getPhotoUrlsByPhoneId(int phoneId);
     void saveTradePhonePhotos(List<TradePhonePhoto> photos);

@@ -1,7 +1,7 @@
 package lk.ijse.vishmobilebackend.dto;
 
 import lk.ijse.vishmobilebackend.model.UserType;
-import lk.ijse.vishmobilebackend.model.UserStatus;  // Import the UserStatus enum
+import lk.ijse.vishmobilebackend.model.UserStatus;
 import lombok.*;
 
 

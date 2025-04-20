@@ -21,5 +21,7 @@ public class SellingPhoneDTO {
     private BigDecimal profit;
     private int batteryHealth;
     private long imei;
+    private long favouriteCount;
+    private long cartCount;
     private List<String> photoUrls;
 }

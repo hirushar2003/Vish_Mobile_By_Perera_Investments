@@ -3,6 +3,7 @@ package lk.ijse.vishmobilebackend.service.impl;
 import lk.ijse.vishmobilebackend.dto.CustomerTradePhoneDTO;
 import lk.ijse.vishmobilebackend.dto.TradePhoneWithPhotosDTO;
 import lk.ijse.vishmobilebackend.entity.CustomerTradePhone;
+import lk.ijse.vishmobilebackend.model.ApprovalStatus;
 import lk.ijse.vishmobilebackend.repo.CustomerTradePhoneRepo;
 import lk.ijse.vishmobilebackend.service.CustomerTradePhoneService;
 import lk.ijse.vishmobilebackend.service.PhonePhotoService;
@@ -70,5 +71,16 @@ public class CustomerTradePhoneServiceImpl implements CustomerTradePhoneService 
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TradePhoneWithPhotosDTO> getAllApprovedCustomerTradePhonesWithPhotos() {
+        return customerTradePhoneRepo.findApprovedPhones(ApprovalStatus.APPROVED).stream()
+            .map(phone -> {
+                TradePhoneWithPhotosDTO dto = modelMapper.map(phone, TradePhoneWithPhotosDTO.class);
+                dto.setPhotoUrls(phonePhotoService.getTradePhotoUrlsByPhoneId(phone.getId()));
+                return dto;
+            })
+            .collect(Collectors.toList());
     }
 }
