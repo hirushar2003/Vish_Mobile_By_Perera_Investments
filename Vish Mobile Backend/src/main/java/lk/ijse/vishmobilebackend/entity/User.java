@@ -41,10 +41,6 @@ public class User {
 
     @Column(columnDefinition = "TEXT")
     private String address;
-
-    public void setPassword(String rawPassword) {
-        this.password = new BCryptPasswordEncoder().encode(rawPassword);
-    }
 }
 
 

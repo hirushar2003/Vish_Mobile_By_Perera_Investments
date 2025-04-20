@@ -1,8 +1,6 @@
 package lk.ijse.vishmobilebackend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -12,4 +10,3 @@ public class AuthDTO {
     private String password;
     private String token;
 }
-

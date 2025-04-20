@@ -166,7 +166,6 @@ $(document).ready(function() {
         contentType: "application/json",
         data: JSON.stringify(userData),
         success: function (response) {
-          // Save JWT token to localStorage
           localStorage.setItem("token", response.token);
           localStorage.setItem("email", response.email);
           localStorage.setItem("username", response.username);
@@ -176,7 +175,6 @@ $(document).ready(function() {
           localStorage.setItem("isLoggedIn", "true");
 
           showMainApp();
-          // Show success notification
           showNotification("Account created successfully!");
 
           // Fetch user data and navigate to the main page

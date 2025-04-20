@@ -5,8 +5,8 @@ import lk.ijse.vishmobilebackend.entity.User;
 import lk.ijse.vishmobilebackend.model.UserStatus;
 import lk.ijse.vishmobilebackend.model.UserType;
 import lk.ijse.vishmobilebackend.repo.UserRepo;
-import lk.ijse.vishmobilebackend.repo.UserRepoCustom;
 import lk.ijse.vishmobilebackend.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,56 +20,30 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final ModelMapper modelMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserRepoCustom userRepositoryCustom;
-
-    public UserServiceImpl(UserRepo userRepository) {
+    public UserServiceImpl(UserRepo userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
     public User registerUser(UserDTO userDTO) {
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setEmail(userDTO.getEmail());
+        User user = modelMapper.map(userDTO, User.class);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setUserType(userDTO.getUserType() != null ? userDTO.getUserType() : UserType.customer);
-        user.setContactNumber(userDTO.getContactNumber());
-        user.setAddress(userDTO.getAddress());
         return userRepository.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Change this method to search by email, not by username
-        Optional<User> user = userRepository.findByEmail(email);  // Modify to email query
+        Optional<User> user = userRepository.findByEmail(email);
         return user.map(u -> new org.springframework.security.core.userdetails.User(
                 u.getEmail(), u.getPassword(), new java.util.ArrayList<>()
         )).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
-
-
-    @Override
-    public User loginUser(String email, String password) {
-        User user = userRepositoryCustom.findUserByEmail(email);
-
-        if (user == null) {
-            throw new RuntimeException("User not found!");
-        }
-
-        // Debugging log to check passwords
-        System.out.println("Provided password: " + password);
-        System.out.println("Stored password (hashed): " + user.getPassword());
-        System.out.println("Stored email: " + user.getEmail());
-
-        // Use BCrypt to match the password
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid password!");
-        }
-
-        return user;
     }
 
     @Override
@@ -82,13 +56,14 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            UserStatus userStatus = UserStatus.valueOf(status.toUpperCase());
-            user.setStatus(userStatus);
-            userRepository.save(user);
-            return user;  // Return the full User object with updated status
+            user.setStatus(UserStatus.valueOf(status.toUpperCase()));
+            return userRepository.save(user);
         }
         throw new RuntimeException("User not found");
     }
 
-
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

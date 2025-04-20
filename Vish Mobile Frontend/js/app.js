@@ -1,30 +1,21 @@
 // ------------------------------NAVIGATION---------------------
-
-
 $(document).ready(function () {
   $('.page').hide();
   $('.page.active').show();
-
   $('.nav-link').click(function (e) {
     e.preventDefault();
-    const sectionId = $(this).attr('href').substring(1); // Get section ID
-
+    const sectionId = $(this).attr('href').substring(1);
     $('.nav-link').removeClass('active');
     $(this).addClass('active');
-
     $('.page').removeClass('active').hide();
     $('#' + sectionId).addClass('active').fadeIn();
   });
-
   $('.profile-btn').click(function () {
     let currentPage = $('.page.active').attr('id');
     localStorage.setItem("previousPage", currentPage);
-
     $('.page').removeClass('active').hide();
-
-    const token = localStorage.getItem("jwtToken");
+    const token = localStorage.getItem("token");
     const currentUser = localStorage.getItem("userId");
-
     if (
       token && token !== "undefined" &&
       currentUser && currentUser !== "undefined"
@@ -36,9 +27,7 @@ $(document).ready(function () {
       $("#signup-section").show();
       $("#login-section").hide();
     }
-
   });
-
 
   $('.cart-btn').click(function () {
     $('.page').removeClass('active').hide();
@@ -57,6 +46,26 @@ $(document).ready(function () {
     });
   });
 });
+
+function resetLocalStorage() {
+  localStorage.removeItem("batteryReducedAmount");
+  localStorage.removeItem("bestPhonePrice");
+  localStorage.removeItem("boxAvailability");
+  localStorage.removeItem("box_available");
+  localStorage.removeItem("contactNumber");
+  localStorage.removeItem("customerTradePhoneId");
+  localStorage.removeItem("frameReduceAmount");
+  localStorage.removeItem("willingTo");
+}
+
+function showNotification(message) {
+  $('#notification').text(message);
+  $('#notification').fadeIn();
+
+  setTimeout(function() {
+    $('#notification').fadeOut();
+  }, 3000);
+}
 
 // PAGINATION IN BUY PAGE
 // $(document).ready(function () {
@@ -174,10 +183,11 @@ $(document).ready(function () {
     $.ajax({
       url: "http://localhost:8080/api/v1/user/auth/register",
       type: "POST",
+      beforeSend: showLoader,
       contentType: "application/json",
       data: JSON.stringify(userData),
       success: function (response) {
-        localStorage.setItem("jwtToken", response.token);
+        localStorage.setItem("token", response.token);
         localStorage.setItem("userId", response.userId);
         localStorage.setItem("contactNumber", response.contact);
 
@@ -195,7 +205,51 @@ $(document).ready(function () {
         let errMsg = xhr.responseJSON ? xhr.responseJSON.message : "Unknown error";
         alert("Registration failed: " + errMsg);
         console.error("Error:", xhr.responseText);
-      }
+      },
+      complete:hideLoader
+    });
+  });
+});
+
+// ------------------------------USER LOGIN----------------------------------
+
+$(document).ready(function () {
+  $("#login-form").submit(function (event) {
+    event.preventDefault();
+
+    let authDTO = {
+      email: $("#login-email").val(),
+      password: $("#login-password").val(),
+    };
+
+    console.log(authDTO)
+
+    $.ajax({
+      url: "http://localhost:8080/api/v1/user/auth/login",
+      type: "POST",
+      beforeSend: showLoader,
+      contentType: "application/json",
+      data: JSON.stringify(authDTO),
+      success: function (response) {
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("userId", response.userId);
+
+        showNotification("Login successful")
+
+        let previousPage = localStorage.getItem("previousPage") || "home";
+
+        $('.page').removeClass('active').hide();
+        $('#' + previousPage).addClass('active').fadeIn();
+
+        $('.nav-link').removeClass('active');
+        $('.nav-link[href="#' + previousPage + '"]').addClass('active');
+      },
+      error: function (xhr, status, error) {
+        let errMsg = xhr.responseJSON ? xhr.responseJSON.message : "Unknown error";
+        alert("Registration failed: " + errMsg);
+        console.error("Error:", xhr.responseText);
+      },
+      complete:hideLoader
     });
   });
 });
@@ -334,7 +388,7 @@ $(document).ready(function () {
     if (!validateForm(model, storage, batteryHealth, frameCondition, color, willingTo, boxValue)) return;
 
     const box = boxValue === "yes" ? "AVAILABLE" : "NOT_AVAILABLE"; // enum compatible
-    const token = localStorage.getItem("jwtToken");
+    const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
 
     if (!token) {
@@ -493,7 +547,7 @@ $(document).ready(function () {
 
 // --------------------------------- PROFILE MANAGEMENT JS---------------------------------
 let userId = localStorage.getItem("userId");
-let token = localStorage.getItem("jwtToken");
+let token = localStorage.getItem("token");
 
 function getUserTradingPhones() {
   $.ajax({
@@ -563,13 +617,14 @@ function formatBoxValue(value) {
   return value.replace("_", " ").toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
 }
 function showLoader() {
-  $("#loading-overlay").fadeIn(200);
+  const overlay = document.getElementById("loading-overlay");
+  overlay.style.display = "flex";
 }
 
 function hideLoader() {
-  $("#loading-overlay").fadeOut(200);
+  const overlay = document.getElementById("loading-overlay");
+  overlay.style.display = "none";
 }
-
 
 
 
