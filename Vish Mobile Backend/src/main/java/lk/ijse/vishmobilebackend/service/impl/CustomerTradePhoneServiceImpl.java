@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,5 +96,36 @@ public class CustomerTradePhoneServiceImpl implements CustomerTradePhoneService 
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TradePhoneWithPhotosDTO> getPendingCustomerTradePhonesWithPhotos() {
+        return customerTradePhoneRepo.findApprovedPhones(ApprovalStatus.PENDING).stream()
+                .map(phone -> {
+                    TradePhoneWithPhotosDTO dto = modelMapper.map(phone, TradePhoneWithPhotosDTO.class);
+                    dto.setPhotoUrls(phonePhotoService.getTradePhotoUrlsByPhoneId(phone.getId()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TradePhoneWithPhotosDTO> getCustomerTradePhonesByStatusWithPhotos(ApprovalStatus status) {
+        return customerTradePhoneRepo.findApprovedPhones(status).stream()
+                .map(phone -> {
+                    TradePhoneWithPhotosDTO dto = modelMapper.map(phone, TradePhoneWithPhotosDTO.class);
+                    dto.setPhotoUrls(phonePhotoService.getTradePhotoUrlsByPhoneId(phone.getId()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateApprovalStatusAndSellingPrice(Long id, BigDecimal sellingPrice) {
+        CustomerTradePhone phone = customerTradePhoneRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Trade phone not found with id: " + id));
+        phone.setApproval(ApprovalStatus.APPROVED);
+        phone.setSellingPrice(sellingPrice);
+        customerTradePhoneRepo.save(phone);
     }
 }

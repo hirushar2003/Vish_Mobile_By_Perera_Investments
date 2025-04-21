@@ -6,6 +6,8 @@ import lk.ijse.vishmobilebackend.model.Box;
 import lk.ijse.vishmobilebackend.model.WillingTo;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "customer_iphones")
 @Data
@@ -28,6 +30,12 @@ public class CustomerTradePhone {
     private String frameCondition;
 
     private String colour;
+
+    @Column(name = "buying_price", nullable = false)
+    private BigDecimal boughtPrice;
+
+    @Column(name = "selling_price")
+    private BigDecimal sellingPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "box")

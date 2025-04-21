@@ -1049,9 +1049,9 @@ function changeUserStatus(userId, newStatus) {
 
 // ----------------------------------Phone Approval Page---------------------------
 
-function getAllTradePhonesWithPhotos() {
-  const token = localStorage.getItem("token"); // or however you're storing it
-  const API_URL = "http://localhost:8080/api/v1/adminTradePhone/getAllTradePhonesWithPhotos";
+function getAllPendingTradePhonesWithPhotos() {
+  const token = localStorage.getItem("token");
+  const API_URL = "http://localhost:8080/api/v1/adminTradePhone/getPendingTradePhones";
 
   $.ajax({
     url: API_URL,
@@ -1074,7 +1074,8 @@ function getAllTradePhonesWithPhotos() {
           colour,
           willingTo,
           userId,
-          photoUrls
+          photoUrls,
+          boughtPrice,
         } = phone;
 
         const photoUrl = photoUrls && photoUrls.length > 0 ? photoUrls[0] : "/img/default.jpg";
@@ -1095,20 +1096,36 @@ function getAllTradePhonesWithPhotos() {
                   ${generateSpec("Frame condition", frameCondition)}
                   ${generateSpec("Box available", box === "AVAILABLE" ? "Yes" : "No")}
                   ${generateSpec("Color", colour)}
-                  ${generateSpec("Willing to", formatWillingTo(willingTo))}
+                  ${generateSpec("Buying price", boughtPrice)}
                   ${generateSpec("User", userId)}
+
+                  <!-- Selling Price Input -->
+                  <div class="phone-approval-card-content-specs-group">
+                    <div class="phone-approval-card-content-specs-group-header">
+                      <label for="selling-price-input-${id}">Add selling price</label>
+                    </div>
+                    <div class="phone-approval-card-content-specs-group-body">
+                      <input
+                        type="number"
+                        id="selling-price-input-${id}"
+                        class="selling-price-input"
+                        placeholder="Enter selling price"
+                        min="0"
+                        step="0.01"
+                      >
+                    </div>
+                  </div>
                 </div>
+
                 <div class="phone-approval-card-content-buttons">
-                  <button class="phone-approval-card-btn-view" onclick="viewMore(${id})">View more</button>
-                  <button class="phone-approval-card-btn-approve" onclick="approvePhone(${id})">Approve</button>
-                  <button class="phone-approval-card-btn-decline" onclick="declinePhone(${id})">Decline</button>
-                  <button class="phone-approval-card-btn-email" onclick="sendEmailToUser(${userId})">Send email</button>
+                  <button class="phone-approval-card-btn-approve" data-id="${id}" data-bought-price="${boughtPrice}">Approve</button>
+                  <button class="phone-approval-card-btn-decline" data-id="${id}">Decline</button>
+                  <button class="phone-approval-card-btn-email" data-user-id="${userId}">Send email</button>
                 </div>
               </div>
             </div>
           </div>
         `;
-
         container.append(card);
       });
     },
@@ -1135,29 +1152,103 @@ function getAllTradePhonesWithPhotos() {
     if (!value) return "N/A";
     return value.toUpperCase() === "SELL" ? "Sell" : "Sell/Exchange";
   }
-
-  // Placeholder action functions
-  window.viewMore = function (id) {
-    console.log("View more for phone ID:", id);
-  };
-
-  window.approvePhone = function (id) {
-    console.log("Approve phone ID:", id);
-  };
-
-  window.declinePhone = function (id) {
-    console.log("Decline phone ID:", id);
-  };
-
-  window.sendEmailToUser = function (userId) {
-    console.log("Send email to user ID:", userId);
-  };
 }
 
-// Call the function on page load
-$(document).ready(function () {
-  getAllTradePhonesWithPhotos();
+// ✅ Delegate event: Approve phone
+$(document).on("click", ".phone-approval-card-btn-approve", function () {
+  const id = $(this).data("id");
+  const boughtPrice = parseFloat($(this).data("bought-price"));
+  const sellingPriceInput = $(`#selling-price-input-${id}`).val().trim();
+  const sellingPrice = parseFloat(sellingPriceInput);
+  console.log("clicked");
+
+  console.log(id , boughtPrice , sellingPriceInput , sellingPrice);
+
+  if (!sellingPriceInput) {
+    alert("Please enter a selling price before approving.");
+    return;
+  }
+
+  if (isNaN(sellingPrice)) {
+    alert("Invalid selling price.");
+    return;
+  }
+
+  if (sellingPrice < boughtPrice) {
+    alert("Wrong selling price. The selling price is lower than the buying price.");
+    return;
+  }
+
+  const token = localStorage.getItem("token");
+
+  $.ajax({
+    url: `http://localhost:8080/api/v1/adminTradePhone/changeStatusAndSellingPriceById/${id}/${sellingPrice}`,
+    type: "PUT",
+    beforeSend: showLoader,
+    headers: {
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json"
+    },
+    data: JSON.stringify({ sellingPrice: sellingPrice }),
+    success: function () {
+      alert("Phone approved!");
+      getAllPendingTradePhonesWithPhotos(); // Optionally refresh the list
+    },
+    error: function (err) {
+      console.error("Error approving phone:", err);
+      alert("Approval failed.");
+    },
+    complete: hideLoader
+  });
 });
+
+// ✅ Delegate event: Decline phone
+$(document).on("click", ".phone-approval-card-btn-decline", function () {
+  const id = $(this).data("id");
+  const token = localStorage.getItem("token");
+
+  $.ajax({
+    url: `http://localhost:8080/api/v1/adminTradePhone/decline/${id}`,
+    type: "POST",
+    headers: {
+      "Authorization": "Bearer " + token
+    },
+    success: function () {
+      alert("Phone declined.");
+      getAllPendingTradePhonesWithPhotos(); // Optionally refresh the list
+    },
+    error: function (err) {
+      console.error("Error declining phone:", err);
+      alert("Decline failed.");
+    }
+  });
+});
+
+$(document).on("click", ".phone-approval-card-btn-email", function () {
+  const userId = $(this).data("user-id");
+  const token = localStorage.getItem("token");
+
+  $.ajax({
+    url: `http://localhost:8080/api/v1/email/sendToUser/${userId}`,
+    type: "PUT",
+    headers: {
+      "Authorization": "Bearer " + token
+    },
+    success: function () {
+      alert("Email sent to user.");
+    },
+    error: function (err) {
+      console.error("Error sending email:", err);
+      alert("Failed to send email.");
+    }
+  });
+});
+
+// ✅ Call the function on page load
+$(document).ready(function () {
+  getAllPendingTradePhonesWithPhotos();
+});
+
 
 
 

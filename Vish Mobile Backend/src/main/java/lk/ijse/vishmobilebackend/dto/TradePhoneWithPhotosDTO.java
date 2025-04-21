@@ -20,6 +20,8 @@ public class TradePhoneWithPhotosDTO {
     private String storage;
     private Long userId;
     private String willingTo;
+    private double boughtPrice;
+    private double sellingPrice;
     private ApprovalStatus approval;
     private List<String> photoUrls;
 }

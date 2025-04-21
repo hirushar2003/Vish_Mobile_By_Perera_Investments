@@ -528,6 +528,8 @@ async function uploadImagesToCloudinary() {
 }
 
 $(document).ready(function () {
+  let finalPrice = null;
+
   $(".trade-phone-submit-btn").click(function (event) {
     event.preventDefault();
 
@@ -554,7 +556,8 @@ $(document).ready(function () {
 
     getPricePrediction(model, storage, batteryRange, frameCondition, token)
       .then(({ phonePrice, batteryReduceAmount, frameReduceAmount }) => {
-        const finalPrice = calculateFinalPrice(phonePrice, batteryReduceAmount, frameReduceAmount, box);
+        finalPrice = calculateFinalPrice(phonePrice, batteryReduceAmount, frameReduceAmount, box); // ✅ now updates outer scoped variable
+
         renderPriceBreakdown(model, storage, phonePrice, batteryReduceAmount, frameReduceAmount, box, finalPrice);
 
         $(".trade-output-submit-seller").off("click").on("click", function (e) {
@@ -569,12 +572,13 @@ $(document).ready(function () {
             willingTo,
             box,
             userId,
-            approval
+            approval,
+            boughtPrice: finalPrice
           };
-
           $.ajax({
             url: `http://localhost:8080/api/v1/customerPhoneTrade/save`,
             type: "POST",
+            beforeSend:showLoader,
             contentType: "application/json",
             headers: { "Authorization": "Bearer " + token },
             data: JSON.stringify(customerIphone),
@@ -582,7 +586,6 @@ $(document).ready(function () {
               if (response?.statusCode === 200) {
                 const phoneId = response.data;
                 localStorage.setItem("customerTradePhoneId", phoneId);
-                console.log("Trade Phone Saved:", phoneId);
 
                 const uploadedImageUrls = await uploadImagesToCloudinary();
 
@@ -611,6 +614,7 @@ $(document).ready(function () {
                         $('#upload-count-text').text('0/5 uploaded');
 
                         $('.profile-btn').trigger('click');
+                        localStorage.removeItem("customerTradePhoneId");
                       } else {
                         alert("Failed to send phone to admin");
                       }
@@ -618,7 +622,8 @@ $(document).ready(function () {
                     error: function (err) {
                       console.error("Save photo error:", err);
                       alert("Error saving photos");
-                    }
+                    },
+                    complete:hideLoader
                   });
                 }
               }
@@ -1267,7 +1272,7 @@ function scrollToTop() {
 
 function getCartPhonesOrder() {
   $.ajax({
-    url: `http://localhost:8080/api/v1/profileManager/getCartPhonesByUser/${userId}`,
+    url: `http://localhost:8080/api/v1/order/getCartItemsById/${userId}`,
     type: "GET",
     beforeSend: showLoader,
     headers: { "Authorization": "Bearer " + token },
