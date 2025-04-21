@@ -20,5 +20,6 @@ public class TradePhoneCartUser {
     private Long userId;
 
     @Column(name = "trade_phone_id", nullable = false)
-    private Integer sellingPhoneId;
+    private Long tradePhoneId;
+
 }

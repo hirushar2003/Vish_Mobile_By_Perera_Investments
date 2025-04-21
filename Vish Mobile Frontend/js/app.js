@@ -22,6 +22,8 @@ $(document).ready(function () {
     ) {
       $('#my-profile-inside').addClass('active').fadeIn();
       getUserTradingPhones();
+      getFavoritePhones();
+      getCartPhones();
     } else {
       $('#my-profile-register').addClass('active').fadeIn();
       $("#signup-section").show();
@@ -789,6 +791,240 @@ function formatApprovalStatus(status) {
   return lower.charAt(0).toUpperCase() + lower.slice(1); // e.g., "APPROVED" => "Approved"
 }
 
+function getFavoritePhones() {
+  $.ajax({
+    url: `http://localhost:8080/api/v1/profileManager/getFavPhonesByUser/${userId}`,
+    type: "GET",
+    beforeSend: showLoader,
+    headers: { "Authorization": "Bearer " + token },
+    success: function (response) {
+      const container = $(".user-favorite-items .user-item-container");
+      container.empty();
+
+      if (
+        response?.statusCode !== 200 ||
+        !response.data ||
+        (response.data.tradePhones.length === 0 && response.data.sellingPhones.length === 0)
+      ) {
+        const card = `<div class="card"><p>No favorite phones yet</p></div>`;
+        container.append(card);
+        return;
+      }
+
+      // Trade phones
+      response.data.tradePhones.forEach(phone => {
+        const card = `
+          <div class="user-item-card" data-phone-type="TRADE">
+            <div class="user-item-image">
+              ${
+          phone.photoUrls && phone.photoUrls.length > 0
+            ? `<img src="${phone.photoUrls[0]}" alt="${phone.model}">`
+            : `<div class="no-photo-msg">No photos are available</div>`
+        }
+            </div>
+            <div class="user-item-details">
+              <div class="user-item-title">${phone.model || 'Unknown Model'}</div>
+              <div class="user-item-description">
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Storage :</div>
+                  <div class="user-item-description-group-inside-value">${phone.storage || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Battery health :</div>
+                  <div class="user-item-description-group-inside-value">${phone.batteryHealth || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Frame :</div>
+                  <div class="user-item-description-group-inside-value">${phone.frameCondition || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Color :</div>
+                  <div class="user-item-description-group-inside-value">${phone.colour || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Box :</div>
+                  <div class="user-item-description-group-inside-value">${formatBoxValue(phone.box)}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Status :</div>
+                  <div class="user-item-description-group-inside-value">${formatApprovalStatus(phone.approval)}</div>
+                </div>
+              </div>
+              <div class="user-item-buttons">
+                <button class="user-item-buy">Buy</button>
+                <button class="user-item-remove">Remove item</button>
+              </div>
+            </div>
+          </div>`;
+        container.append(card);
+      });
+
+      // Selling phones
+      response.data.sellingPhones.forEach(phone => {
+        const card = `
+          <div class="user-item-card" data-phone-type="SELLING">
+            <div class="user-item-image">
+              ${
+          phone.photoUrls && phone.photoUrls.length > 0
+            ? `<img src="${phone.photoUrls[0]}" alt="${phone.model}">`
+            : `<div class="no-photo-msg">No photos are available</div>`
+        }
+            </div>
+            <div class="user-item-details">
+              <div class="user-item-title">${phone.model || 'Unknown Model'}</div>
+              <div class="user-item-description">
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Storage :</div>
+                  <div class="user-item-description-group-inside-value">${phone.capacity || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Battery health :</div>
+                  <div class="user-item-description-group-inside-value">${phone.batteryHealth || 'N/A'}%</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Color :</div>
+                  <div class="user-item-description-group-inside-value">${phone.color || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Selling Price :</div>
+                  <div class="user-item-description-group-inside-value">Rs. ${phone.sellingPrice?.toLocaleString() || 'N/A'}</div>
+                </div>
+              </div>
+              <div class="user-item-buttons">
+                <button class="user-item-buy">Buy</button>
+                <button class="user-item-remove">Remove item</button>
+              </div>
+            </div>
+          </div>`;
+        container.append(card);
+      });
+    },
+    error: function (err) {
+      console.error("Error fetching favorite phones:", err);
+    },
+    complete: hideLoader
+  });
+}
+
+function getCartPhones() {
+  $.ajax({
+    url: `http://localhost:8080/api/v1/profileManager/getCartPhonesByUser/${userId}`,
+    type: "GET",
+    beforeSend: showLoader,
+    headers: { "Authorization": "Bearer " + token },
+    success: function (response) {
+      const container = $(".user-item-cart .user-item-container");
+      container.empty();
+
+      if (
+        response?.statusCode !== 200 ||
+        !response.data ||
+        (response.data.tradePhones.length === 0 && response.data.sellingPhones.length === 0)
+      ) {
+        const card = `<div class="card"><p>No items in your cart</p></div>`;
+        container.append(card);
+        return;
+      }
+
+      // Trade phones
+      response.data.tradePhones.forEach(phone => {
+        const card = `
+          <div class="user-item-card" data-phone-type="TRADE">
+            <div class="user-item-image">
+              ${
+          phone.photoUrls?.length
+            ? `<img src="${phone.photoUrls[0]}" alt="${phone.model}">`
+            : `<div class="no-photo-msg">No photos are available</div>`
+        }
+            </div>
+            <div class="user-item-details">
+              <div class="user-item-title">${phone.model || 'Unknown Model'}</div>
+              <div class="user-item-description">
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Storage :</div>
+                  <div class="user-item-description-group-inside-value">${phone.storage || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Battery health :</div>
+                  <div class="user-item-description-group-inside-value">${phone.batteryHealth || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Frame :</div>
+                  <div class="user-item-description-group-inside-value">${phone.frameCondition || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Color :</div>
+                  <div class="user-item-description-group-inside-value">${phone.colour || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Box :</div>
+                  <div class="user-item-description-group-inside-value">${formatBoxValue(phone.box)}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Status :</div>
+                  <div class="user-item-description-group-inside-value">${formatApprovalStatus(phone.approval)}</div>
+                </div>
+              </div>
+              <div class="user-item-buttons">
+                <button class="user-item-buy">Buy</button>
+                <button class="user-item-remove">Remove item</button>
+              </div>
+            </div>
+          </div>`;
+        container.append(card);
+      });
+
+      // Selling phones
+      response.data.sellingPhones.forEach(phone => {
+        const card = `
+          <div class="user-item-card" data-phone-type="SELLING">
+            <div class="user-item-image">
+              ${
+          phone.photoUrls?.length
+            ? `<img src="${phone.photoUrls[0]}" alt="${phone.model}">`
+            : `<div class="no-photo-msg">No photos are available</div>`
+        }
+            </div>
+            <div class="user-item-details">
+              <div class="user-item-title">${phone.model || 'Unknown Model'}</div>
+              <div class="user-item-description">
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Storage :</div>
+                  <div class="user-item-description-group-inside-value">${phone.capacity || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Battery health :</div>
+                  <div class="user-item-description-group-inside-value">${phone.batteryHealth || 'N/A'}%</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Color :</div>
+                  <div class="user-item-description-group-inside-value">${phone.color || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Selling Price :</div>
+                  <div class="user-item-description-group-inside-value">Rs. ${phone.sellingPrice?.toLocaleString() || 'N/A'}</div>
+                </div>
+              </div>
+              <div class="user-item-buttons">
+                <button class="user-item-buy">Buy</button>
+                <button class="user-item-remove">Remove item</button>
+              </div>
+            </div>
+          </div>`;
+        container.append(card);
+      });
+    },
+    error: function (err) {
+      console.error("Error fetching cart phones:", err);
+    },
+    complete: hideLoader
+  });
+}
+
+
+
+
+
 function showLoader() {
   const overlay = document.getElementById("loading-overlay");
   overlay.style.display = "flex";
@@ -825,7 +1061,7 @@ function getAllApprovedTradePhonesWithPhotos() {
     success: function (response) {
       if (response && response.statusCode === 200) {
         const tradePhones = response.data.map(phone => {
-          phone.type = 'TRADE'; // retained for internal use
+          phone.type = 'customer_iphones'; // retained for internal use
           return phone;
         });
         allPhones = tradePhones;
@@ -850,11 +1086,12 @@ function getAllSellingPhonesWithPhotos() {
   $.ajax({
     url: `http://localhost:8080/api/v1/sellingPhone/getAll`,
     type: "GET",
+    beforeSend: showLoader,
     headers: { "Authorization": "Bearer " + token },
     success: function (response) {
       if (response.code === 200) {
         const sellingPhones = response.data.map(phone => {
-          phone.type = 'SELLING'; // retained for internal use
+          phone.type = 'selling_phones'; // retained for internal use
           return phone;
         });
         allPhones = allPhones.concat(sellingPhones);
@@ -911,7 +1148,7 @@ function renderPhones() {
             </div>
           </div>
           <div class="sale-phone-card-detail-footer">
-            <button class="sale-phone-card-view-phone-button" data-id="${phone.id}" data-type="${phone.type}">View phone</button>
+            <button class="sale-phone-card-add-fav-button" data-id="${phone.id}" data-type="${phone.type}">Add to favorite</button>
             <button class="sale-phone-card-add-cart-button" data-id="${phone.id}" data-type="${phone.type}">Add to Cart</button>
             <button class="sale-phone-card-add-cart-button" data-id="${phone.id}" data-type="${phone.type}">Buy iPhone</button>
           </div>
@@ -926,6 +1163,66 @@ function renderPhones() {
   $("#prevPage").prop("disabled", currentPage === 1);
   $("#nextPage").prop("disabled", end >= allPhones.length);
 }
+
+
+
+$(document).on('click', '.sale-phone-card-add-fav-button', function () {
+  const phoneId = $(this).data('id');
+  const phoneType = $(this).data('type');
+  const userId = localStorage.getItem("userId");
+
+  if (!userId || !token) {
+    alert("Please login first");
+  } else {
+    $.ajax({
+      url: `http://localhost:8080/api/v1/addTo/fav?userId=${userId}&phoneId=${phoneId}&tableName=${phoneType}`,
+      type: "POST",
+      beforeSend: showLoader,
+      headers: { "Authorization": "Bearer " + token },
+      success: function (response) {
+        if (response.statusCode === 200) {
+          alert("Added to favorites");
+        } else {
+          console.log("Cannot add to favorite :", response);
+        }
+      },
+      error: function (response) {
+        console.log("Error while adding to favorite:", response);
+      },
+      complete: hideLoader
+    });
+  }
+});
+
+
+$(document).on('click', '.sale-phone-card-add-cart-button', function () {
+  const phoneId = $(this).data('id');
+  const phoneType = $(this).data('type');
+  const userId = localStorage.getItem("userId");
+
+  if (!userId || !token) {
+    alert("Please login first");
+  } else {
+    $.ajax({
+      url: `http://localhost:8080/api/v1/addTo/cart?userId=${userId}&phoneId=${phoneId}&tableName=${phoneType}`,
+      type: "POST",
+      beforeSend: showLoader,
+      headers: { "Authorization": "Bearer " + token },
+      success: function (response) {
+        if (response.statusCode === 200) {
+          alert("Added to cart successfully");
+        } else {
+          console.log("Cannot add to cart :", response);
+        }
+      },
+      error: function (response) {
+        console.log("Cannot add to cart:", response);
+      },
+      complete: hideLoader
+    });
+  }
+});
+
 
 function redirectToLogin(previousPage) {
   alert("Please login to view selling phones");
@@ -963,6 +1260,125 @@ function scrollToTop() {
   });
 }
 
+
+
+// -------------------------------ORDER PAGE JS------------------------------------
+
+
+function getCartPhonesOrder() {
+  $.ajax({
+    url: `http://localhost:8080/api/v1/profileManager/getCartPhonesByUser/${userId}`,
+    type: "GET",
+    beforeSend: showLoader,
+    headers: { "Authorization": "Bearer " + token },
+    success: function (response) {
+      const container = $(".user-item-cart .user-item-container");
+      container.empty();
+
+      if (
+        response?.statusCode !== 200 ||
+        !response.data ||
+        (response.data.tradePhones.length === 0 && response.data.sellingPhones.length === 0)
+      ) {
+        const card = `<div class="card"><p>No items in your cart</p></div>`;
+        container.append(card);
+        return;
+      }
+
+      // Trade phones
+      response.data.tradePhones.forEach(phone => {
+        const card = `
+          <div class="user-item-card" data-phone-type="TRADE">
+            <div class="user-item-image">
+              ${
+          phone.photoUrls?.length
+            ? `<img src="${phone.photoUrls[0]}" alt="${phone.model}">`
+            : `<div class="no-photo-msg">No photos are available</div>`
+        }
+            </div>
+            <div class="user-item-details">
+              <div class="user-item-title">${phone.model || 'Unknown Model'}</div>
+              <div class="user-item-description">
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Storage :</div>
+                  <div class="user-item-description-group-inside-value">${phone.storage || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Battery health :</div>
+                  <div class="user-item-description-group-inside-value">${phone.batteryHealth || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Frame :</div>
+                  <div class="user-item-description-group-inside-value">${phone.frameCondition || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Color :</div>
+                  <div class="user-item-description-group-inside-value">${phone.colour || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Box :</div>
+                  <div class="user-item-description-group-inside-value">${formatBoxValue(phone.box)}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Status :</div>
+                  <div class="user-item-description-group-inside-value">${formatApprovalStatus(phone.approval)}</div>
+                </div>
+              </div>
+              <div class="user-item-buttons">
+                <button class="user-item-buy">Buy</button>
+                <button class="user-item-remove">Remove item</button>
+              </div>
+            </div>
+          </div>`;
+        container.append(card);
+      });
+
+      // Selling phones
+      response.data.sellingPhones.forEach(phone => {
+        const card = `
+          <div class="user-item-card" data-phone-type="SELLING">
+            <div class="user-item-image">
+              ${
+          phone.photoUrls?.length
+            ? `<img src="${phone.photoUrls[0]}" alt="${phone.model}">`
+            : `<div class="no-photo-msg">No photos are available</div>`
+        }
+            </div>
+            <div class="user-item-details">
+              <div class="user-item-title">${phone.model || 'Unknown Model'}</div>
+              <div class="user-item-description">
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Storage :</div>
+                  <div class="user-item-description-group-inside-value">${phone.capacity || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Battery health :</div>
+                  <div class="user-item-description-group-inside-value">${phone.batteryHealth || 'N/A'}%</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Color :</div>
+                  <div class="user-item-description-group-inside-value">${phone.color || 'N/A'}</div>
+                </div>
+                <div class="user-item-description-group-inside">
+                  <div class="user-item-description-group-inside-key">Selling Price :</div>
+                  <div class="user-item-description-group-inside-value">Rs. ${phone.sellingPrice?.toLocaleString() || 'N/A'}</div>
+                </div>
+              </div>
+              <div class="user-item-buttons">
+                <button class="user-item-buy">Buy</button>
+                <button class="user-item-remove">Remove item</button>
+              </div>
+            </div>
+          </div>`;
+        container.append(card);
+      });
+    },
+    error: function (err) {
+      console.error("Error fetching cart phones:", err);
+    },
+    complete: hideLoader
+  });
+}
 
 
 

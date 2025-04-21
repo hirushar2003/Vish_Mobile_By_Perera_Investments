@@ -5,6 +5,7 @@ import lk.ijse.vishmobilebackend.entity.SellingPhone;
 import lk.ijse.vishmobilebackend.entity.PhonePhoto;
 import lk.ijse.vishmobilebackend.repo.SellingPhoneRepo;
 import lk.ijse.vishmobilebackend.repo.PhonePhotoRepo;
+import lk.ijse.vishmobilebackend.service.PhonePhotoService;
 import lk.ijse.vishmobilebackend.service.SellingPhoneService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private PhonePhotoService phonePhotoService;
+
 
     @Override
     @Transactional
@@ -94,5 +99,18 @@ public class SellingPhoneServiceImpl implements SellingPhoneService {
     @Override
     public Long getLastInsertedPhoneId() {
         return sellingPhoneRepo.findLastInsertedId();
+    }
+
+    @Override
+    public List<SellingPhoneDTO> getSellingPhonesWithPhotosByIds(List<Integer> ids) {
+        List<SellingPhone> phones = sellingPhoneRepo.findAllById(ids);
+        return phones.stream()
+                .map(phone -> {
+                    SellingPhoneDTO dto = modelMapper.map(phone, SellingPhoneDTO.class);
+                    List<String> photos = phonePhotoService.getPhotoUrlsByPhoneId(phone.getId());
+                    dto.setPhotoUrls(photos);
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }

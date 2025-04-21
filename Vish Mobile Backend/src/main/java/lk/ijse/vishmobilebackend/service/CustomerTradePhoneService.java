@@ -12,5 +12,5 @@ public interface CustomerTradePhoneService {
     List<TradePhoneWithPhotosDTO> getCustomerTradePhonesWithPhotosByUserId(Long userId);
     List<TradePhoneWithPhotosDTO> getAdminTradePhonesWithPhotos();
     List<TradePhoneWithPhotosDTO> getAllApprovedCustomerTradePhonesWithPhotos();
-
+    List<TradePhoneWithPhotosDTO> getTradePhonesWithPhotosByIds(List<Long> ids);
 }

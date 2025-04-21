@@ -10,4 +10,5 @@ public interface SellingPhoneService {
     void deleteSellingPhone(int id);
     List<SellingPhoneDTO> getAllSellingPhones();
     Long getLastInsertedPhoneId();
+    List<SellingPhoneDTO> getSellingPhonesWithPhotosByIds(List<Integer> ids);
 }

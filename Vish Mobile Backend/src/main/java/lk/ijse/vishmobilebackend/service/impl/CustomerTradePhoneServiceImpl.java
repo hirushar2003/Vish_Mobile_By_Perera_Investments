@@ -83,4 +83,17 @@ public class CustomerTradePhoneServiceImpl implements CustomerTradePhoneService 
             })
             .collect(Collectors.toList());
     }
+
+    @Override
+    public List<TradePhoneWithPhotosDTO> getTradePhonesWithPhotosByIds(List<Long> ids) {
+        List<CustomerTradePhone> phones = customerTradePhoneRepo.findAllById(ids);
+        return phones.stream()
+                .map(phone -> {
+                    TradePhoneWithPhotosDTO dto = modelMapper.map(phone, TradePhoneWithPhotosDTO.class);
+                    List<String> photos = phonePhotoService.getTradePhotoUrlsByPhoneId(phone.getId());
+                    dto.setPhotoUrls(photos);
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 }

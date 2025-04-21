@@ -1,6 +1,9 @@
 package lk.ijse.vishmobilebackend.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
+import lk.ijse.vishmobilebackend.dto.SellingPhoneDTO;
+import lk.ijse.vishmobilebackend.dto.TradePhoneWithPhotosDTO;
+import lk.ijse.vishmobilebackend.dto.UserFavPhonesDTO;
 import lk.ijse.vishmobilebackend.entity.CustomerTradePhone;
 import lk.ijse.vishmobilebackend.entity.SellingPhone;
 import lk.ijse.vishmobilebackend.entity.SellingPhoneFavUser;
@@ -10,17 +13,29 @@ import lk.ijse.vishmobilebackend.repo.SellingAddFavRepo;
 import lk.ijse.vishmobilebackend.repo.SellingPhoneRepo;
 import lk.ijse.vishmobilebackend.repo.TradeAddFavRepo;
 import lk.ijse.vishmobilebackend.service.AddToFavService;
+import lk.ijse.vishmobilebackend.service.CustomerTradePhoneService;
+import lk.ijse.vishmobilebackend.service.SellingPhoneService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AddToFavServiceImpl implements AddToFavService {
 
+
     private final CustomerTradePhoneRepo tradePhoneRepo;
     private final SellingPhoneRepo sellingPhoneRepo;
     private final TradeAddFavRepo tradeAddFavRepo;
     private final SellingAddFavRepo sellingAddFavRepo;
+
+    @Autowired
+    private CustomerTradePhoneService customerTradePhoneService;
+
+    @Autowired
+    private SellingPhoneService sellingPhoneService;
 
     @Override
     public void addToFav(Long userId, Long phoneId, String tableName) {
@@ -57,6 +72,31 @@ public class AddToFavServiceImpl implements AddToFavService {
 
             default -> throw new IllegalArgumentException("Invalid table name: " + tableName);
         }
+    }
+
+    @Override
+    public List<TradePhoneWithPhotosDTO> getUserFavPhoneWithPhotos(Long userId) {
+        return List.of();
+    }
+
+    @Override
+    public UserFavPhonesDTO getUserFavPhones(Long userId) {
+        // 1. Get trade phone IDs
+        List<Long> tradePhoneIds = tradeAddFavRepo.findByUserId(userId)
+                .stream().map(TradePhoneFavUser::getTradePhoneId).toList();
+
+        // 2. Get selling phone IDs
+        List<Integer> sellingPhoneIds = sellingAddFavRepo.findByUserId(userId)
+                .stream().map(SellingPhoneFavUser::getSellingPhoneId).toList();
+
+        // 3. Fetch DTOs
+        List<TradePhoneWithPhotosDTO> tradePhones =
+                customerTradePhoneService.getTradePhonesWithPhotosByIds(tradePhoneIds);
+
+        List<SellingPhoneDTO> sellingPhones =
+                sellingPhoneService.getSellingPhonesWithPhotosByIds(sellingPhoneIds);
+
+        return new UserFavPhonesDTO(tradePhones, sellingPhones);
     }
 
 }
